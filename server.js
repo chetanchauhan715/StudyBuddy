@@ -1,4 +1,5 @@
 const users = [];
+const studySessions = [];
 
 import express from "express";
 
@@ -63,6 +64,34 @@ app.post("/login" , (req, res) =>{
     }
 
     return res.send("User Not Found");
+
+})
+
+
+
+
+//-------------------Study sesssion Api 
+
+app.post("/study-sessions" , (req, res) => {
+    const {subject , topic , duration , status} = req.body;
+
+    if(!subject || !topic || !duration || !status){
+        return res.send("Please fill all the requied Fields");
+    }
+
+    const newStudySession = {
+        subject , 
+        topic , 
+        duration,
+        status, 
+        createdAt: new Date()
+    }
+
+    studySessions.push(newStudySession);
+
+    console.log(studySessions);
+
+    return res.send("Study Session created succesfully ")
 
 })
 
