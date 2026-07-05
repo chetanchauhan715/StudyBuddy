@@ -10,6 +10,9 @@ app.get("/"  , (req, res) =>{
     res.send("StudyBuddy API Running ");
 })
 
+
+// --------------- signup Api
+
 app.post("/signup" , (req, res) =>{
     const {name , email , password} = req.body;
 
@@ -37,6 +40,33 @@ app.post("/signup" , (req, res) =>{
 
     
 })
+
+
+
+// ------------------ login Api 
+
+app.post("/login" , (req, res) =>{
+    const {email , password} = req.body;
+
+    if(!email || !password){
+        return res.send("Please Fill all the fileds");
+    }
+
+    for(const user of users){
+        if(email.toLowerCase()  === user.email.toLowerCase()){
+            if(password === user.password){
+                return res.send("Succesfull Login");
+            } else{
+                return res.send("Invalid Password");
+            }
+        }
+    }
+
+    return res.send("User Not Found");
+
+})
+
+//-------------- server Listen on Port 3000 
 
 app.listen(3000 , () => {
     console.log("Server Started");
