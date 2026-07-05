@@ -95,6 +95,15 @@ app.post("/study-sessions" , (req, res) => {
 
 })
 
+
+//--------------study Session get Api 
+
+app.get("/study-sessions" , (req , res) =>{
+
+    
+    res.send(studySessions);
+})
+
 //-------------- server Listen on Port 3000 
 
 app.listen(3000 , () => {
