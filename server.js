@@ -1,5 +1,6 @@
 const users = [];
 const studySessions = [];
+let nextSessionId = 1;
 
 import express from "express";
 
@@ -80,6 +81,7 @@ app.post("/study-sessions" , (req, res) => {
     }
 
     const newStudySession = {
+        id:nextSessionId,
         subject , 
         topic , 
         duration,
@@ -87,13 +89,19 @@ app.post("/study-sessions" , (req, res) => {
         createdAt: new Date()
     }
 
+    
     studySessions.push(newStudySession);
+
+    nextSessionId++;
+
 
     console.log(studySessions);
 
     return res.send("Study Session created succesfully ")
 
 })
+
+
 
 
 //--------------study Session get Api 
@@ -104,6 +112,35 @@ app.get("/study-sessions" , (req , res) =>{
     res.send(studySessions);
 })
 
+
+//---------------study sessions update API
+
+app.put("/study-sessions/:id" , (req, res) =>{
+    const {id} = req.params;
+
+    for(const session of studySessions){
+        if(Number(id) === session.id){
+            session.status = "Completed";
+            return res.send("Status updated Succesfully");
+        } 
+    } 
+
+    return res.send("Study session not Found");
+})
+
+
+//----------- study session delete API
+
+app.delete("/study-sessions/:id" , (req , res) =>{
+    const {id} = req.params;
+    for(let i=0; i<studySessions.length; i++){
+        if(studySessions[i].id === Number(id)){
+            studySessions.splice(i,1);
+            return res.send("Delte session succesfully");
+        }
+    }
+    return res.send("Studdy session not found");
+})
 //-------------- server Listen on Port 3000 
 
 app.listen(3000 , () => {
