@@ -63,7 +63,7 @@ app.post("/signup" , async (req, res) =>{
 
 // ------------------ login Api 
 
-app.post("/login" , (req, res) =>{
+app.post("/login" , async (req, res) =>{
     const {email , password} = req.body;
 
 
@@ -71,18 +71,33 @@ app.post("/login" , (req, res) =>{
         return res.send("Please Fill all the fileds");
     }
 
-    for(const user of users){
-        if(email.toLowerCase()  === user.email.toLowerCase()){
-            if(password === user.password){
-                return res.send("Succesfull Login");
-            } else{
-                return res.send("Invalid Password");
-            }
+    // for(const user of users){
+    //     if(email.toLowerCase()  === user.email.toLowerCase()){
+    //         if(password === user.password){
+    //             return res.send("Succesfull Login");
+    //         } else{
+    //             return res.send("Invalid Password");
+    //         }
+    //     }
+    // }
+
+    try{
+        const existingUser = await User.findOne( {email});
+
+        if(!existingUser){
+            return res.send("User Not Found");
+        } 
+
+        if(existingUser.password === password){
+            return res.send("Login Succesfull");
         }
+
+        return res.send("Invalid Password");
+        
+    } catch (error){
+        console.log(error);
+        res.send("Unexpected Error Occured");
     }
-
-    return res.send("User Not Found");
-
 });
 
 
