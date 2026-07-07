@@ -1,10 +1,12 @@
 // const users = [];
-const studySessions = [];
+// console.log("VERSION 2 - " + new Date().toLocaleTimeString());
+// const studySessions = [];
 let nextSessionId = 1;
 
 import express from "express";
 import connectDB from "./config/db.js";
 import User from "./models/User.js";
+import StudySession from "./models/StudySession.js";
 
 const app = express();
 
@@ -56,16 +58,13 @@ app.post("/signup" , async (req, res) =>{
         return res.send("Something went Wrong");
     }
 
-    
 });
-
-
 
 // ------------------ login Api 
 
 app.post("/login" , async (req, res) =>{
-    const {email , password} = req.body;
 
+    const {email , password} = req.body;
 
     if(!email || !password){
         return res.send("Please Fill all the fileds");
@@ -93,10 +92,10 @@ app.post("/login" , async (req, res) =>{
         }
 
         return res.send("Invalid Password");
-        
+
     } catch (error){
         console.log(error);
-        res.send("Unexpected Error Occured");
+        res.send("Unexpected Error Occurred");
     }
 });
 
@@ -105,31 +104,44 @@ app.post("/login" , async (req, res) =>{
 
 //-------------------Study sesssion Api 
 
-app.post("/study-sessions" , (req, res) => {
+app.post("/study-sessions" , async (req, res) => {
     const {subject , topic , duration , status} = req.body;
 
-    if(!subject || !topic || !duration || !status){
+    if(!subject || !duration || !status){
         return res.send("Please fill all the requied Fields");
     }
 
     const newStudySession = {
-        id:nextSessionId,
+        // id:nextSessionId,
         subject , 
         topic , 
         duration,
         status, 
-        createdAt: new Date()
+        // createdAt: new Date()
     }
 
+    try{
+
+        await StudySession.create(newStudySession);
+        console.log("New Study session created Succesfully");
+        return res.send("Succesfull creation");
+    } catch (error){
+
+        console.log(error);
+        return res.send("Unexpected error occurred");
+    }
+
+
+
     
-    studySessions.push(newStudySession);
+    // studySessions.push(newStudySession);
 
-    nextSessionId++;
+    // nextSessionId++;
 
 
-    console.log(studySessions);
+    // console.log(studySessions);
 
-    return res.send("Study Session created succesfully ")
+    // return res.send("Study Session created succesfully ")
 
 });
 
