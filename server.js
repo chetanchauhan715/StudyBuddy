@@ -1,6 +1,6 @@
 // const users = [];
 // console.log("VERSION 2 - " + new Date().toLocaleTimeString());
-// const studySessions = [];
+const studySessions = [];
 let nextSessionId = 1;
 
 import express from "express";
@@ -150,40 +150,68 @@ app.post("/study-sessions" , async (req, res) => {
 
 //--------------study Session get Api 
 
-app.get("/study-sessions" , (req , res) =>{
+app.get("/study-sessions" , async (req , res) =>{
 
+    try{
+       const session =  await StudySession.find();
+       return res.send(session);
+    }
+    catch (error){
+        console.log(error);
+        res.send("Unexpected error occurred");
+    }
     
-    res.send(studySessions);
+    // res.send(studySessions);
 });
 
 
 //---------------study sessions update API
 
-app.put("/study-sessions/:id" , (req, res) =>{
-    const {id} = req.params;
+app.put("/study-sessions/:id" , async (req, res) =>{
+    // const {id} = req.params;
 
-    for(const session of studySessions){
-        if(Number(id) === session.id){
+    try{
+        const {id} = req.params;
+        const session = await StudySession.findById(id);
+        if(!session){
+            
+            return res.send("Session Not Found");
+        } else {
             session.status = "Completed";
-            return res.send("Status updated Succesfully");
-        } 
-    } 
+            await session.save();
+            return res.send("Study Session Update Succesfully");
+        }
+        
 
-    return res.send("Study session not Found");
+    } catch (error){
+        console.log(error);
+        return res.send("Unexpected Error occurred");
+    }
+
+
+
+    // for(const session of studySessions){
+    //     if(Number(id) === session.id){
+    //         session.status = "Completed";
+    //         return res.send("Status updated Succesfully");
+    //     } 
+    // } 
+
+    // return res.send("Study session not Found");
 });
 
 
 //----------- study session delete API
 
 app.delete("/study-sessions/:id" , (req , res) =>{
-    const {id} = req.params;
-    for(let i=0; i<studySessions.length; i++){
-        if(studySessions[i].id === Number(id)){
-            studySessions.splice(i,1);
-            return res.send("Delte session succesfully");
-        }
-    }
-    return res.send("Studdy session not found");
+    // const {id} = req.params;
+    // for(let i=0; i<studySessions.length; i++){
+    //     if(studySessions[i].id === Number(id)){
+    //         studySessions.splice(i,1);
+    //         return res.send("Delte session succesfully");
+    //     }
+    // }
+    // return res.send("Studdy session not found");
 });
 //-------------- server Listen on Port 3000 
 
