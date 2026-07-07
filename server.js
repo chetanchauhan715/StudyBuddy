@@ -1,7 +1,7 @@
 // const users = [];
 // console.log("VERSION 2 - " + new Date().toLocaleTimeString());
-const studySessions = [];
-let nextSessionId = 1;
+// const studySessions = [];
+// let nextSessionId = 1;
 
 import express from "express";
 import connectDB from "./config/db.js";
@@ -126,9 +126,9 @@ app.post("/study-sessions" , async (req, res) => {
         console.log("New Study session created Succesfully");
         return res.send("Succesfull creation");
     } catch (error){
-
+        console.log("DELETE ERROR:");
         console.log(error);
-        return res.send("Unexpected error occurred");
+        return res.status(500).send(error.message);
     }
 
 
@@ -203,7 +203,7 @@ app.put("/study-sessions/:id" , async (req, res) =>{
 
 //----------- study session delete API
 
-app.delete("/study-sessions/:id" , (req , res) =>{
+app.delete("/study-sessions/:id" , async (req , res) =>{
     // const {id} = req.params;
     // for(let i=0; i<studySessions.length; i++){
     //     if(studySessions[i].id === Number(id)){
@@ -212,6 +212,21 @@ app.delete("/study-sessions/:id" , (req , res) =>{
     //     }
     // }
     // return res.send("Studdy session not found");
+
+    try{
+        const {id} = req.params;
+        const session = await StudySession.findById(id);
+        if(!session){
+            return res.send("Study session Not Found");
+        } 
+
+        await session.deleteOne();
+        return res.send("Study session Deleted succesfully");
+    } catch (error){
+        console.log(error);
+        return res.send("Unexpected Error Occurred");
+    }
+
 });
 //-------------- server Listen on Port 3000 
 
