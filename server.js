@@ -4,10 +4,27 @@ import connectDB from "./config/db.js";
 import User from "./models/User.js";
 import StudySession from "./models/StudySession.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const app = express();
 
 app.use(express.json());
+
+function authMiddleware (req , res , next){
+   
+    const token = req.headers.authorization;
+
+    if(!token){
+        return res.send("Please Login ");
+    }
+
+    console.log(token);
+
+   next();
+} 
+
+// app.use(authMiddleware);
+
 
 // database connection ----
 connectDB();
@@ -64,8 +81,6 @@ app.post("/login" , async (req, res) =>{
         return res.send("Please Fill all the fileds");
     }
 
-   
-
     try{
         const existingUser = await User.findOne( {email});
 
@@ -76,7 +91,15 @@ app.post("/login" , async (req, res) =>{
 
         const isMatch = await bcrypt.compare(password , existingUser.password);
         if(isMatch){
-           return  res.send("Login Succesfull");
+            // jwt token -------------
+            const token = jwt.sign(
+                {   
+                    userId:existingUser._id
+                },
+                "mySecretKey"
+            );
+
+           return  res.send(token);
         }
 
         return res.send("Invalid Password");
@@ -86,8 +109,6 @@ app.post("/login" , async (req, res) =>{
         res.send("Unexpected Error Occurred");
     }
 });
-
-
 
 
 //-------------------Study sesssion Api 
@@ -117,13 +138,7 @@ app.post("/study-sessions" , async (req, res) => {
         return res.status(500).send(error.message);
     }
 
-
-
-    
-
 });
-
-
 
 
 //--------------study Session get Api 
