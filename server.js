@@ -14,7 +14,7 @@ function authMiddleware (req , res , next){
     const token = req.headers.authorization;
 
     if(!token){
-        return res.send("Please Login ");
+        return res.status(401).send("Please Login ");
     }
 
     const parts = token.split(" ");
@@ -22,7 +22,7 @@ function authMiddleware (req , res , next){
     const actualToken = parts[1];
 
     if(headerPart != "Bearer"){
-        return res.send("Invalid Authorization Header");
+        return res.status(401).send("Invalid Authorization Header");
     }
 
     const decoded = jwt.verify(actualToken , "mySecretKey");
@@ -49,6 +49,11 @@ app.get("/"  ,  (req, res) =>{
 // --------------- signup Api
 
 app.post("/signup" , async (req, res) =>{ 
+
+    if(!name || !email || !password){
+        return res.status(400).send("please fill all required fields");
+     } 
+ 
     const {name , email , password} = req.body;
 
     const hashedPassword = await bcrypt.hash(password , 10); // password hashing
@@ -59,24 +64,21 @@ app.post("/signup" , async (req, res) =>{
         password:hashedPassword
     };
 
-    if(!name || !email || !password){
-       return  res.send("please fill all required fields");
-    } 
-
+    
 
     try{
 
     const existingUser = await User.findOne( {email});
     if(existingUser){
-        return res.send("Email alraedy exist");
+        return res.status(400).send("Email alraedy exist");
     }
 
         await User.create(newUser);
-        return res.send("Signup Succesfull");
+        return res.status(201).send("Signup Succesfull");
 
     } catch (error) {
         console.log(error);
-        return res.send("Something went Wrong");
+        return res.status(500).send("Something went Wrong");
     }
 
 });
@@ -88,14 +90,14 @@ app.post("/login" , async (req, res) =>{
     const {email , password} = req.body;
 
     if(!email || !password){
-        return res.send("Please Fill all the fileds");
+        return res.status(400).send("Please Fill all the fileds");
     }
 
     try{
         const existingUser = await User.findOne( {email});
 
         if(!existingUser){
-            return res.send("User Not Found");
+            return res.status(404).send("User Not Found");
         } 
 
 
@@ -109,14 +111,14 @@ app.post("/login" , async (req, res) =>{
                 "mySecretKey"
             );
 
-           return  res.send(token);
+           return  res.status(200).send(token); // login 
         }
 
-        return res.send("Invalid Password");
+        return res.status(401).send("Invalid Password");
 
     } catch (error){
         console.log(error);
-        res.send("Unexpected Error Occurred");
+        res.status(500).send("Unexpected Error Occurred");
     }
 });
 
@@ -127,7 +129,7 @@ app.post("/study-sessions" , authMiddleware ,  async (req, res) => {
     const {subject , topic , duration , status} = req.body;
 
     if(!subject || !duration || !status){
-        return res.send("Please fill all the requied Fields");
+        return res.status(400).send("Please fill all the requied Fields");
     }
 
     const newStudySession = {
@@ -142,9 +144,9 @@ app.post("/study-sessions" , authMiddleware ,  async (req, res) => {
 
         await StudySession.create(newStudySession);
         console.log("New Study session created Succesfully");
-        return res.send("Succesfull creation");
+        return res.status(201).send("Succesfull creation");
     } catch (error){
-        console.log("DELETE ERROR:");
+        console.log("CREATE ERROR:");
         console.log(error);
         return res.status(500).send(error.message);
     }
@@ -158,11 +160,11 @@ app.get("/study-sessions" , authMiddleware , async (req , res) =>{
 
     try{
        const sessions =  await StudySession.find({user:req.user.userId});
-       return res.send(sessions);
+       return res.status(200).send(sessions);
     }
     catch (error){
         console.log(error);
-        res.send("Unexpected error occurred");
+        res.status(500).send("Unexpected error occurred");
     }
    
 });
@@ -180,17 +182,17 @@ app.put("/study-sessions/:id" , authMiddleware ,  async (req, res) =>{
         });
         if(!session){
             
-            return res.send("Session Not Found");
+            return res.status(404).send("Session Not Found");
         } else {
             session.status = "Completed";
             await session.save();
-            return res.send("Study Session Update Succesfully");
+            return res.status(200).send("Study Session Update Succesfully");
         }
         
 
     } catch (error){
         console.log(error);
-        return res.send("Unexpected Error occurred");
+        return res.status(500).send("Unexpected Error occurred");
     }
 
 });
@@ -207,14 +209,14 @@ app.delete("/study-sessions/:id" , authMiddleware ,  async (req , res) =>{
             user:req.user.userId
         });
         if(!session){
-            return res.send("Study session Not Found");
+            return res.status(404).send("Study session Not Found");
         } 
 
         await session.deleteOne();
-        return res.send("Study session Deleted succesfully");
+        return res.status(200).send("Study session Deleted succesfully");
     } catch (error){
         console.log(error);
-        return res.send("Unexpected Error Occurred");
+        return res.status(500).send("Unexpected Error Occurred");
     }
 
 });
