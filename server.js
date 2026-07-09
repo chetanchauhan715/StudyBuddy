@@ -1,4 +1,3 @@
-
 import express from "express";
 import connectDB from "./config/db.js";
 import User from "./models/User.js";
@@ -18,9 +17,20 @@ function authMiddleware (req , res , next){
         return res.send("Please Login ");
     }
 
-    console.log(token);
+    const parts = token.split(" ");
+    const headerPart = parts[0];
+    const actualToken = parts[1];
 
-   next();
+    if(headerPart != "Bearer"){
+        return res.send("Invalid Authorization Header");
+    }
+
+    const decoded = jwt.verify(actualToken , "mySecretKey");
+
+    req.user = decoded;
+
+    next();
+
 } 
 
 // app.use(authMiddleware);
@@ -113,7 +123,7 @@ app.post("/login" , async (req, res) =>{
 
 //-------------------Study sesssion Api 
 
-app.post("/study-sessions" , async (req, res) => {
+app.post("/study-sessions" , authMiddleware ,  async (req, res) => {
     const {subject , topic , duration , status} = req.body;
 
     if(!subject || !duration || !status){
@@ -125,6 +135,7 @@ app.post("/study-sessions" , async (req, res) => {
         topic , 
         duration,
         status, 
+        user:req.user.userId
     }
 
     try{
@@ -143,11 +154,11 @@ app.post("/study-sessions" , async (req, res) => {
 
 //--------------study Session get Api 
 
-app.get("/study-sessions" , async (req , res) =>{
+app.get("/study-sessions" , authMiddleware , async (req , res) =>{
 
     try{
-       const session =  await StudySession.find();
-       return res.send(session);
+       const sessions =  await StudySession.find({user:req.user.userId});
+       return res.send(sessions);
     }
     catch (error){
         console.log(error);
@@ -159,11 +170,14 @@ app.get("/study-sessions" , async (req , res) =>{
 
 //---------------study sessions update API
 
-app.put("/study-sessions/:id" , async (req, res) =>{
+app.put("/study-sessions/:id" , authMiddleware ,  async (req, res) =>{
     
     try{
         const {id} = req.params;
-        const session = await StudySession.findById(id);
+        const session = await StudySession.findOne({
+            _id:id , 
+            user:req.user.userId
+        });
         if(!session){
             
             return res.send("Session Not Found");
@@ -179,19 +193,19 @@ app.put("/study-sessions/:id" , async (req, res) =>{
         return res.send("Unexpected Error occurred");
     }
 
-
-
-    
 });
 
 
 //----------- study session delete API
 
-app.delete("/study-sessions/:id" , async (req , res) =>{
+app.delete("/study-sessions/:id" , authMiddleware ,  async (req , res) =>{
 
     try{
         const {id} = req.params;
-        const session = await StudySession.findById(id);
+        const session = await StudySession.findOne({
+            _id:id,
+            user:req.user.userId
+        });
         if(!session){
             return res.send("Study session Not Found");
         } 
