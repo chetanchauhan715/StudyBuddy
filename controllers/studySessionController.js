@@ -18,13 +18,21 @@ export async function createStudySessions(req,res){
 
     try{
 
-        await StudySession.create(newStudySession);
+      const session =   await StudySession.create(newStudySession);
         console.log("New Study session created Succesfully");
-        return res.status(201).send("Succesfull creation");
+        return res.status(201).json({
+            success:true,
+            message:"Study sessin Created Succesfully",
+            data:{
+                session
+            }
+        });
     } catch (error){
-        console.log("CREATE ERROR:");
         console.log(error);
-        return res.status(500).send(error.message);
+        return res.status(500).json({
+            success:false,
+            message:"Internal Server Error"
+        });
     }
 };
 
@@ -33,11 +41,21 @@ export async function createStudySessions(req,res){
 export async function getStudySessions(req , res){
     try{
         const sessions =  await StudySession.find({user:req.user.userId});
-        return res.status(200).send(sessions);
+        return res.status(200).json({
+            success:true,
+            message:"Sessions fetched Succesfully",
+            data:{
+                sessions
+
+            }
+        });
      }
      catch (error){
          console.log(error);
-         res.status(500).send("Unexpected error occurred");
+         res.status(500).json({
+            success:false,
+            message:"Interval Server Error"
+         });
      }
 };
 
@@ -52,19 +70,31 @@ export async function updateStudySession(req , res){
         });
         if(!session){
             
-            return res.status(404).send("Session Not Found");
-        } else {
-            session.status = "Completed";
-            await session.save();
-            return res.status(200).send("Study Session Update Succesfully");
-        }
+            return res.status(404).json({
+                success:false,
+                message:"Study Session Not Found"
+            });
+        } 
+
+        session.status = "Completed";
+        await session.save();
+        return res.status(200).json({
+            success:true,
+             message:"Study Session Succesfully Updated",
+            data:{
+                session
+                }
+        });
+        
         
 
     } catch (error){
         console.log(error);
-        return res.status(500).send("Unexpected Error occurred");
+        return res.status(500).json({
+            success:false,
+            message:"Internal Server Error"
+        });
     }
-
 };
 
 
@@ -78,13 +108,22 @@ export async function removeStudySession(req , res){
             user:req.user.userId
         });
         if(!session){
-            return res.status(404).send("Study session Not Found");
+            return res.status(404).json({
+                success:false,
+                message:"Study Session Not Found"
+            });
         } 
 
         await session.deleteOne();
-        return res.status(200).send("Study session Deleted succesfully");
+        return res.status(200).json({
+            success:true,
+            message:"Study Session Deleted Succesfully"
+        });
     } catch (error){
         console.log(error);
-        return res.status(500).send("Unexpected Error Occurred");
+        return res.status(500).json({
+            success:false,
+            message:"Internal Server Error"
+        });
     }
 }

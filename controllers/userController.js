@@ -24,15 +24,24 @@ export async function signup(req,res){
 
     const existingUser = await User.findOne( {email});
     if(existingUser){
-        return res.status(400).send("Email alraedy exist");
+        return res.status(400).json({
+            success:false,
+            message:"Email already exists"
+        });
     }
 
         await User.create(newUser);
-        return res.status(201).send("Signup Succesfull");
+        return res.status(201).json({
+            success:true,
+            message:"Signup Succesfull"
+        });
 
     } catch (error) {
         console.log(error);
-        return res.status(500).send("Something went Wrong");
+        return res.status(500).json({
+            success:false,
+            message:"Internal Server Error"
+        });
     }
 }
 
@@ -51,7 +60,11 @@ export async function login(req,res){
         const existingUser = await User.findOne( {email});
 
         if(!existingUser){
-            return res.status(404).send("User Not Found");
+            return res.status(404).json({
+                success:false,
+                message:"User Not Found"
+            });
+
         } 
 
 
@@ -65,13 +78,26 @@ export async function login(req,res){
                 process.env.JWT_SECRET
             );
 
-           return  res.status(200).send(token); // login 
+           return  res.status(200).json({
+            success:true,
+            message:"Login Succesful",
+            data:{
+                token
+            }
+
+           }); // login 
         }
 
-        return res.status(401).send("Invalid Password");
+        return res.status(401).json({
+            success:false,
+            message:"Invalid Password"
+        });
 
     } catch (error){
         console.log(error);
-        res.status(500).send("Unexpected Error Occurred");
+        res.status(500).json({
+            success:false,
+            message:"Internal Server Error"
+        });
     }
 }
