@@ -2,25 +2,11 @@ import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
-export async function signup(req,res){
+export async function signup(req,res , next){
 
     const {name , email , password} = req.body;
 
-    // if(!name || !email || !password){
-    //     return res.status(400).send("please fill all required fields");
-    //  } 
- 
-    
-    const hashedPassword = await bcrypt.hash(password , 10); // password hashing
-
-    const newUser = {
-        name,
-        email,
-        password:hashedPassword
-    };
-
     try{
-
 
     const existingUser = await User.findOne( {email});
     if(existingUser){
@@ -30,6 +16,14 @@ export async function signup(req,res){
         });
     }
 
+    const hashedPassword = await bcrypt.hash(password , 10); // password hashing
+
+    const newUser = {
+        name,
+        email,
+        password:hashedPassword
+    };
+
         await User.create(newUser);
         return res.status(201).json({
             success:true,
@@ -37,11 +31,7 @@ export async function signup(req,res){
         });
 
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success:false,
-            message:"Internal Server Error"
-        });
+        next(error);
     }
 }
 
@@ -49,12 +39,8 @@ export async function signup(req,res){
 //=======-------------
 
 
-export async function login(req,res){
+export async function login(req,res, next){
     const {email , password} = req.body;
-
-    // if(!email || !password){
-    //     return res.status(400).send("Please Fill all the fileds");
-    // }
 
     try{
         const existingUser = await User.findOne( {email});
@@ -66,8 +52,6 @@ export async function login(req,res){
             });
 
         } 
-
-
         const isMatch = await bcrypt.compare(password , existingUser.password);
         if(isMatch){
             // jwt token -------------
@@ -94,10 +78,6 @@ export async function login(req,res){
         });
 
     } catch (error){
-        console.log(error);
-        res.status(500).json({
-            success:false,
-            message:"Internal Server Error"
-        });
+        next(error);
     }
 }

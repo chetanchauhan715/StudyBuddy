@@ -1,7 +1,7 @@
 import express from "express";
 import StudySession from "../models/StudySession.js";
 
-export async function createStudySessions(req,res){
+export async function createStudySessions(req,res , next){
     const {subject , topic , duration , status} = req.body;
 
     // if(!subject || !duration || !status){
@@ -28,17 +28,13 @@ export async function createStudySessions(req,res){
             }
         });
     } catch (error){
-        console.log(error);
-        return res.status(500).json({
-            success:false,
-            message:"Internal Server Error"
-        });
+        next(error);
     }
 };
 
 //-------- study session get Functionality 
 
-export async function getStudySessions(req , res){
+export async function getStudySessions(req , res, next){
     try{
         const sessions =  await StudySession.find({user:req.user.userId});
         return res.status(200).json({
@@ -51,17 +47,13 @@ export async function getStudySessions(req , res){
         });
      }
      catch (error){
-         console.log(error);
-         res.status(500).json({
-            success:false,
-            message:"Interval Server Error"
-         });
+         next(error);
      }
 };
 
 // --------- study session update functionality 
 
-export async function updateStudySession(req , res){
+export async function updateStudySession(req , res, next){
     try{
         const {id} = req.params;
         const session = await StudySession.findOne({
@@ -89,18 +81,14 @@ export async function updateStudySession(req , res){
         
 
     } catch (error){
-        console.log(error);
-        return res.status(500).json({
-            success:false,
-            message:"Internal Server Error"
-        });
+       next(error);
     }
 };
 
 
 // ------ delete session functinality 
 
-export async function removeStudySession(req , res){
+export async function removeStudySession(req , res, next){
     try{
         const {id} = req.params;
         const session = await StudySession.findOne({
@@ -120,10 +108,6 @@ export async function removeStudySession(req , res){
             message:"Study Session Deleted Succesfully"
         });
     } catch (error){
-        console.log(error);
-        return res.status(500).json({
-            success:false,
-            message:"Internal Server Error"
-        });
+        next(error);
     }
 }
