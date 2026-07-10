@@ -16,7 +16,7 @@ function authMiddleware (req , res , next){
         return res.status(401).send("Invalid Authorization Header");
     }
 
-    const decoded = jwt.verify(actualToken , "mySecretKey");
+    const decoded = jwt.verify(actualToken , process.env.JWT_SECRET);
 
     req.user = decoded;
 

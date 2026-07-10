@@ -1,12 +1,12 @@
-import e from "express";
+import express from "express";
 import StudySession from "../models/StudySession.js";
 
 export async function createStudySessions(req,res){
     const {subject , topic , duration , status} = req.body;
 
-    if(!subject || !duration || !status){
-        return res.status(400).send("Please fill all the requied Fields");
-    }
+    // if(!subject || !duration || !status){
+    //     return res.status(400).send("Please fill all the requied Fields");
+    // }
 
     const newStudySession = {
         subject , 

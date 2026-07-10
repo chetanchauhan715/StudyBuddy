@@ -1,13 +1,14 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
 
 export async function signup(req,res){
 
     const {name , email , password} = req.body;
 
-    if(!name || !email || !password){
-        return res.status(400).send("please fill all required fields");
-     } 
+    // if(!name || !email || !password){
+    //     return res.status(400).send("please fill all required fields");
+    //  } 
  
     
     const hashedPassword = await bcrypt.hash(password , 10); // password hashing
@@ -42,9 +43,9 @@ export async function signup(req,res){
 export async function login(req,res){
     const {email , password} = req.body;
 
-    if(!email || !password){
-        return res.status(400).send("Please Fill all the fileds");
-    }
+    // if(!email || !password){
+    //     return res.status(400).send("Please Fill all the fileds");
+    // }
 
     try{
         const existingUser = await User.findOne( {email});

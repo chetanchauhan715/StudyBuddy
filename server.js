@@ -1,5 +1,6 @@
 import express from "express";
 import connectDB from "./config/db.js";
+import dotenv from "dotenv";
 
 import userRoutes from "./routes/userRoutes.js";
 import studySessionRoutes from "./routes/studySessionRoutes.js";
@@ -10,6 +11,8 @@ app.use(express.json());
 
 // database connection ----
 connectDB();
+
+dotenv.config();
 
 app.use(userRoutes); // user routes - sign up & login 
 

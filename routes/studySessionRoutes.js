@@ -1,6 +1,8 @@
 import express from "express";
-import StudySession from "../models/StudySession.js";
+
 import authMiddleware from "../middleware/authMiddleware.js";
+import { getStudySessions, createStudySessions, updateStudySession, removeStudySession } from "../controllers/studySessionController.js";
+import { studySessionCreateValidation } from "../validators/studySessioValidator.js";
 
 
 const router = express.Router();
@@ -9,99 +11,33 @@ const router = express.Router();
 
 // - create API 
 
-router.post("/study-sessions" , authMiddleware ,  async (req, res) => {
-    const {subject , topic , duration , status} = req.body;
+// router.post("/study-sessions" , authMiddleware ,  async (req, res) => {
+    
 
-    if(!subject || !duration || !status){
-        return res.status(400).send("Please fill all the requied Fields");
-    }
+// });
 
-    const newStudySession = {
-        subject , 
-        topic , 
-        duration,
-        status, 
-        user:req.user.userId
-    }
-
-    try{
-
-        await StudySession.create(newStudySession);
-        console.log("New Study session created Succesfully");
-        return res.status(201).send("Succesfull creation");
-    } catch (error){
-        console.log("CREATE ERROR:");
-        console.log(error);
-        return res.status(500).send(error.message);
-    }
-
-});
+router.post("/study-sessions", authMiddleware , studySessionCreateValidation, createStudySessions);
 
 //  study session - get Api 
 
-router.get("/study-sessions" , authMiddleware , async (req , res) =>{
+// router.get("/study-sessions" , authMiddleware , async (req , res) =>{
+// });
 
-    try{
-       const sessions =  await StudySession.find({user:req.user.userId});
-       return res.status(200).send(sessions);
-    }
-    catch (error){
-        console.log(error);
-        res.status(500).send("Unexpected error occurred");
-    }
-   
-});
+router.get("/study-sessions" ,  authMiddleware,  getStudySessions);
 
 //----- update ------ 
 
-router.put("/study-sessions/:id" , authMiddleware ,  async (req, res) =>{
-    
-    try{
-        const {id} = req.params;
-        const session = await StudySession.findOne({
-            _id:id , 
-            user:req.user.userId
-        });
-        if(!session){
-            
-            return res.status(404).send("Session Not Found");
-        } else {
-            session.status = "Completed";
-            await session.save();
-            return res.status(200).send("Study Session Update Succesfully");
-        }
-        
+// router.put("/study-sessions/:id" , authMiddleware ,  async (req, res) =>{
+// });
 
-    } catch (error){
-        console.log(error);
-        return res.status(500).send("Unexpected Error occurred");
-    }
-
-});
+router.put("/study-sessions/:id" ,authMiddleware,  updateStudySession);
 
 // ------ delete ---
 
-router.delete("/study-sessions/:id" , authMiddleware ,  async (req , res) =>{
+// router.delete("/study-sessions/:id" , authMiddleware ,  async (req , res) =>{
+// });
 
-    try{
-        const {id} = req.params;
-        const session = await StudySession.findOne({
-            _id:id,
-            user:req.user.userId
-        });
-        if(!session){
-            return res.status(404).send("Study session Not Found");
-        } 
-
-        await session.deleteOne();
-        return res.status(200).send("Study session Deleted succesfully");
-    } catch (error){
-        console.log(error);
-        return res.status(500).send("Unexpected Error Occurred");
-    }
-
-});
-
+router.delete("/study-sessions/:id" , authMiddleware,  removeStudySession);
 
 
 // ------- export 
