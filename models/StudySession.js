@@ -26,11 +26,14 @@ const sessionSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     }
-
     
+},
 
+{
+    timestamps:true
+}
 
-});
+);
 
 const StudySession = mongoose.model("StudySession" , sessionSchema);
 

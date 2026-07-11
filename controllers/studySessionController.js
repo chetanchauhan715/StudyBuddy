@@ -36,7 +36,7 @@ export async function createStudySessions(req,res , next){
 
 export async function getStudySessions(req , res, next){
 
-    const {search , status, sort , order} = req.query;
+    const {search , status, sort , order, page , limit} = req.query;
 
     let query = { user :req.user.userId};
 
@@ -71,13 +71,32 @@ export async function getStudySessions(req , res, next){
         query.status = status;
     }
 
+    const pageNumber = Number(page) || 1;
+    const limitNumber = Number(limit) || 10;
+
+    const skip = (pageNumber - 1) * limitNumber
+
+ 
     try{
 
-       const sessions = await StudySession.find(query).sort(sortQuery);
+        const totalSessions = await StudySession.countDocuments(query);
+
+        const totalPages = Math.ceil(totalSessions / limitNumber);
+
+
+       const sessions = await StudySession.find(query)
+       .sort(sortQuery)
+       .skip(skip)
+       .limit(limitNumber);
        return res.status(200).json({
         success:true, 
         message:"Study Sessions Fetched Succesfully",
-        data:sessions
+        data:sessions,
+        currentPage:pageNumber,
+        totalPages,
+        totalSessions,
+        limit:limitNumber
+
        });
     } catch (error){
          next(error);
