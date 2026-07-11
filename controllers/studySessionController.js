@@ -35,18 +35,39 @@ export async function createStudySessions(req,res , next){
 //-------- study session get Functionality 
 
 export async function getStudySessions(req , res, next){
-    try{
-        const sessions =  await StudySession.find({user:req.user.userId});
-        return res.status(200).json({
-            success:true,
-            message:"Sessions fetched Succesfully",
-            data:{
-                sessions
+
+    const {search} = req.query;
+
+    let query = { user :req.user.userId};
+
+    if(search){
+        query.$or = [
+            {
+                subject:{
+                    $regex:search,
+                    $options:"i"
+                }
+            },
+
+            {
+            topic:{
+                $regex:search,
+                $options:"i"
+             }
 
             }
-        });
-     }
-     catch (error){
+        ]
+    }
+
+    try{
+
+       const sessions = await StudySession.find(query);
+       return res.status(200).json({
+        success:true, 
+        message:"Study Sessions Fetched Succesfully",
+        data:sessions
+       });
+    } catch (error){
          next(error);
      }
 };
