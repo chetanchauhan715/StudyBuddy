@@ -36,7 +36,7 @@ export async function createStudySessions(req,res , next){
 
 export async function getStudySessions(req , res, next){
 
-    const {search} = req.query;
+    const {search , status} = req.query;
 
     let query = { user :req.user.userId};
 
@@ -57,6 +57,10 @@ export async function getStudySessions(req , res, next){
 
             }
         ]
+    }
+
+    if(status){
+        query.status = status;
     }
 
     try{
