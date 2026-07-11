@@ -36,9 +36,17 @@ export async function createStudySessions(req,res , next){
 
 export async function getStudySessions(req , res, next){
 
-    const {search , status} = req.query;
+    const {search , status, sort , order} = req.query;
 
     let query = { user :req.user.userId};
+
+    const sortField = sort || "createdAt";
+    const sortDirection = order || "desc";
+    const sortOrder = sortDirection === "asc" ? 1 : -1;
+
+    let sortQuery = {
+        [sortField]:sortOrder
+    };
 
     if(search){
         query.$or = [
@@ -65,7 +73,7 @@ export async function getStudySessions(req , res, next){
 
     try{
 
-       const sessions = await StudySession.find(query);
+       const sessions = await StudySession.find(query).sort(sortQuery);
        return res.status(200).json({
         success:true, 
         message:"Study Sessions Fetched Succesfully",
