@@ -2,7 +2,7 @@ import expres from "express";
 // import bcrypt from "bcrypt";
 // import User from "../models/User.js";
 // import jwt from "jsonwebtoken";
-import { login, signup } from "../../controllers/userController.js";
+import { login, signup } from "../controllers/userController.js";
 import { loginValidator, signupValidator } from "../validators/userValidator.js";
 
 

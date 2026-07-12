@@ -1,7 +1,7 @@
 import express from "express";
 
 import authMiddleware from "../middleware/authMiddleware.js";
-import { getStudySessions, createStudySessions, updateStudySession, removeStudySession } from "../../controllers/studySessionController.js";
+import { getStudySessions, createStudySessions, updateStudySession, removeStudySession } from "../controllers/studySessionController.js";
 import { studySessionCreateValidation } from "../validators/studySessioValidator.js";
 
 
