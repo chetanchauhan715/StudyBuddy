@@ -1,5 +1,12 @@
+import LandingNavbar from "../components/navbar/LandingNavbar";
 function Landing(){
-    return <h1>Landing Page</h1>
+   
+   return (
+   <>
+    <LandingNavbar/>
+    </>
+
+   )
 }
 
 export default Landing;
