@@ -1,28 +1,39 @@
 import { Route, Routes } from "react-router-dom";
+import PublicLayout from "./layouts/PublicLayout";
+import Signup from "./pages/Singup";
+import Login from "./pages/Login";
+import Landing from "./pages/Landing"
 
 function App(){
   return (
-    <div>
-      <h1>StudyBuddy</h1>
+    
 
       <Routes>
 
-      <Route 
-      path="/"
-      element={<Landing/>}
-      />
+    <Route
+        element={<PublicLayout />}
+    >
 
-      <Route 
-      path="/singup"
-      element={<Signup/>}
+        <Route 
+        path="signup"
+        element={<Signup/>}
         />
 
-      <Route path="/login"
-      element={<Login/>}
-      />
+        <Route 
+        path="login"
+        element={<Login/>}
+        />
 
-      </Routes>
-    </div>
+    </Route>
+
+    <Route
+        path="/"
+
+        element={<Landing />}
+    />
+
+</Routes>
+    
   );
 }
 
