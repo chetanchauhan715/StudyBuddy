@@ -7,7 +7,7 @@ function PublicLayout(){
         <Outlet />
         
 
-        <footer>© StudyBuddy</footer>
+        {/* <footer>© StudyBuddy</footer> */}
         </>
     );
 }
