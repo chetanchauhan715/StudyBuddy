@@ -1,0 +1,40 @@
+.features{
+    padding: 5rem 3rem;
+    text-align: center;
+}
+
+.features h2{
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+}
+
+.feature-grid{
+    display: flex;
+    gap: 2rem;
+}
+
+.feature-card{
+    flex: 1;
+    background-color: #F9FAFB;
+    padding: 2rem;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.feature-card:hover{
+    transform: translateY(-5px);
+}
+
+.feature-card span{
+    font-size: 2.5rem;
+}
+
+.feature-card h3{
+    margin: 1rem 0;
+}
+
+.feature-card p{
+    color: #6B7280;
+    line-height: 1.6;
+}
