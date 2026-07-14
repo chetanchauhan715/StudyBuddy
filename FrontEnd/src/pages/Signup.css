@@ -1,0 +1,88 @@
+.signup-container{
+    width: 400px;
+    margin: 6rem auto;
+}
+
+.signup-container h2{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: .3rem;
+}
+
+.signup-container > p{
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.signup-container form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label{
+    font-weight: 600;
+    margin-bottom: .5rem;
+}
+
+.form-group input{
+    padding: .9rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color .2s;
+}
+
+.form-group input:focus{
+    outline: none;
+    border-color: #4f46e5;
+}
+
+.signup-container button{
+    margin-top: .5rem;
+    padding: .9rem;
+    border: none;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.signup-container button:hover{
+    background: #4338ca;
+}
+
+.login-footer{
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-footer a{
+    margin-left: .3rem;
+    font-weight: 600;
+    color: #4f46e5;
+}
+
+.login-footer a:hover{
+    text-decoration: underline;
+}
+
+.auth-footer{
+    text-align:center;
+    margin-top:1rem;
+}
+
+.auth-footer a{
+    margin-left:.3rem;
+    font-weight:600;
+    color:#4f46e5;
+}
