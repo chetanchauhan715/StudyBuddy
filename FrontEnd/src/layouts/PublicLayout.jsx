@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
+import Logo from "../components/logo/Logo"
 function PublicLayout(){
     return (
         <>
-        <header>StudyBuddy</header>
-
+        <Logo/>
         <Outlet />
         
 
