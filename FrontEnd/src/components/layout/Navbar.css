@@ -1,0 +1,43 @@
+.navbar-container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:1rem 2rem;
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.navbar-center{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    
+}
+
+.navbar-center input{
+    width:400px;
+    max-width: 100%;
+    padding:10px;
+    border-radius:25px;
+    outline: none;
+    border:1px solid #d1d5db;
+}
+
+.navbar-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    background-color: rgb(252, 174, 174);
+}
+
+.navbar-left svg,
+.navbar-right svg{
+    font-size:1.2rem;
+    cursor:pointer;
+}
+
+.navbar-left svg:hover,
+.navbar-right svg:hover{
+    color:#4f46e5;
+}
