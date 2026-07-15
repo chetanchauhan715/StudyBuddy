@@ -1,16 +1,19 @@
 import express from "express";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
+import cors from "cors";
 
 import userRoutes from "./routes/userRoutes.js";
 import studySessionRoutes from "./routes/studySessionRoutes.js"; 
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
+dotenv.config();
+
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
-dotenv.config();
 
 // database connection ----
 connectDB();
