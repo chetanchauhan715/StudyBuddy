@@ -18,12 +18,14 @@ export const signupValidator = [
     .withMessage("Password must be atlest 8 characters "),
 
 
+
     (req , res , next ) => {
         const error = validationResult(req);
 
         if(!error.isEmpty()){
             return res.status(400).json( {
-            error:error.array()
+                success:false,
+                message:error.array()[0].msg
     });
 }
 
@@ -51,7 +53,8 @@ export const loginValidator = [
 
         if(!error.isEmpty()){
             return res.status(400).json({
-                error:error.array()
+                success:false,
+                message:error.array()[0].msg
             });
         }
         next();
