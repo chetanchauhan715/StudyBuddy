@@ -1,10 +1,41 @@
 import StatsCard from "../components/dashboard/StatsCard";
 import { FaBook , FaClock, FaCheckCircle, FaClipboardList } from "react-icons/fa";
 import "./Dashboard.css";
+import WeeklyStudyChart from "../components/dashboard/WeeklyStudyChart";
+import SubjectPieChart from "../components/dashboard/SubjectPieChart";
 
 function Dashboard() {
-  return (
+  const weeklyData = [
+    { day: "Mon", hours: 2 },
+    { day: "Tue", hours: 3 },
+    { day: "Wed", hours: 5 },
+    { day: "Thu", hours: 1 },
+    { day: "Fri", hours: 2 },
+    { day: "Sat", hours: 4 },
+    { day: "Sun", hours: 3 },
+  ];
 
+  const subjectData = [
+    {
+        subject: "React",
+        hours: 35
+    },
+    {
+        subject: "DSA",
+        hours: 25
+    },
+    {
+        subject: "Node",
+        hours: 20
+    },
+    {
+        subject: "Other",
+        hours: 20
+    }
+];
+
+  return (
+<div className="dashboard-container">
     <div className="stats-container">
     <StatsCard
       title="Total Sessions"
@@ -32,6 +63,24 @@ function Dashboard() {
     icon={<FaClipboardList />}
     change="-5%"
 />
+
+</div>
+
+<div className="charts-container">
+
+  <div className="study-chart">
+  <WeeklyStudyChart 
+weeklyData={weeklyData}/>
+  </div>
+  
+  <div className="subject-chart"> 
+<SubjectPieChart 
+subjectData={subjectData}
+/>
+  </div>
+
+
+</div>
 
 </div>
 

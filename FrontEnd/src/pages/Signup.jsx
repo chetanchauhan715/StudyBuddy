@@ -33,7 +33,7 @@ function Signup() {
 
     // FrontEnd validatin 
     if(formData.password !== formData.confirmPassword){
-      alert("password no not match");
+      alert("Password  not match");
       return;
     }
 

@@ -5,3 +5,26 @@
     margin-top:25px;
     padding:30px;
 }
+
+.charts-container{
+    width: 100%;
+    height: 300;
+    display: flex;
+    gap:2rem;
+    
+}
+
+.study-chart{
+    display: flex;
+    flex: 1;
+}
+
+.subject-chart{
+    display: flex;
+    flex: 1;
+}
+
+.weekly-study-chart,
+.subject-piechart{
+    width:100%;
+}

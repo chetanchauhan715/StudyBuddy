@@ -3,6 +3,9 @@ import PublicLayout from "./layouts/PublicLayout";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Landing from "./pages/Landing"
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import DashboardLayout from "./layouts/DashboardLayout";
 
 function App(){
   return (
@@ -31,6 +34,21 @@ function App(){
 
         element={<Landing />}
     />
+
+
+    <Route element={<ProtectedRoute/>}>
+
+      <Route element={<DashboardLayout/>}>  
+      
+      <Route 
+
+      path="dashboard"
+      element={<Dashboard/>}/>
+
+      </Route>
+
+    </Route>
+
 
 </Routes>
     
