@@ -1,0 +1,18 @@
+.recent-sessions{
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-top: 25px;
+}
+
+.recent-sessions h2{
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.recent-session-list{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}

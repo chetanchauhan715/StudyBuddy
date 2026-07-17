@@ -3,6 +3,7 @@ import { FaBook , FaClock, FaCheckCircle, FaClipboardList } from "react-icons/fa
 import "./Dashboard.css";
 import WeeklyStudyChart from "../components/dashboard/WeeklyStudyChart";
 import SubjectPieChart from "../components/dashboard/SubjectPieChart";
+import RecentSessions from "../components/dashboard/RecentSessions";
 
 function Dashboard() {
   const weeklyData = [
@@ -81,6 +82,8 @@ subjectData={subjectData}
 
 
 </div>
+
+<RecentSessions/>
 
 </div>
 
