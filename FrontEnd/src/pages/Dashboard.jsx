@@ -4,6 +4,7 @@ import "./Dashboard.css";
 import WeeklyStudyChart from "../components/dashboard/WeeklyStudyChart";
 import SubjectPieChart from "../components/dashboard/SubjectPieChart";
 import RecentSessions from "../components/dashboard/RecentSessions";
+import TodayGoalCard from "../components/dashboard/TodayGoalCard";
 
 function Dashboard() {
   const weeklyData = [
@@ -83,7 +84,25 @@ subjectData={subjectData}
 
 </div>
 
-<RecentSessions/>
+<div className="foot-container">
+
+  <div className="sessions-section">
+  <RecentSessions/>
+  </div>
+
+  <div className="goal-section">
+  <TodayGoalCard
+goalHours={6}
+completedHours={2.6}
+currentStreak={12}
+/>
+  </div>
+
+
+
+</div>
+
+
 
 </div>
 
