@@ -1,0 +1,43 @@
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    width: 100%;
+    /* margin-bottom:30px; */
+
+}
+
+.header-left{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-left h1 {
+    font-size:2.5rem ;
+}
+
+.header-left p {
+    font-weight: 600;
+    color: rgb(71, 71, 71);
+}
+
+.header-right{
+    display: flex;
+    align-items: center;
+}
+
+.header-right button{
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    padding: 12px;
+    
+}
+
+.header-right button:hover{
+    cursor: pointer;
+    background-color: rgb(147, 147, 252);
+    
+}
