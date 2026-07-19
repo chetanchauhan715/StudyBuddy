@@ -1,6 +1,6 @@
 import "./SessionHeader.css";
 
-function SessionHeader(){
+function SessionHeader({onAddSession}){
     return(
         <section className="header-container">
             <div className="header-left">
@@ -9,7 +9,7 @@ function SessionHeader(){
             </div>
 
             <div className="header-right">
-                <button>
+                <button onClick={onAddSession}>
                      + Add Session 
                 </button>
             </div>
