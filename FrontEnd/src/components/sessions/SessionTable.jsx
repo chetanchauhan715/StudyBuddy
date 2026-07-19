@@ -1,7 +1,7 @@
 import SessionRow from "./SessionRow";
 import "./SessionTable.css";
 
-function SessionTable({sessionData}){
+function SessionTable({sessionData , onEdit , onDelete}){
     return (
         <table className="session-table">
             <thead >
@@ -20,6 +20,8 @@ function SessionTable({sessionData}){
                 <SessionRow 
                 key={session.id}
                 session={session}
+                onEdit={onEdit}
+                onDelete={onDelete}
                 />
             ))
         }
