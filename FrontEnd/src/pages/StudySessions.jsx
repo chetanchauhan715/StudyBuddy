@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SessionHeader from "../components/sessions/SessionHeader";
 import SessionTable from "../components/sessions/SessionTable";
 import StudySessionFilters from "../components/sessions/StudySessionFilters";
 import "./StudySessions.css";
 import AddSessionModal from "../components/sessions/AddSessionModal";
+
+import { getSessions } from "../services/studySessionService";
 
 
 const subjectOptions = [
@@ -26,39 +28,12 @@ const subjectOptions = [
     "Duration"
   ];
 
-  const sessionData = [
-    {   id:1,
-        subject: "React",
-        topic: "Hooks",
-        duration: "2h",
-        status: "Completed",
-        date: "Today"
-    },
-
-    {   id:2,
-        subject: "React",
-        topic: "Hooks",
-        duration: "2h",
-        status: "Completed",
-        date: "Today"
-    },
-
-    {   id:3,
-        subject: "React",
-        topic: "Hooks",
-        duration: "2h",
-        status: "Completed",
-        date: "Today"
-    }
-
-
-  ]
 
 function StudySessions(){
 
   const[isModalOpen , setIsModalOpen] = useState(false);
 
-  const [sessions , setSessions]= useState(sessionData);
+  const [sessions , setSessions]= useState([]);
 
   const [editingSession , setEditingSession] = useState(null);
 
@@ -98,6 +73,15 @@ function StudySessions(){
     });
     setSessions(filteredSessions);
   }
+
+  useEffect( ()=> {
+
+    async function fetchSessions(){
+      const fetchedSessions = await getSessions();
+      setSessions(fetchedSessions);
+    }
+    fetchSessions();
+  } , []);
 
     return(
 
