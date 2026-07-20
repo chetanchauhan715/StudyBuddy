@@ -34,6 +34,28 @@ export async function createSession(sessionData){
     
 }
 
+export async function updateSession(sessionData){
+    try{
+
+        const id = sessionData.id;
+        const response = await api.put(`/study-sessions/${id}` , sessionData);
+        return response.data.data.session;
+    } catch(error){
+        console.error(error);
+        throw error;
+    }
+}
+
+
+export async function deleteSession(id){
+    try{
+        const response = await api.delete(`/study-sessions/${id}`);
+        return response.data;
+    } catch (error){
+        console.error(error);
+        throw error;
+    }
+}
 
 
 export default api;
