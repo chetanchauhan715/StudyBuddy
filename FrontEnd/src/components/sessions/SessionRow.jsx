@@ -7,7 +7,7 @@ function SessionRow({session , onEdit , onDelete}){
             <td>{session.topic}</td>
             <td>{session.duration}</td>
             <td>{session.status}</td>
-            <td>{session.date}</td>
+            <td>{session.studyDate}</td>
             <td><button onClick={ ()=> onEdit(session)}>Edit</button></td>
             <td><button onClick={ () => onDelete(session.id)}>Delete</button></td>
         </tr>

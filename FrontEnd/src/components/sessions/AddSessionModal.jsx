@@ -6,7 +6,7 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
   const [topic, setTopic] = useState("");
   const [duration, setDuration] = useState("");
   const [status, setStatus] = useState("Pending");
-  const [date, setDate] = useState("");
+  const [studyDate, setStudyDate] = useState("");
 
   useEffect(() => {
     if (editingSession !== null) {
@@ -14,13 +14,13 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
       setTopic(editingSession.topic);
       setDuration(editingSession.duration);
       setStatus(editingSession.status);
-      setDate(editingSession.date);
+      setStudyDate(editingSession.studyDate);
     } else {
       setSubject("");
       setTopic("");
       setDuration("");
       setStatus("Pending");
-      setDate("");
+      setStudyDate("");
     }
   }, [editingSession]);
 
@@ -28,7 +28,7 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!subject || !duration || !date) {
+    if (!subject || !duration || !studyDate) {
       alert("Please fill all the required fields");
       return;
     }
@@ -40,7 +40,7 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
         topic,
         duration,
         status,
-        date,
+        studyDate,
       };
 
       onUpdate(updatedSession);
@@ -53,7 +53,7 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
         topic,
         duration,
         status,
-        date,
+        studyDate,
       };
   
       onSave(newSession);
@@ -123,8 +123,8 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
 
             <input
               type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              value={studyDate}
+              onChange={(e) => setStudyDate(e.target.value)}
             />
           </div>
 
