@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import SessionHeader from "../components/sessions/SessionHeader";
 import SessionTable from "../components/sessions/SessionTable";
 import StudySessionFilters from "../components/sessions/StudySessionFilters";
-import "./StudySessions.css";
 import AddSessionModal from "../components/sessions/AddSessionModal";
 
-import { getSessions , createSession} from "../services/studySessionService";
+import { getSessions , createSession , updateSession , deleteSession} from "../services/studySessionService";
 
 
 const subjectOptions = [
@@ -59,7 +58,7 @@ function StudySessions(){
       id: savedSession._id,
     };
 
-    setSessions( (prev)=> [...prev , normalizedSession]);
+    setSessions( (prev)=> [  normalizedSession , ...prev ]);
   }
 
   function handleEdit(session){
@@ -67,27 +66,60 @@ function StudySessions(){
     setIsModalOpen(true);
   }
 
-  function handleUpdate(updatedSession){
-    const updatedSessions = sessions.map( (session) => {
-      if(session.id === updatedSession.id){
-        return updatedSession;
-      }
-      return session;
-    });
-    console.log(updatedSession);
-console.log(sessions);
-    setSessions(updatedSessions);
-  }
+//   function handleUpdate(updatedSession){
+//     const updatedSessions = sessions.map( (session) => {
+//       if(session.id === updatedSession.id){
+//         return updatedSession;
+//       }
+//       return session;
+//     });
 
-  function handleDelete(id){
-    const filteredSessions = sessions.filter( (session) =>{
-      return session.id !== id;
-    });
-    setSessions(filteredSessions);
+// // console.log(updatedSession);
+// // console.log(sessions);
+
+//     setSessions(updatedSessions);
+//   }
+
+
+async function handleUpdate(updatedSession){
+
+  // console.log("1. Sending:", updatedSession);
+
+  const savedSession = await updateSession(updatedSession);
+
+  // console.log("2. Backend returned:", savedSession);
+
+  const updatedSessions = sessions.map( (session) => {
+    if(session._id === savedSession._id){
+
+      // console.log("3. Replacing:", session);
+
+      return savedSession;
+    }
+    return session;
+  });
+  // console.log("4. Final array:", updatedSessions);
+
+  setSessions(updatedSessions);
+}
+
+  // function handleDelete(id){
+  //   const filteredSessions = sessions.filter( (session) =>{
+  //     return session._id !== id;
+  //   });
+  //   setSessions(filteredSessions);
+  // }
+
+  async function handleDelete(id){
+   await deleteSession(id);
+
+   const filteredSessions = sessions.filter( (session) => {
+    return session._id !== id;
+   }) ;
+   setSessions(filteredSessions);
   }
 
   useEffect( ()=> {
-
     async function fetchSessions(){
       const fetchedSessions = await getSessions();
       const normalizedSessions = fetchedSessions.map((session) => ({
@@ -131,11 +163,7 @@ onAddSession={onAddSession}/>
       )}
 
       
-
-
-
         </div>
-        
         
     )
 }
