@@ -2,7 +2,8 @@ import express from "express";
 import StudySession from "../models/StudySession.js";
 
 export async function createStudySessions(req,res , next){
-    const {subject , topic , duration , status} = req.body;
+    console.log(req.body);
+    const {subject , topic , duration , status, studyDate} = req.body;
 
     // if(!subject || !duration || !status){
     //     return res.status(400).send("Please fill all the requied Fields");
@@ -13,6 +14,7 @@ export async function createStudySessions(req,res , next){
         topic , 
         duration,
         status, 
+        studyDate,
         user:req.user.userId
     }
 

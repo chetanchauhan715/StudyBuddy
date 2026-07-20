@@ -22,6 +22,11 @@ const sessionSchema = new mongoose.Schema({
         required:true
     },
 
+    studyDate:{
+        type:Date,
+        required:true
+    },
+
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
