@@ -30,7 +30,7 @@ router.get("/study-sessions" ,  authMiddleware,  getStudySessions);
 // router.put("/study-sessions/:id" , authMiddleware ,  async (req, res) =>{
 // });
 
-router.put("/study-sessions/:id" ,authMiddleware,  updateStudySession);
+router.put("/study-sessions/:id" ,authMiddleware, studySessionCreateValidation,   updateStudySession);
 
 // ------ delete ---
 
