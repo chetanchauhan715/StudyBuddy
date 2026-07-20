@@ -11,6 +11,7 @@ function SessionTable({sessionData , onEdit , onDelete}){
                     <th>Duration</th>
                     <th>Status</th>
                     <th>Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
@@ -18,7 +19,7 @@ function SessionTable({sessionData , onEdit , onDelete}){
         {
             sessionData.map( (session) => (
                 <SessionRow 
-                key={session.id}
+                key={session._id}
                 session={session}
                 onEdit={onEdit}
                 onDelete={onDelete}

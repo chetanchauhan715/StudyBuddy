@@ -5,11 +5,11 @@ function SessionRow({session , onEdit , onDelete}){
         <tr>
             <td>{session.subject}</td>
             <td>{session.topic}</td>
-            <td>{session.duration}</td>
+            <td>{ Math.ceil(session.duration / 60 )}hrs</td>
             <td>{session.status}</td>
-            <td>{session.studyDate}</td>
+            <td>{session.studyDate?.split("T")[0]}</td>
             <td><button onClick={ ()=> onEdit(session)}>Edit</button></td>
-            <td><button onClick={ () => onDelete(session.id)}>Delete</button></td>
+            <td><button onClick={ () => onDelete(session._id)}>Delete</button></td>
         </tr>
         
        
