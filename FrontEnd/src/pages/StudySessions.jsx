@@ -5,7 +5,7 @@ import StudySessionFilters from "../components/sessions/StudySessionFilters";
 import "./StudySessions.css";
 import AddSessionModal from "../components/sessions/AddSessionModal";
 
-import { getSessions } from "../services/studySessionService";
+import { getSessions , createSession} from "../services/studySessionService";
 
 
 const subjectOptions = [
@@ -47,9 +47,19 @@ function StudySessions(){
   }
 
 
-  function handleSave(newSession){
-    console.log(newSession);
-    setSessions(prev => [...prev , newSession]);
+  // function handleSave(newSession){
+  //   console.log(newSession);
+  //   setSessions(prev => [...prev , newSession]);
+  // }
+
+  async function handleSave(newSession){
+    const savedSession = await createSession(newSession);
+    const normalizedSession = {
+      ...savedSession,
+      id: savedSession._id,
+    };
+
+    setSessions( (prev)=> [...prev , normalizedSession]);
   }
 
   function handleEdit(session){
@@ -64,6 +74,8 @@ function StudySessions(){
       }
       return session;
     });
+    console.log(updatedSession);
+console.log(sessions);
     setSessions(updatedSessions);
   }
 
@@ -78,7 +90,11 @@ function StudySessions(){
 
     async function fetchSessions(){
       const fetchedSessions = await getSessions();
-      setSessions(fetchedSessions);
+      const normalizedSessions = fetchedSessions.map((session) => ({
+        ...session,
+        id: session._id,
+      }));
+      setSessions(normalizedSessions);
     }
     fetchSessions();
   } , []);

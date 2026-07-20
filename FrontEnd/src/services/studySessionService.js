@@ -20,5 +20,20 @@ export async function getSessions(){
     return response.data.data;
 }
 
+export async function createSession(sessionData){
+    console.log(sessionData);
+
+    try{
+        const response = await api.post("/study-sessions" , sessionData);
+
+    return response.data.data.session;
+    } catch (error){
+        console.log(error.response.data);
+        throw error;
+    }
+    
+}
+
+
 
 export default api;
