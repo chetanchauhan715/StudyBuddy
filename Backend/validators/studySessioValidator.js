@@ -11,7 +11,7 @@ export const studySessionCreateValidation = [
     .withMessage("Subject length must not exceeds 70 characters"),
 
     body("topic")
-    .optional()
+    .optional({values:"falsy"})
     .isLength({min:2})
     .withMessage("Topic length reuired atlest 2 characters")
     .isLength({max:70})
