@@ -122,3 +122,14 @@
 .modal-buttons button:last-child:hover{
     background: #4939c7;
 }
+
+.error-message{
+    color: #da2f2f;
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 16px;
+    text-align: center;
+}

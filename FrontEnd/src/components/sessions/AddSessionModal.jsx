@@ -8,13 +8,15 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
   const [status, setStatus] = useState("Pending");
   const [studyDate, setStudyDate] = useState("");
 
+  const [error , setError] = useState("");
+
   useEffect(() => {
     if (editingSession !== null) {
       setSubject(editingSession.subject);
       setTopic(editingSession.topic);
-      setDuration(editingSession.duration);
+      setDuration(editingSession.duration / 60);
       setStatus(editingSession.status);
-      setStudyDate(editingSession.studyDate);
+      setStudyDate(editingSession.studyDate?.split("T")[0]);
     } else {
       setSubject("");
       setTopic("");
@@ -24,8 +26,7 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
     }
   }, [editingSession]);
 
-
-  function handleSubmit(e) {
+async  function handleSubmit(e) {
     e.preventDefault();
 
     if (!subject || !duration || !studyDate) {
@@ -33,17 +34,19 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
       return;
     }
 
+    try{
+      setError("");
     if(editingSession){
       const updatedSession = {
-        id:editingSession.id,
+        id:editingSession._id,
         subject,
         topic,
-        duration,
+        duration: Number(duration) * 60 ,
         status,
         studyDate,
       };
 
-      onUpdate(updatedSession);
+    await onUpdate(updatedSession);
       onClose();
     }  
       else {
@@ -51,16 +54,22 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
         id: Date.now(),
         subject,
         topic,
-        duration,
+        duration: Number(duration) * 60,
         status,
         studyDate,
       };
   
-      onSave(newSession);
+      await onSave(newSession);
       onClose();
     }
-    
+
+  } catch (error){
+    setError(error.response.data.error[0].msg);
   }
+    
+  }  
+
+
 
 
 
@@ -70,6 +79,8 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
         <h2>
           {editingSession ? "Edit Session" : "Add new Session"}
         </h2>
+
+        {error && <p className="error-message">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
