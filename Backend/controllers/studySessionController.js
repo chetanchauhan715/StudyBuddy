@@ -2,7 +2,7 @@ import express from "express";
 import StudySession from "../models/StudySession.js";
 
 export async function createStudySessions(req,res , next){
-    console.log(req.body);
+    // console.log(req.body);
     const {subject , topic , duration , status, studyDate} = req.body;
 
     // if(!subject || !duration || !status){
@@ -38,7 +38,7 @@ export async function createStudySessions(req,res , next){
 
 export async function getStudySessions(req , res, next){
 
-    const {search , status, sort , order, page , limit} = req.query;
+    const {search , status, subject ,  sort , order, page , limit} = req.query;
 
     let query = { user :req.user.userId};
 
@@ -71,6 +71,10 @@ export async function getStudySessions(req , res, next){
 
     if(status){
         query.status = status;
+    }
+
+    if(subject){
+        query.subject = subject;
     }
 
     const pageNumber = Number(page) || 1;
@@ -108,8 +112,14 @@ export async function getStudySessions(req , res, next){
 // --------- study session update functionality 
 
 export async function updateStudySession(req , res, next){
+    // console.log("UPDATE API HIT");
     try{
         const {id} = req.params;
+        const {subject , topic , duration , status , studyDate} = req.body;
+
+        // console.log("BODY:", req.body);
+        // console.log("Duration received:", duration);
+
         const session = await StudySession.findOne({
             _id:id , 
             user:req.user.userId
@@ -122,7 +132,15 @@ export async function updateStudySession(req , res, next){
             });
         } 
 
-        session.status = "Completed";
+        session.subject = subject;
+        session.topic = topic ;
+        session.duration = duration;
+        session.status = status;
+        session.studyDate = studyDate;
+
+        // session.duration = duration;
+        console.log("Session before save:", session);
+
         await session.save();
         return res.status(200).json({
             success:true,
@@ -163,5 +181,46 @@ export async function removeStudySession(req , res, next){
         });
     } catch (error){
         next(error);
+    }
+}
+
+//-------- get statistics data - 
+export async function getStatistics(req , res , next) {
+    try{
+        const baseQuery = {
+            user:req.user.userId
+        };
+
+        const totalSessions = await StudySession.countDocuments( baseQuery);
+
+        const completedSessions = await StudySession.countDocuments( {
+            ...baseQuery , 
+            status:"Completed"
+        });
+
+        const pendingSessions = await StudySession.countDocuments({
+            ...baseQuery, 
+            status:"Pending"
+        });
+
+        const sessions = await StudySession.find(baseQuery);
+        const totalHours = sessions.reduce( (total , session) => total + session.duration , 0);
+
+
+        return res.status(200).json({
+            success:true,
+            message:"Statistics Fetched Succesfully",
+            data:{
+                totalSessions,
+                completedSessions,
+                pendingSessions,
+                totalHours
+            }
+
+        });
+
+    }
+    catch (error){
+        next(error)
     }
 }
