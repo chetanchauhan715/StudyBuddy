@@ -14,10 +14,14 @@ api.interceptors.request.use( (config) => {
 
 });
 
-export async function getSessions(){
-    const response = await api.get("/study-sessions");
+export async function getSessions(filters){
+    const response = await api.get("/study-sessions", 
+        {
+            params:filters
+        }
+    );
 
-    return response.data.data;
+    return response.data;
 }
 
 export async function createSession(sessionData){
@@ -57,5 +61,18 @@ export async function deleteSession(id){
     }
 }
 
+
+// ---------//------------//
+
+export async function  getStatistics() {
+    try{
+        const response = await api.get("/study-sessions/statistics");
+
+        return response.data.data;
+    } catch(error){
+        console.error(error);
+        throw error;
+    }
+}
 
 export default api;
