@@ -10,9 +10,9 @@ function Navbar(){
             <FaBars/>
         </div>
 
-        <div className="navbar-center">
+        {/* <div className="navbar-center">
         <input type="text" placeholder="Search sessions..."/>
-        </div>
+        </div> */}
 
         <div className="navbar-right">
         <FaBell/>
