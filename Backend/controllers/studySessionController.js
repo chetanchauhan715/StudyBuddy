@@ -1,5 +1,6 @@
 import express from "express";
 import StudySession from "../models/StudySession.js";
+import mongoose from "mongoose";
 
 export async function createStudySessions(req,res , next){
     // console.log(req.body);
@@ -186,6 +187,7 @@ export async function removeStudySession(req , res, next){
 
 //-------- get statistics data - 
 export async function getStatistics(req , res , next) {
+    // console.log("✅ getStatistics controller called");
     try{
         const baseQuery = {
             user:req.user.userId
@@ -204,7 +206,91 @@ export async function getStatistics(req , res , next) {
         });
 
         const sessions = await StudySession.find(baseQuery);
+        // console.log(sessions[0]);
         const totalHours = sessions.reduce( (total , session) => total + session.duration , 0);
+
+        const weeklyHours = await StudySession.aggregate([
+            {
+              $match: {
+                user: new mongoose.Types.ObjectId(req.user.userId)
+            }
+            },
+
+            {
+                $project:{
+                    day:{
+                        $dayOfWeek:"$studyDate"
+                    },
+                    duration:1
+                }
+            },
+
+            {
+                $group:{
+                    _id:"$day",
+
+                    totalMinutes:{
+                        $sum:"$duration"
+                    }
+                }
+            },
+
+            {
+                $sort:{
+                    _id:1
+                }
+            }
+
+        ]);
+
+        // console.log(weeklyHours);
+
+        const weekDays = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+];
+
+    const formattedWeeklyHours = weeklyHours.map( (day)=> ({
+        day:weekDays[day._id-1],
+        hours:day.totalMinutes / 60
+    }));
+
+
+    const subjectWiseDistribution = await StudySession.aggregate([
+
+        {
+            $match:{
+                user:new mongoose.Types.ObjectId(req.user.userId)
+            }
+        } ,
+
+        {
+            $group:{
+                _id:"$subject",
+
+                totalMinutes:{
+                    $sum:"$duration"
+                }
+            }
+        },
+        
+        {
+            $sort:{
+                totalMinutes:-1
+            }
+        }
+    ]);
+
+    const formattedSubjectDistribution = subjectWiseDistribution.map((item) => ({
+        subject:item._id,
+        hours:item.totalMinutes / 60 ,
+    }));
+
 
 
         return res.status(200).json({
@@ -214,7 +300,9 @@ export async function getStatistics(req , res , next) {
                 totalSessions,
                 completedSessions,
                 pendingSessions,
-                totalHours
+                totalHours,
+                formattedWeeklyHours,
+                formattedSubjectDistribution
             }
 
         });
