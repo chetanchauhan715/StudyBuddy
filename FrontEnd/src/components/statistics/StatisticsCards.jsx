@@ -5,12 +5,16 @@ import {
   FaCheckCircle,
   FaClock,
   FaHourglassHalf,
+  FaChartLine,
+  FaFire,
+  FaStopwatch,
+  FaStar,
 } from "react-icons/fa";
 
 
 function StatisticsCards({statistics}){
 
-    const statisticsCards = [
+   const statisticsCards = [
   {
     title: "Total Sessions",
     value: statistics.totalSessions,
@@ -21,7 +25,7 @@ function StatisticsCards({statistics}){
     title: "Completed",
     value: statistics.completedSessions,
     icon: <FaCheckCircle />,
-     color: "#22C55E",
+    color: "#22C55E",
   },
   {
     title: "Pending",
@@ -31,9 +35,33 @@ function StatisticsCards({statistics}){
   },
   {
     title: "Total Hours",
-    value: `${statistics.totalHours/60} hrs`,
+    value: `${(statistics.totalHours / 60)} hrs`,
     icon: <FaClock />,
     color: "#7C3AED",
+  },
+  {
+    title: "Completion Rate",
+    value: `${statistics.completionRate}%`,
+    icon: <FaChartLine />,
+    color: "#06B6D4",
+  },
+  {
+    title: "Current Streak",
+    value: `${statistics.currentStreak} Days`,
+    icon: <FaFire />,
+    color: "#EF4444",
+  },
+  {
+    title: "Avg Session",
+    value: `${statistics.averageSessionDuration/ 60} hrs`,
+    icon: <FaStopwatch />,
+    color: "#0EA5E9",
+  },
+  {
+    title: "Favorite Subject",
+    value: statistics.favoriteSubject || "N/A",
+    icon: <FaStar />,
+    color: "#FACC15",
   },
 ];
 
