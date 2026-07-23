@@ -209,6 +209,7 @@ export async function getStatistics(req , res , next) {
         // console.log(sessions[0]);
         const totalHours = sessions.reduce( (total , session) => total + session.duration , 0);
 
+
         const weeklyHours = await StudySession.aggregate([
             {
               $match: {
@@ -292,6 +293,56 @@ export async function getStatistics(req , res , next) {
     }));
 
 
+    const completionRate =  totalSessions === 0 ? 
+    0 :
+    Number(((completedSessions / totalSessions) * 100).toFixed(1));
+
+    const averageSessionDuration = totalSessions === 0 ? 0 : Number((totalHours / totalSessions).toFixed(1));
+
+    const favoriteSubject = formattedSubjectDistribution.length > 0 ? formattedSubjectDistribution[0].subject : "No Data";
+
+    const studyDates = await StudySession.aggregate([
+        {
+            $match:{
+                user: new mongoose.Types.ObjectId(req.user.userId),
+                    status:"Completed"
+            }
+        },
+
+        {
+            $group:{
+            _id:{
+                $dateToString:{
+                    format:"%Y-%m-%d",
+                    date:"$studyDate"
+                }
+            }
+            }
+        },
+
+        {
+            $sort:{
+                _id:-1
+            }
+        }
+    ]);
+
+    let currentStreak = 0;
+    let expectedDate = new Date();
+    expectedDate.setHours(0,0,0,0);
+
+    for(const session of studyDates){
+        const expectedDateString = expectedDate.toISOString().split("T")[0];
+
+        if(session._id === expectedDateString){
+            currentStreak++;
+            expectedDate.setDate(expectedDate.getDate()-1); // setting today date as yesterday at every step 
+            
+        } else {
+            break;
+        }
+    }
+
 
         return res.status(200).json({
             success:true,
@@ -301,6 +352,10 @@ export async function getStatistics(req , res , next) {
                 completedSessions,
                 pendingSessions,
                 totalHours,
+                completionRate,
+                averageSessionDuration,
+                favoriteSubject,
+                currentStreak,
                 formattedWeeklyHours,
                 formattedSubjectDistribution
             }
