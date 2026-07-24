@@ -16,6 +16,11 @@ const UserSchema = new mongoose.Schema(
         password:{
             type:String,
             required:true
+        }, 
+
+        dailyGoal:{
+            type:Number,
+            default:6
         }
     }
 );
