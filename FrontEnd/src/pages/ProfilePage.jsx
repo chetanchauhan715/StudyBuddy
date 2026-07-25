@@ -1,47 +1,164 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { getProfile } from "../services/profileService";
+import { getProfile, updateProfile } from "../services/profileService";
 import ProfileCard from "../components/profilePage/ProfileCard";
 
 import "./profilePage.css";
+import EditProfileModal from "../components/profilePage/EditProfilePageModal";
 
-function ProfilePage(){
+import toast from "react-hot-toast";
 
-    const [profile , setProfile] = useState(null);
+function ProfilePage() {
+  const [profile, setProfile] = useState(null);
 
-    useEffect( ()=> {
+  const [formData, setFormData] = useState({
+    name: "",
+    dailyGoal: 0,
+  });
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-       
-            async function fetchProfile() {
+  function handleEditClick() {
+    setFormData({
+      name: profile.name,
+      dailyGoal: profile.dailyGoal,
+    });
 
-                try{
-                     const data = await getProfile()
-                     setProfile(data);
-                } catch(error){
-                    console.error(error);
-                    throw error;
-                }
-        }
-        
-        fetchProfile();
-    } , []);
+    setIsEditOpen(true);
+  }
 
+  async function handleSave() {
+    try {
+      if (!formData.name.trim()) {
+        alert("Name cannot be empty");
+        return;
+      }
 
-    return(
-        <section className="profile-page-container">
-            <div className="profile-page-header">
-                <h2>Profile</h2>
-                <p>Manage Your Account Information</p>
+      if (formData.dailyGoal < 1) {
+        alert("Daily goal must be greater than 0");
+        return;
+      }
+
+      if (formData.dailyGoal > 24) {
+        alert("Daily goal should not exceed 24 hours");
+        return;
+      }
+
+      setIsSaving(true);
+
+      const updatedUser = await updateProfile(formData);
+
+      setProfile(updatedUser);
+
+      toast.success("Profile updated successfully!");
+
+      setIsEditOpen(false);
+      setIsSaving(false);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update profile.");
+      setIsSaving(false);
+    }
+  }
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const data = await getProfile();
+        setProfile(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchProfile();
+  }, []);
+
+  return (
+    <section className="profile-page-container">
+      <div className="profile-page-header">
+        <h2>Profile</h2>
+        <p>Manage Your Account Information</p>
+      </div>
+
+      {profile && <ProfileCard profile={profile} onEdit={handleEditClick} />}
+
+      <EditProfileModal
+        isOpen={isEditOpen}
+        formData={formData}
+        setFormData={setFormData}
+        onClose={() => setIsEditOpen(false)}
+        onSave={handleSave}
+        saving={isSaving}
+      />
+
+      <section className="upcoming-features-card">
+        <div className="upcoming-header">
+          <h3>🚀 Coming Soon</h3>
+          <p>Features planned for future StudyBuddy updates.</p>
+        </div>
+
+        <div className="feature-list">
+          <div className="feature-item">
+            <span>🤖</span>
+
+            <div>
+              <h4>AI Study Planner</h4>
+              <p>Get personalized study plans based on your learning habits.</p>
             </div>
+          </div>
 
-            {profile && 
-            <ProfileCard 
-            profile={profile}
-            />
-            }
-            
-        </section>
-    )
+          <div className="feature-item">
+            <span>👥</span>
+
+            <div>
+              <h4>Study Groups</h4>
+              <p>Create or join study groups and stay accountable together.</p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <span>📅</span>
+
+            <div>
+              <h4>Calendar Integration</h4>
+              <p>Sync study sessions directly with your Google Calendar.</p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <span>🌙</span>
+
+            <div>
+              <h4>Dark Mode</h4>
+              <p>A comfortable interface for late-night study sessions.</p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <span>🏆</span>
+
+            <div>
+              <h4>Achievements</h4>
+              <p>Unlock milestones and maintain your study consistency.</p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <span>📈</span>
+
+            <div>
+              <h4>Advanced Analytics</h4>
+              <p>
+                Track long-term performance with deeper insights and reports.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </section>
+  );
 }
 
 export default ProfilePage;

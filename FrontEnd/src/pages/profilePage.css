@@ -27,3 +27,67 @@
 
     color:#6B7280;
 }
+
+/* ---------- Future Card ---------- */
+
+.upcoming-features-card{
+    margin-top:40px;
+    background:#ffffff;
+    border-radius:18px;
+    padding:28px 32px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+.upcoming-header{
+    margin-bottom:24px;
+}
+
+.upcoming-header h3{
+    font-size:1.5rem;
+    color:#111827;
+    margin-bottom:6px;
+}
+
+.upcoming-header p{
+    color:#6b7280;
+    font-size:0.95rem;
+}
+
+.feature-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;
+}
+
+.feature-item{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    padding:18px;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    transition:all .25s ease;
+}
+
+.feature-item:hover{
+    transform:translateY(-3px);
+    border-color:#4f46e5;
+    box-shadow:0 6px 18px rgba(79,70,229,.12);
+}
+
+.feature-item span{
+    font-size:1.8rem;
+    flex-shrink:0;
+}
+
+.feature-item h4{
+    margin-bottom:6px;
+    color:#111827;
+    font-size:1rem;
+}
+
+.feature-item p{
+    color:#6b7280;
+    font-size:.9rem;
+    line-height:1.5;
+}
