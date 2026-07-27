@@ -6,64 +6,109 @@ import SubjectPieChart from "../components/dashboard/SubjectPieChart";
 import RecentSessions from "../components/dashboard/RecentSessions";
 import TodayGoalCard from "../components/dashboard/TodayGoalCard";
 
-function Dashboard() {
-  const weeklyData = [
-    { day: "Mon", hours: 2 },
-    { day: "Tue", hours: 3 },
-    { day: "Wed", hours: 5 },
-    { day: "Thu", hours: 1 },
-    { day: "Fri", hours: 2 },
-    { day: "Sat", hours: 4 },
-    { day: "Sun", hours: 3 },
-  ];
+import { getDashboard } from "../services/dashboardService";
 
-  const subjectData = [
-    {
-        subject: "React",
-        hours: 35
+import { useState, useEffect } from "react";
+
+function Dashboard() {
+const [dashboard, setDashboard] = useState({
+    sessions: {
+        totalSessions: 0,
+        totalHours: 0,
+        completedSessions: 0,
+        pendingSessions: 0,
     },
-    {
-        subject: "DSA",
-        hours: 25
+    recentSessions: [],
+    weeklyStudy: [],
+    subjectData: [],
+    todayGoal: {
+        completedToday: 0,
     },
-    {
-        subject: "Node",
-        hours: 20
-    },
-    {
-        subject: "Other",
-        hours: 20
-    }
+    goalHours:0,
+    streak: 0,
+});
+
+useEffect( ()=> {
+
+async function  fetchDashboard() {
+
+  try{
+      const data = await getDashboard();
+  setDashboard(data);
+  } catch(error){
+    console.error(error);
+    
+  }
+  
+}
+fetchDashboard();
+
+},[]);
+
+
+const totalStudyHours = Math.floor(dashboard.sessions.totalHours / 60);
+
+const completedTodayHours =
+    Math.floor(dashboard.todayGoal.completedToday / 60);
+
+
+    // weekly study bar chart --
+     const allDays = [
+  { dayNumber: 1, day: "Sun", hours: 0 },
+  { dayNumber: 2, day: "Mon", hours: 0 },
+  { dayNumber: 3, day: "Tue", hours: 0 },
+  { dayNumber: 4, day: "Wed", hours: 0 },
+  { dayNumber: 5, day: "Thu", hours: 0 },
+  { dayNumber: 6, day: "Fri", hours: 0 },
+  { dayNumber: 7, day: "Sat", hours: 0 },
 ];
+    
+     const formattedWeeklyData = allDays.map( (day) =>{
+      const foundDay = dashboard.weeklyStudy.find(
+        (study) => study.day === day.dayNumber
+      );
+
+      return {
+        day:day.day,
+        hours:foundDay ? foundDay.hours / 60 : 0
+      };
+     });
+   
+// ----- subject pie chart 
+
+     const formattedSubjectData = dashboard.subjectData.map((item) => ({
+      subject:item.subject,
+      hours:item.hours / 60,
+     }));
+
+     console.log(formattedSubjectData);
 
   return (
 <div className="dashboard-container">
     <div className="stats-container">
     <StatsCard
       title="Total Sessions"
-      value="48"
+      value={dashboard.sessions.totalSessions}
       icon={<FaBook />}
-      change="+12%"
     />
     <StatsCard
     title="Study Hours"
-    value="126h"
+    value={`${totalStudyHours} Hours`}
     icon={<FaClock />}
-    change="+8%"
+    
 />
 
 <StatsCard
     title="Completed"
-    value="39"
+    value={dashboard.sessions.completedSessions}
     icon={<FaCheckCircle />}
-    change="+15%"
+    
 />
 
 <StatsCard
     title="Pending"
-    value="9"
+    value={dashboard.sessions.pendingSessions}
     icon={<FaClipboardList />}
-    change="-5%"
 />
 
 </div>
@@ -72,12 +117,12 @@ function Dashboard() {
 
   <div className="study-chart">
   <WeeklyStudyChart 
-weeklyData={weeklyData}/>
+weeklyData={formattedWeeklyData}/>
   </div>
   
   <div className="subject-chart"> 
 <SubjectPieChart 
-subjectData={subjectData}
+subjectData={formattedSubjectData}
 />
   </div>
 
@@ -87,14 +132,16 @@ subjectData={subjectData}
 <div className="foot-container">
 
   <div className="sessions-section">
-  <RecentSessions/>
+  <RecentSessions
+  recentSessions={dashboard.recentSessions}
+  />
   </div>
 
   <div className="goal-section">
   <TodayGoalCard
-goalHours={6}
-completedHours={2.6}
-currentStreak={12}
+goalHours={dashboard.goalHours}
+completedHours={completedTodayHours}
+currentStreak={dashboard.streak}
 />
   </div>
 
