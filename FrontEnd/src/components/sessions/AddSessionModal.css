@@ -16,21 +16,22 @@
 /* ---------- Modal ---------- */
 
 .modal{
-    width: 450px;
-    background: #fff;
+    width: min(450px, 92vw);
+    max-height: 90vh;
 
+    background: #fff;
     border-radius: 16px;
 
-    padding: 2rem;
+    padding: 1.5rem;
+    overflow-y: auto;
 
     box-shadow: 0 10px 35px rgba(0,0,0,.18);
 }
 
-
 /* ---------- Heading ---------- */
 
 .modal h2{
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 
@@ -63,7 +64,7 @@
 
 .form-group input,
 .form-group select{
-    padding: .75rem 1rem;
+    padding: .65rem .9rem;
 
     border: 1px solid #dcdcdc;
     border-radius: 10px;
@@ -81,13 +82,16 @@
 
 
 /* ---------- Buttons ---------- */
-
 .modal-buttons{
+    position: sticky;
+    bottom: 0;
+
+    background: white;
+    padding-top: 1rem;
+
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-
-    margin-top: 1rem;
 }
 
 
