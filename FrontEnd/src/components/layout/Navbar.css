@@ -27,8 +27,8 @@
 .navbar-right{
     display:flex;
     align-items:center;
-    gap:20px;
-    background-color: rgb(252, 174, 174);
+    gap:24px;
+    
 }
 
 .navbar-left svg,
@@ -40,4 +40,10 @@
 .navbar-left svg:hover,
 .navbar-right svg:hover{
     color:#4f46e5;
+    transition:.2s;
+}
+
+.navbar-left svg:hover,
+.navbar-right svg:hover{
+    transform:scale(1.1);
 }

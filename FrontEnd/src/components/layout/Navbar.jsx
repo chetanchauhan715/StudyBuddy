@@ -1,7 +1,11 @@
 import "./Navbar.css";
-import { FaBars , FaBell, FaUserCircle } from "react-icons/fa";
+import { FaBars , FaBell } from "react-icons/fa";
+
+import Avatar from "../common/Avatar";
 
 function Navbar(){
+
+    const user = JSON.parse(localStorage.getItem("user"));
     return(
         
         <nav className="navbar-container">
@@ -10,13 +14,12 @@ function Navbar(){
             <FaBars/>
         </div>
 
-        {/* <div className="navbar-center">
-        <input type="text" placeholder="Search sessions..."/>
-        </div> */}
-
         <div className="navbar-right">
         <FaBell/>
-        <FaUserCircle/>
+        <Avatar
+        name={user?.name}
+        size={42}
+        />
         </div>
 
         </nav>
