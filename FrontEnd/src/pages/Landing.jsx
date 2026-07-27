@@ -1,7 +1,7 @@
 import LandingNavbar from "../components/navbar/LandingNavbar";
 import Hero from "../components/hero/Hero";
 import Features from "../components/features/Features";
-import Footer from "../components/footer/footer";
+import Footer from "../components/footer/Footer";
 import About from "../components/about/About";
 function Landing(){
    
