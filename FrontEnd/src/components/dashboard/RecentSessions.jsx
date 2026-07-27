@@ -30,6 +30,27 @@ import "./RecentSessions.css";
 
 
 function RecentSessions({recentSessions}){
+
+    if (recentSessions.length === 0) {
+    return (
+        <section className="recent-sessions">
+
+            <h2>Recent Study Sessions</h2>
+
+            <div className="empty-state">
+
+                <h3>No Study Sessions Yet 📚</h3>
+
+                <p>
+                    Start your first study session to see it here.
+                </p>
+
+            </div>
+
+        </section>
+    );
+}
+
     return(
         <section className="recent-sessions">
 
