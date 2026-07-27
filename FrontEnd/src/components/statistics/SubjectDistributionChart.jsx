@@ -17,6 +17,30 @@ const COLORS = [
 ];
 
 function SubjectDisctributionChart({ data }) {
+
+  if (!data || data.length === 0) {
+    return (
+        <section className="subject-chart-card">
+
+            <div className="chart-header">
+                <h2>Subject Study Hours</h2>
+                <p>Your study hours across subjects</p>
+            </div>
+
+            <div className="empty-state">
+
+                <h3>No Subject Data 📚</h3>
+
+                <p>
+                    Start studying to see subject distribution.
+                </p>
+
+            </div>
+
+        </section>
+    );
+}
+
   return (
     <section className="subject-chart-card">
       <div className="chart-header">

@@ -12,6 +12,29 @@ import "./WeeklyHoursChart.css";
 
 
 function WeeklyHoursChart({data}){
+
+    if (!data || data.length === 0) {
+    return (
+        <section className="weekly-chart-card">
+
+            <div className="chart-header">
+                <h2>Weekly Study Hours</h2>
+                <p>Your study hours across the week</p>
+            </div>
+
+            <div className="empty-state">
+
+                <h3>No Weekly Data 📈</h3>
+
+                <p>
+                    Complete study sessions to see your weekly progress.
+                </p>
+
+            </div>
+
+        </section>
+    );
+}
     return (
        <section className="weekly-chart-card">
 
