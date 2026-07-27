@@ -11,14 +11,20 @@
 
 }
 .sidebar a{
+    display:flex;
+    align-items:center;
+    gap:14px;
+
     color:white;
     text-decoration:none;
-    align-items:center;
-    gap:12px;
+
+    padding:14px 16px;
+
+    transition:0.2s;
 }
 
 .sidebar a:hover{
-    background:#312e81;
+    background:#1f2937;
     border-radius:8px;
 }
 
@@ -28,6 +34,7 @@
 
 .sidebar a.active{
     background:#4f46e5;
+    font-weight:600;
     border-radius:8px;
 }
 
@@ -47,11 +54,33 @@ main{
 }
 
 .logo{
-    margin-bottom:2rem;
+    display:flex;
+    justify-content:center;
+
+    margin-bottom:2.5rem;
 }
 
 .logout-btn{
     margin-top:auto;
-    
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:14px 16px;
+
+    background:none;
+    border:none;
+
+    color:white;
+
+    cursor:pointer;
+
+    border-radius:8px;
+
+    transition:.2s;
 }
 
+.logout-btn:hover{
+    background:#dc2626;
+}
