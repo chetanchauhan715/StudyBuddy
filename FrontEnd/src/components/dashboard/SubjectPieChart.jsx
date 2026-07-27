@@ -7,6 +7,8 @@ import {
     Legend
 } from "recharts";
 
+import "./SubjectPieChart.css";
+
 
 function SubjectPieChart({subjectData}){
 
