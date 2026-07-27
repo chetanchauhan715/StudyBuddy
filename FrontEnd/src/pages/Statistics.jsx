@@ -19,11 +19,14 @@ function Statistics(){
 
     });
 
+    const[loading , setLoading]=useState(true);
+
 
     useEffect( ()=>{
         async function StatisticsData() {
             const Data = await getStatistics()
             setStatistics(Data);
+            setLoading(false);
         }
 
         StatisticsData();
@@ -31,6 +34,14 @@ function Statistics(){
        
     } , []);
 
+
+    if (loading) {
+    return (
+        <div className="loading-state">
+            Loading Statistics...
+        </div>
+    );
+}
 
     return(
 

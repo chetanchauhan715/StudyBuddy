@@ -18,6 +18,8 @@ function ProfilePage() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
+  const[loading , setLoading]= useState(true);
+
   function handleEditClick() {
     setFormData({
       name: profile.name,
@@ -66,6 +68,7 @@ function ProfilePage() {
       try {
         const data = await getProfile();
         setProfile(data);
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -73,6 +76,15 @@ function ProfilePage() {
 
     fetchProfile();
   }, []);
+
+
+  if (loading) {
+    return (
+        <div className="loading-state">
+            Loading profile...
+        </div>
+    );
+}
 
   return (
     <section className="profile-page-container">

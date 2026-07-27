@@ -28,6 +28,8 @@ const [dashboard, setDashboard] = useState({
     streak: 0,
 });
 
+const[loading , setLoading] = useState(true);
+
 useEffect( ()=> {
 
 async function  fetchDashboard() {
@@ -35,6 +37,7 @@ async function  fetchDashboard() {
   try{
       const data = await getDashboard();
   setDashboard(data);
+  setLoading(false);
   } catch(error){
     console.error(error);
     
@@ -82,6 +85,15 @@ const completedTodayHours =
      }));
 
      console.log(formattedSubjectData);
+
+
+     if (loading) {
+    return (
+        <div className="loading-state">
+            Loading Dashboard...
+        </div>
+    );
+}
 
   return (
 <div className="dashboard-container">

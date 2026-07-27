@@ -55,6 +55,8 @@ function StudySessions(){
   const [currentPage , setCurrentPage] = useState(1);
   const [totalPages , setTotalPages] = useState(0);
 
+  const [loading , setLoading]= useState(true);
+
   function onAddSession(){
     setEditingSession(null);
     setIsModalOpen(true);
@@ -159,6 +161,7 @@ async function handleUpdate(updatedSession){
       setSessions(response.data);
       setCurrentPage(response.currentPage);
       setTotalPages(response.totalPages);
+      setLoading(false);
     }
 
     fetchedSessions();
@@ -166,6 +169,13 @@ async function handleUpdate(updatedSession){
   } , [search , status, subject , sort, currentPage]);
 
 
+  if (loading) {
+    return (
+        <div className="loading-state">
+            Loading StudySessions...
+        </div>
+    );
+}
 
     return(
 
