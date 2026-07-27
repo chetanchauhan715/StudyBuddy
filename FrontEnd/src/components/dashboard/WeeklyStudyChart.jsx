@@ -12,6 +12,47 @@ import "./WeeklyStudyChart.css";
 
 function WeeklyStudyChart({weeklyData}){
 
+
+    const hasStudyData = weeklyData?.some(
+    (item) => item.hours > 0
+);
+
+if (!hasStudyData) {
+    return (
+        <section className="weekly-study-chart">
+
+            <h3>Weekly Study Hours</h3>
+
+            <div className="empty-state">
+                <h3>No Weekly Data 📈</h3>
+
+                <p>
+                    Complete your first study session to unlock weekly insights.
+                </p>
+            </div>
+
+        </section>
+    );
+}
+
+    if (!weeklyData || wee === 0) {
+  return (
+    <section className="weekly-chart-card">
+
+      <div className="chart-header">
+        <h2>Weekly Study Hours</h2>
+        <p>Your study hours across the week</p>
+      </div>
+
+      <div className="empty-state">
+        <h3>No Weekly Data 📈</h3>
+        <p>Complete your first study session to unlock weekly insights.</p>
+      </div>
+
+    </section>
+  );
+}
+
    
     return(
         <section className="weekly-study-chart">
