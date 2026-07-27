@@ -44,13 +44,19 @@
 
 .footer-links a,
 .footer-contact a{
-    color: #D1D5DB;
-    transition: color .2s ease;
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    color:#D1D5DB;
+    transition:.2s ease;
 }
 
 .footer-links a:hover,
 .footer-contact a:hover{
     color: #6366F1;
+    transform:translateX(3px);
+
 }
 
 .footer-bottom{

@@ -10,9 +10,10 @@ function Footer() {
 
         <div className="footer-brand">
           <Logo />
-          <p>Track your study sessions,
-analyze your progress,
-and build consistent learning habits.</p>
+          <p>
+Plan your study sessions, track your progress,
+and build consistent learning habits with StudyBuddy.
+</p>
         </div>
 
         <div className="footer-links">
@@ -22,25 +23,35 @@ and build consistent learning habits.</p>
           <a href="#contact">Contact</a>
         </div>
 
-        <div className="footer-contact">
-        <h3>Connect</h3>
+       <div className="footer-contact">
+  <h3>Connect</h3>
 
-          <a href="mailto:your@email.com">Email</a>
+  <a href="mailto:chetan99256@gmail.com">
+    📧 Email
+  </a>
 
-          <a
-            href="https://github.com/..."
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-        </div>
+  <a
+    href="https://github.com/chetanchauhan715"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    💻 GitHub
+  </a>
+
+  <a
+    href="https://www.linkedin.com/in/chetan-chauhan-879746231/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    💼 LinkedIn
+  </a>
+</div>
 
       </div>
 
       <div className="footer-bottom">
-        <span>© 2026 StudyBuddy</span>
-      </div>
+  © ❤️ Built with love by Chetan Chauhan
+</div>
     </footer>
   );
 }
