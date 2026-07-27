@@ -68,7 +68,10 @@ export async function login(req,res, next){
             success:true,
             message:"Login Succesful",
             data:{
-                token
+                token,
+                user:{
+                    name:existingUser.name
+                }
             }
 
            }); // login 

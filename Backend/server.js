@@ -5,6 +5,8 @@ import cors from "cors";
 
 import userRoutes from "./routes/userRoutes.js";
 import studySessionRoutes from "./routes/studySessionRoutes.js"; 
+import profileRoutes from "./routes/profileRoutes.js"
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -15,6 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 
+
 // database connection ----
 connectDB();
 
@@ -23,6 +26,10 @@ connectDB();
 app.use(userRoutes); // user routes - sign up & login 
 
 app.use(studySessionRoutes); // - crud routes (Study session)
+
+app.use(profileRoutes); // - profile routes 
+
+app.use(dashboardRoutes) // - dashboard routes 
 
 app.use(errorMiddleware);  // global error middleware 
 

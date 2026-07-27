@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import StudySession from "../models/StudySession.js";
+import User from "../models/User.js";
 
 export async function getDashboard(req , res , next ) {
    
@@ -169,6 +170,8 @@ export async function getDashboard(req , res , next ) {
         }
     }
 
+    const user = await User.findById(userId).select("dailyGoal");
+    
     // console.log(sessions);
     return res.status(200).json({
         success:true,
@@ -189,6 +192,7 @@ export async function getDashboard(req , res , next ) {
                 completedToday:0,
             },
 
+            goalHours:user?.dailyGoal || 6,
             streak
         }
     });
