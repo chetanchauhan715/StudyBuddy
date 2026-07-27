@@ -1,35 +1,35 @@
 import RecentSessionCard from "./RecentSessionCard";
 import "./RecentSessions.css";
 
-const recentSessions = [
-    {
-        id: 1,
-        subject: "React",
-        topic: "React Hooks",
-        duration: "2h",
-        date: "Today",
-        status: "Completed",
-    },
-    {
-        id: 2,
-        subject: "DSA",
-        topic: "Sliding Window",
-        duration: "1.5h",
-        date: "Yesterday",
-        status: "Pending",
-    },
-    {
-        id: 3,
-        subject: "Node.js",
-        topic: "JWT Authentication",
-        duration: "3h",
-        date: "2 days ago",
-        status: "Completed",
-    },
-];
+// const recentSessions = [
+//     {
+//         id: 1,
+//         subject: "React",
+//         topic: "React Hooks",
+//         duration: "2h",
+//         date: "Today",
+//         status: "Completed",
+//     },
+//     {
+//         id: 2,
+//         subject: "DSA",
+//         topic: "Sliding Window",
+//         duration: "1.5h",
+//         date: "Yesterday",
+//         status: "Pending",
+//     },
+//     {
+//         id: 3,
+//         subject: "Node.js",
+//         topic: "JWT Authentication",
+//         duration: "3h",
+//         date: "2 days ago",
+//         status: "Completed",
+//     },
+// ];
 
 
-function RecentSessions(){
+function RecentSessions({recentSessions}){
     return(
         <section className="recent-sessions">
 
@@ -38,7 +38,7 @@ function RecentSessions(){
             <div className="recent-session-list">
             {recentSessions.map( (session) => (
                 <RecentSessionCard 
-                key={session.id}
+                key={session._id}
                 session={session} />
             ))}
             </div>

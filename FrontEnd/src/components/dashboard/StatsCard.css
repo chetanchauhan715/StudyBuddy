@@ -2,12 +2,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: #fff;
-    border-radius: 12px;
     padding: 20px;
 
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: .3s;
 }
 
 .stats-icon {
@@ -30,10 +26,4 @@
 .stats-card small {
     color: #22C55E;
     font-weight: 600;
-}
-
-.stats-card:hover {
-
-    transform: translateY(-5px);
-
 }

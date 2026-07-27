@@ -11,6 +11,8 @@ import {
 import "./WeeklyStudyChart.css";
 
 function WeeklyStudyChart({weeklyData}){
+
+   
     return(
         <section className="weekly-study-chart">
             <h3>Weekly Study Hours</h3>

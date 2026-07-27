@@ -36,9 +36,6 @@ function SubjectPieChart({subjectData}){
                         </Pie>
                         <Tooltip/>
                         <Legend
-                        // layout="vertical"
-                        // verticalAlign="middle"
-                        // align="right"
                         />
                     </PieChart>
                 </ResponsiveContainer>

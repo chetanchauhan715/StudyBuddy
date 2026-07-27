@@ -1,6 +1,16 @@
 import "./RecentSessionCard.css";
 
 function RecentSessionCard({session}){
+
+    const studyHours = session.duration / 60;
+
+    const formattedDate = new Date(session.studyDate).toLocaleDateString(
+        "en-IN",
+        {
+            day:"numeric",
+            month:"short"
+        }
+    );
     return(
         <article className="session-card">
 
@@ -13,11 +23,11 @@ function RecentSessionCard({session}){
                 }>{session.status}</span>
             </div>
 
-            <p>{session.topic}</p>
+           <p>{session.topic || "No topic added"}</p>
 
             <div className="session-footer">
-                <span>{session.date}</span>
-                <span>{session.duration}</span>
+                <span>{formattedDate}</span>
+                <span>{studyHours}Hours</span>
             </div>
         </article>
     )

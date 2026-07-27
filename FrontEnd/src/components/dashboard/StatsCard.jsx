@@ -1,7 +1,7 @@
 import "./StatsCard.css";
 function StatsCard ({title , value , icon , change}){
     return (
-        <div className="stats-card">
+        <div className="stats-card app-card">
            
            <span className="stats-icon">
             {icon}
