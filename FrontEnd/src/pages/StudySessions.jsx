@@ -55,6 +55,8 @@ function StudySessions(){
   const [currentPage , setCurrentPage] = useState(1);
   const [totalPages , setTotalPages] = useState(0);
 
+  const[debouncedSearch , setDebouncedSearch] = useState("");
+
   const [loading , setLoading]= useState(true);
 
   function onAddSession(){
@@ -138,7 +140,7 @@ async function handleUpdate(updatedSession){
   useEffect( () => {
 
     const filters = {
-      search,
+      search:debouncedSearch,
     };
 
     if(status !== "All Status"){
@@ -157,6 +159,7 @@ async function handleUpdate(updatedSession){
     async function  fetchedSessions() {
       const response = await getSessions(filters);
       console.log(response);
+      console.log("Searching",  debouncedSearch);
 
       setSessions(response.data);
       setCurrentPage(response.currentPage);
@@ -166,7 +169,19 @@ async function handleUpdate(updatedSession){
 
     fetchedSessions();
 
-  } , [search , status, subject , sort, currentPage]);
+  } , [debouncedSearch , status, subject , sort, currentPage]);
+
+
+  useEffect( ()=>{
+    const timer = setTimeout(() => {
+      console.log("Debounced:", search);
+      setDebouncedSearch(search);
+    }, 300);
+
+     return () =>{
+        clearTimeout(timer)
+      }
+  } ,[search]);
 
 
   if (loading) {
