@@ -9,7 +9,15 @@ function SessionRow({ session, onEdit, onDelete }) {
 
       <td>{Math.ceil(session.duration / 60)} hrs</td>
 
-      <td>{session.status}</td>
+      <span
+        className={
+          session.status === "Completed"
+            ? "status status-completed"
+            : "status status-pending"
+        }
+      >
+        {session.status}
+      </span>
 
       <td>
         {new Date(session.studyDate).toLocaleDateString("en-GB", {
@@ -20,17 +28,11 @@ function SessionRow({ session, onEdit, onDelete }) {
       </td>
 
       <td className="action-cell">
-        <button
-          className="edit-btn"
-          onClick={() => onEdit(session)}
-        >
+        <button className="edit-btn" onClick={() => onEdit(session)}>
           ✏ Edit
         </button>
 
-        <button
-          className="delete-btn"
-          onClick={() => onDelete(session._id)}
-        >
+        <button className="delete-btn" onClick={() => onDelete(session._id)}>
           🗑 Delete
         </button>
       </td>

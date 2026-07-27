@@ -33,11 +33,12 @@
     font-size: 1.2rem;
     border-radius: 12px;
     padding: 12px;
+    background-color: rgb(214, 214, 241);
     
 }
 
 .header-right button:hover{
     cursor: pointer;
-    background-color: rgb(147, 147, 252);
+    background-color: rgb(146, 146, 248);
     
 }
