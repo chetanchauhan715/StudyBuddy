@@ -84,7 +84,7 @@ const completedTodayHours =
       hours:item.hours / 60,
      }));
 
-     console.log(formattedSubjectData);
+    //  console.log(formattedSubjectData);
 
 
      if (loading) {

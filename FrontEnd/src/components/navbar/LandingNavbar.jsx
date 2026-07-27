@@ -1,30 +1,37 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logo from "../logo/Logo";
-import "./LandingNavbar.css"
+import "./LandingNavbar.css";
 
-function LandingNavbar(){
-    return (
+function LandingNavbar() {
+  return (
+    <nav className="navbar-container">
+      <div className="navbar-left">
+        <Logo />
+      </div>
 
-        <nav className="navbar-container">
-        <div className="navbar-left">
-            <Logo/>
-        </div>
+      <div className="navbar-center">
+        <ul>
 
-        <div className="navbar-center">
-            <ul>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
+          <li>
+            <a href="#features">Features</a>
+          </li>
 
-        <div className="navbar-right">
-            <Link to="/login">Login</Link>
-        </div>
+          <li>
+            <a href="#about">About</a>
+          </li>
+          
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
 
-        </nav>
+        </ul>
+      </div>
 
-    )
+      <div className="navbar-right">
+        <Link to="/login">Login</Link>
+      </div>
+    </nav>
+  );
 }
 
 export default LandingNavbar;

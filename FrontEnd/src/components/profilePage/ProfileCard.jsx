@@ -1,6 +1,6 @@
 import "./ProfileCard.css";
 
-function ProfileCard({ profile }) {
+function ProfileCard({ profile , onEdit}) {
     return (
         <section className="profile-card">
 
@@ -31,7 +31,7 @@ function ProfileCard({ profile }) {
         </p>
 
         <h3 className="info-value">
-            {profile.dailyGoal} Sessions 
+            {profile.dailyGoal} Hours 
         </h3>
 
     </div>
@@ -54,7 +54,7 @@ function ProfileCard({ profile }) {
 
             <div className="profile-actions">
 
-                <button className="edit-profile-btn">
+                <button className="edit-profile-btn"  onClick={onEdit}>
                     Edit Profile
                 </button>
 

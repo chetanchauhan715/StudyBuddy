@@ -1,7 +1,7 @@
 import { Link , useNavigate} from "react-router-dom";
 import "../pages/Login.css";
 import { useState } from "react";
-
+import Logo from "../components/logo/Logo";
 
 function Login() {
   
@@ -28,7 +28,7 @@ const handleSubmit = async (e) =>{
   // console.log(formData);
 
   try{
-  const response = await fetch("http://localhost:3000/login",{
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/login`,{
     method:"POST",
 
     headers:{
@@ -44,6 +44,9 @@ const handleSubmit = async (e) =>{
 
     console.log(data.message);
     localStorage.setItem("token", data.data.token);
+
+    localStorage.setItem("user" , JSON.stringify( data.data.user));
+
     navigate("/dashboard");
 }else{
 
@@ -62,8 +65,10 @@ const handleSubmit = async (e) =>{
 
   return (
     <>
-      {/* <Logo/> */}
+      
       <div className="login-container">
+
+        
         <h2> Welcome Back </h2>
         <p>Login to Continue</p>
 

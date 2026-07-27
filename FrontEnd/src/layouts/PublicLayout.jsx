@@ -1,9 +1,14 @@
 import { Outlet } from "react-router-dom";
-import Logo from "../components/logo/Logo"
+import Logo from "../components/logo/Logo";
+
+import "./PublicLayout.css";
+
 function PublicLayout(){
     return (
         <>
-        <Logo/>
+        <div className="auth-logo">
+        <Logo />
+      </div>
         <Outlet />
         
 

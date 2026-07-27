@@ -5,13 +5,25 @@ import Login from "./pages/Login";
 import Landing from "./pages/Landing"
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
-import DashboardLayout from "./layouts/DashboardLayout";
+import AppLayout from "./layouts/AppLayout";
+import StudySessions from "./pages/StudySessions"
+import Statistics from "./pages/Statistics";
+import ProfilePage from "./pages/ProfilePage";
+
+import  {Toaster} from "react-hot-toast";
 
 function App(){
   return (
     
+    <>
+    <Toaster
+    position="top-right"
+  toastOptions={{
+    duration: 3000,
+  }}
+    />
 
-      <Routes>
+    <Routes>
 
     <Route
         element={<PublicLayout />}
@@ -38,12 +50,27 @@ function App(){
 
     <Route element={<ProtectedRoute/>}>
 
-      <Route element={<DashboardLayout/>}>  
+      <Route element={<AppLayout/>}>  
       
       <Route 
 
       path="dashboard"
       element={<Dashboard/>}/>
+
+      <Route 
+      path="study-sessions"
+      element={<StudySessions/>} 
+      />
+
+      <Route 
+      path="statistics"
+      element={<Statistics/>}
+      />
+
+      <Route 
+      path="profile"
+      element={<ProfilePage/>}
+      />
 
       </Route>
 
@@ -51,6 +78,8 @@ function App(){
 
 
 </Routes>
+
+</>
     
   );
 }

@@ -1,6 +1,9 @@
 import { Link ,useNavigate } from "react-router-dom";
 import "./Signup.css";
 import { useState } from "react";
+import Logo from "../components/logo/Logo";
+
+
 function Signup() {
 
   const navigate = useNavigate();
@@ -40,7 +43,7 @@ function Signup() {
 
     // API call 
     try{
-      const response = await fetch("http://localhost:3000/signup" , {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/signup` , {
         method:"POST" ,
 
         headers:{
@@ -69,6 +72,9 @@ function Signup() {
 
   return (
       <div className="signup-container">
+
+        
+        
         <h2> Create Account </h2>
         <p>Join StudyBuddy today</p>
 
