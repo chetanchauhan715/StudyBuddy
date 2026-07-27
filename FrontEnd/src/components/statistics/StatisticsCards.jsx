@@ -35,7 +35,7 @@ function StatisticsCards({statistics}){
   },
   {
     title: "Total Hours",
-    value: `${(statistics.totalHours / 60)} hrs`,
+    value: `${(statistics.totalHours / 60).toFixed(1)} hrs`,
     icon: <FaClock />,
     color: "#7C3AED",
   },
@@ -53,7 +53,7 @@ function StatisticsCards({statistics}){
   },
   {
     title: "Avg Session",
-    value: `${statistics.averageSessionDuration/ 60} hrs`,
+    value: `${(statistics.averageSessionDuration/ 60).toFixed(1)} hrs`,
     icon: <FaStopwatch />,
     color: "#0EA5E9",
   },

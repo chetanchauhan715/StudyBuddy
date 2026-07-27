@@ -2,7 +2,12 @@ import "./StatisticsCard.css";
 
 function StatisticsCard({ title, value, icon, color }) {
   return (
-    <div className="statistics-card">
+    <div className="statistics-card"
+    style={{
+      color:color,
+      backgroundColor:`${color}18`
+    }}
+    >
 
       <div
         className="statistics-icon"

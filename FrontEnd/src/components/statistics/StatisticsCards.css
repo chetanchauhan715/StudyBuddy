@@ -6,8 +6,7 @@
 
     gap:1.5rem;
 
-    margin-top:2rem;
-    gap:20px;
+    gap:24px;
     padding: 20px;
 
     
@@ -26,8 +25,8 @@
 
     border-radius:16px;
 
-    box-shadow:0 6px 18px rgba(0,0,0,.08);
-
+    
+    box-shadow:0 6px 18px rgba(15,23,42,.06);
     transition:.25s ease;
 }
 
@@ -40,8 +39,8 @@
 
 .statistics-icon{
 
-    width:60px;
-    height:60px;
+    width:56px;
+    height:56px;
 
     border-radius:50%;
 
@@ -63,19 +62,16 @@
 }
 
 .statistics-title{
-
-    font-size:.9rem;
-
-    color:#777;
-
-    margin:0;
+    font-size:.85rem;
+    font-weight:500;
+    color:#6B7280;
 }
 
 .statistics-value{
 
     margin-top:.35rem;
 
-    font-size:1.9rem;
+    font-size:1.75rem;
 
     font-weight:700;
 

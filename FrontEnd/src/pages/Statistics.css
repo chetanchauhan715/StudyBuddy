@@ -1,0 +1,54 @@
+.statistics-page{
+   
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+} 
+
+/* ---------- Header ---------- */
+
+.statistics-header{
+    padding:12px;
+}
+
+.statistics-header h1{
+    font-size:2.3rem;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:6px;
+}
+
+.statistics-header p{
+    font-size:15px;
+    color:#6B7280;
+}
+
+/* ---------- Charts Layout ---------- */
+
+.statistics-charts{
+    display:flex;
+    gap:24px;
+    padding:0 30px 30px;
+}
+
+.left-chart{
+    flex:2;
+}
+
+.right-chart{
+    flex:1;
+}
+
+/* Responsive */
+
+@media (max-width: 1000px){
+
+    .statistics-charts{
+        flex-direction: column;
+    }
+
+    .statistics-charts > *{
+        flex: 1;
+    }
+
+}
