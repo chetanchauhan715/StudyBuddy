@@ -40,7 +40,7 @@ export async function signup(req,res , next){
 
 
 export async function login(req,res, next){
-    console.log("Login API Hit");
+   
     const {email , password} = req.body;
 
     try{

@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js";
 import studySessionRoutes from "./routes/studySessionRoutes.js"; 
 import profileRoutes from "./routes/profileRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import subjectRoutes from "./routes/subjectRoutes.js"
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -30,6 +31,8 @@ app.use(studySessionRoutes); // - crud routes (Study session)
 app.use(profileRoutes); // - profile routes 
 
 app.use(dashboardRoutes) // - dashboard routes 
+
+app.use(subjectRoutes) // -- subject routes 
 
 app.use(errorMiddleware);  // global error middleware 
 
