@@ -52,7 +52,9 @@ export async function getDashboard(req , res , next ) {
 
     const recentSessions = await StudySession.find({
         user:userId,
-    }).sort({
+    })
+    .populate("subject")
+    .sort({
         createdAt:-1
     }).limit(5);
 
@@ -103,9 +105,23 @@ export async function getDashboard(req , res , next ) {
         }, 
 
         {
+            $lookup:{
+                from:"subjects",
+                localField:"_id",
+                foreignField:"_id",
+                as:"subjectInfo"
+            }
+        },
+
+        {
+            $unwind:"$subjectInfo"
+        },
+
+
+        {
             $project:{
                 _id:0,
-                subject:"$_id",
+                subject:"$subjectInfo.name",
                 hours:1
             }
         }

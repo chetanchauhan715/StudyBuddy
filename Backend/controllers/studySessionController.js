@@ -1,14 +1,10 @@
 import express from "express";
 import StudySession from "../models/StudySession.js";
 import mongoose from "mongoose";
+import Subject from "../models/Subject.js";
 
 export async function createStudySessions(req,res , next){
-    // console.log(req.body);
     const {subject , topic , duration , status, studyDate} = req.body;
-
-    // if(!subject || !duration || !status){
-    //     return res.status(400).send("Please fill all the requied Fields");
-    // }
 
     const newStudySession = {
         subject , 
@@ -52,22 +48,27 @@ export async function getStudySessions(req , res, next){
     };
 
     if(search){
-        query.$or = [
+        const matchingSubjects = await Subject.find({
+            name:{
+                $regex:search,
+                $options:"i"
+            }
+        });
+        const subjectIds = matchingSubjects.map( (subject)=> subject._id);
+
+        query.$or =[
             {
-                subject:{
+                topic:{
                     $regex:search,
                     $options:"i"
                 }
             },
-
             {
-            topic:{
-                $regex:search,
-                $options:"i"
-             }
-
+                subject:{
+                    $in:subjectIds
+                }
             }
-        ]
+        ];
     }
 
     if(status){
@@ -92,9 +93,12 @@ export async function getStudySessions(req , res, next){
 
 
        const sessions = await StudySession.find(query)
+       .populate("subject")
        .sort(sortQuery)
        .skip(skip)
        .limit(limitNumber);
+
+
        return res.status(200).json({
         success:true, 
         message:"Study Sessions Fetched Succesfully",
@@ -113,13 +117,11 @@ export async function getStudySessions(req , res, next){
 // --------- study session update functionality 
 
 export async function updateStudySession(req , res, next){
-    // console.log("UPDATE API HIT");
     try{
         const {id} = req.params;
         const {subject , topic , duration , status , studyDate} = req.body;
 
-        // console.log("BODY:", req.body);
-        // console.log("Duration received:", duration);
+        
 
         const session = await StudySession.findOne({
             _id:id , 
@@ -279,6 +281,27 @@ export async function getStatistics(req , res , next) {
                 }
             }
         },
+
+        {
+            $lookup:{
+                from:"subjects",
+                localField:"_id",
+                foreignField:"_id",
+                as:"subjectInfo"
+            }
+        },
+
+        {
+            $unwind:"$subjectInfo"
+        },
+
+        {
+            $project:{
+                _id:0,
+                subject:"$subjectInfo.name",
+                totalMinutes:1
+            }
+        },
         
         {
             $sort:{
@@ -288,7 +311,7 @@ export async function getStatistics(req , res , next) {
     ]);
 
     const formattedSubjectDistribution = subjectWiseDistribution.map((item) => ({
-        subject:item._id,
+        subject:item.subject,
         hours:item.totalMinutes / 60 ,
     }));
 
