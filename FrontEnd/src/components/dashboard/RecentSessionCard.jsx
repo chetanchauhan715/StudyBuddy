@@ -1,6 +1,7 @@
 import "./RecentSessionCard.css";
 
 function RecentSessionCard({session}){
+    console.log(session);
 
     const studyHours = session.duration / 60;
 
@@ -15,7 +16,7 @@ function RecentSessionCard({session}){
         <article className="session-card">
 
             <div className="session-header">
-                <h3>{session.subject}</h3>
+                <h3>{session.subject.name}</h3>
                 <span className={
                     session.status === "Completed"?
                     "completed":

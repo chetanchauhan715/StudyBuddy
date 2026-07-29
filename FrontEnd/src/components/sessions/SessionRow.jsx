@@ -3,7 +3,7 @@ import "./SessionTable.css";
 function SessionRow({ session, onEdit, onDelete }) {
   return (
     <tr>
-      <td>{session.subject}</td>
+      <td>{session.subject.name}</td>
 
       <td>{session.topic}</td>
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./AddSessionModal.css";
 
-function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
+function AddSessionModal({ onClose, onSave, editingSession , onUpdate, subjectOptions}) {
   const [subject, setSubject] = useState("");
   const [topic, setTopic] = useState("");
   const [duration, setDuration] = useState("");
@@ -12,7 +12,7 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate}) {
 
   useEffect(() => {
     if (editingSession !== null) {
-      setSubject(editingSession.subject);
+      setSubject(editingSession.subject._id);
       setTopic(editingSession.topic);
       setDuration(editingSession.duration / 60);
       setStatus(editingSession.status);
@@ -72,7 +72,6 @@ async  function handleSubmit(e) {
 
 
 
-
   return (
     <section className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -90,11 +89,15 @@ async  function handleSubmit(e) {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
             >
-              <option value="">Select Subject</option>
-              <option>React</option>
-              <option>DSA</option>
-              <option>Node.js</option>
-              <option>JavaScript</option>
+              <option value={"All Subjects"}>Select Subject</option>
+              {subjectOptions.map( (subject)=>(
+                <option
+                key={subject._id}
+                value={subject._id}
+                >
+                  {subject.name}
+                </option>
+              ))}
             </select>
           </div>
 

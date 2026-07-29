@@ -9,6 +9,7 @@ import AppLayout from "./layouts/AppLayout";
 import StudySessions from "./pages/StudySessions"
 import Statistics from "./pages/Statistics";
 import ProfilePage from "./pages/ProfilePage";
+import Settings from "./pages/Settings";
 
 import  {Toaster} from "react-hot-toast";
 
@@ -70,6 +71,11 @@ function App(){
       <Route 
       path="profile"
       element={<ProfilePage/>}
+      />
+
+      <Route 
+      path="settings"
+      element={<Settings/>}
       />
 
       </Route>

@@ -1,6 +1,8 @@
 import "./StudySessionFilters.css";
 
 function StudySessionFilters( {subjectOptions , statusOptions, sortOptions , search , setSearch , status , setStatus, subject , setSubject, sort , setSort}){
+
+    console.log(subjectOptions);
     return (
         <section className="filters-container">
 
@@ -32,11 +34,17 @@ function StudySessionFilters( {subjectOptions , statusOptions, sortOptions , sea
             value={subject}
             onChange={ (e)=> setSubject(e.target.value)}
             >
+                <option value="All Subjects">All Subjects</option>
+
                 {subjectOptions.map( (subject) => (
+
                     <option
-                     key={subject}
-                     value={subject}
-                    >{subject}</option>
+                     key={subject._id}
+                     value={subject._id}
+                    >
+                        {subject.name}
+
+                    </option>
                 ))}
             </select>
 

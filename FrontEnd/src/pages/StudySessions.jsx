@@ -1,4 +1,4 @@
-import { useEffect, useState, useTransition } from "react";
+import { use, useEffect, useState, useTransition } from "react";
 import SessionHeader from "../components/sessions/SessionHeader";
 import SessionTable from "../components/sessions/SessionTable";
 import StudySessionFilters from "../components/sessions/StudySessionFilters";
@@ -7,15 +7,8 @@ import AddSessionModal from "../components/sessions/AddSessionModal";
 import { getSessions , createSession , updateSession , deleteSession} from "../services/studySessionService";
 import DeleteConfirmationModal from "../components/sessions/DeleteConfirmationModal";
 import Pagination from "../components/pagination/Pagination";
+import { getSubjects } from "../services/subjectService";
 
-
-const subjectOptions = [
-    "All Subjects",
-    "React",
-    "DSA",
-    "Node.js",
-    "JavaScript"
-  ];
   
   const statusOptions = [
     "All Status",
@@ -58,6 +51,8 @@ function StudySessions(){
   const[debouncedSearch , setDebouncedSearch] = useState("");
 
   const [loading , setLoading]= useState(true);
+
+  const[subjectOptions , setSubjectOptions]= useState(["All Subjects"]);
 
   function onAddSession(){
     setEditingSession(null);
@@ -136,7 +131,24 @@ async function handleUpdate(updatedSession){
 
   }
 
+  // subjects ----
+  async function fetchSubjects(params) {
+    const subjectData = await getSubjects();
+    console.log(subjectData);
+   setSubjectOptions(subjectData.subjects);
+  };
+
+   
   
+
+
+  useEffect(()=>{
+    fetchSubjects();
+  } , []);
+
+  
+  
+
   useEffect( () => {
 
     const filters = {
@@ -158,8 +170,6 @@ async function handleUpdate(updatedSession){
 
     async function  fetchedSessions() {
       const response = await getSessions(filters);
-      console.log(response);
-      console.log("Searching",  debouncedSearch);
 
       setSessions(response.data);
       setCurrentPage(response.currentPage);
@@ -228,6 +238,7 @@ onAddSession={onAddSession}/>
         onSave={handleSave}
         editingSession={editingSession}
         onUpdate={handleUpdate}
+        subjectOptions={subjectOptions}
         />
       )}
 
@@ -250,6 +261,6 @@ onAddSession={onAddSession}/>
         </div>
         
     )
-}
+  }
 
 export default StudySessions;
