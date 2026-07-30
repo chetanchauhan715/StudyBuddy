@@ -14,7 +14,6 @@ router.post("/signup" , signupValidator, signup);
 router.post("/login" , loginValidator,login);
 
 
-
 // --------------- login API --------
 // router.post("/login" , async (req, res) =>{
 
