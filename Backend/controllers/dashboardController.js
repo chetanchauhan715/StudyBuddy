@@ -186,9 +186,9 @@ export async function getDashboard(req , res , next ) {
         }
     }
 
-    const user = await User.findById(userId).select("dailyGoal");
+    const user = await User.findById(userId).select("name dailyGoal");
     
-    // console.log(sessions);
+    
     return res.status(200).json({
         success:true,
         message:"Dashboard data fetched succesfully",
@@ -209,7 +209,8 @@ export async function getDashboard(req , res , next ) {
             },
 
             goalHours:user?.dailyGoal || 6,
-            streak
+            streak,
+            user
         }
     });
 

@@ -142,7 +142,7 @@ export async function updateStudySession(req , res, next){
         session.studyDate = studyDate;
 
         // session.duration = duration;
-        console.log("Session before save:", session);
+        // console.log("Session before save:", session);
 
         await session.save();
         return res.status(200).json({
