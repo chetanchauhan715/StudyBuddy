@@ -6,9 +6,12 @@ import SubjectPieChart from "../components/dashboard/SubjectPieChart";
 import RecentSessions from "../components/dashboard/RecentSessions";
 import TodayGoalCard from "../components/dashboard/TodayGoalCard";
 
+import Loader from "../components/common/Loader";
+
 import { getDashboard } from "../services/dashboardService";
 
 import { useState, useEffect } from "react";
+
 
 function Dashboard() {
 const [dashboard, setDashboard] = useState({
@@ -17,6 +20,9 @@ const [dashboard, setDashboard] = useState({
         totalHours: 0,
         completedSessions: 0,
         pendingSessions: 0,
+    },
+    user:{
+      name:"",
     },
     recentSessions: [],
     weeklyStudy: [],
@@ -47,6 +53,9 @@ async function  fetchDashboard() {
 fetchDashboard();
 
 },[]);
+
+const firstName = dashboard.user?.name?.split(" ")[0] || "";
+console.log(firstName);
 
 
 const totalStudyHours = Math.floor(dashboard.sessions.totalHours / 60);
@@ -84,19 +93,35 @@ const completedTodayHours =
       hours:item.hours / 60,
      }));
 
-    //  console.log(formattedSubjectData);
+    
+const currentHour = new Date().getHours();
+
+let greeting = "Welcome back";
+
+if(currentHour < 12){
+  greeting = "Good Morning";
+}
+else if(currentHour < 17){
+  greeting = "Good Afternoon";
+}
+else{
+  greeting = "Good Evening";
+}
 
 
-     if (loading) {
-    return (
-        <div className="loading-state">
-            Loading Dashboard...
-        </div>
-    );
+
+if(loading){
+  return <Loader/>
 }
 
   return (
 <div className="dashboard-container">
+
+    <div className="dashboard-welcome">
+      <h2>{greeting}, {firstName} 👋</h2>
+      <p>Ready for another productive study session?</p>
+    </div>
+
     <div className="stats-container">
     <StatsCard
       title="Total Sessions"

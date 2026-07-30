@@ -7,6 +7,7 @@ import "./profilePage.css";
 import EditProfileModal from "../components/profilePage/EditProfilePageModal";
 
 import toast from "react-hot-toast";
+import Loader from "../components/common/Loader";
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -77,13 +78,9 @@ function ProfilePage() {
     fetchProfile();
   }, []);
 
-
-  if (loading) {
-    return (
-        <div className="loading-state">
-            Loading profile...
-        </div>
-    );
+   
+if(loading){
+    return <Loader/>
 }
 
   return (

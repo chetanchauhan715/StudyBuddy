@@ -8,6 +8,7 @@ import { getSessions , createSession , updateSession , deleteSession} from "../s
 import DeleteConfirmationModal from "../components/sessions/DeleteConfirmationModal";
 import Pagination from "../components/pagination/Pagination";
 import { getSubjects } from "../services/subjectService";
+import Loader from "../components/common/Loader";
 
   
   const statusOptions = [
@@ -194,13 +195,9 @@ async function handleUpdate(updatedSession){
   } ,[search]);
 
 
-  if (loading) {
-    return (
-        <div className="loading-state">
-            Loading StudySessions...
-        </div>
-    );
-}
+  if(loading){
+    return <Loader/>
+  }
 
     return(
 

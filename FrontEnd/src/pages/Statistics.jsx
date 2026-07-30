@@ -5,6 +5,7 @@ import StatisticsCards from "../components/statistics/StatisticsCards";
 import WeeklyHoursChart from "../components/statistics/WeeklyHoursChart";
 import SubjectDisctributionChart from "../components/statistics/SubjectDistributionChart";
 import "./Statistics.css";
+import Loader from "../components/common/Loader";
 
 
 function Statistics(){
@@ -35,12 +36,9 @@ function Statistics(){
     } , []);
 
 
-    if (loading) {
-    return (
-        <div className="loading-state">
-            Loading Statistics...
-        </div>
-    );
+    
+if(loading){
+    return <Loader/>
 }
 
     return(

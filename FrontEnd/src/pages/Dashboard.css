@@ -41,3 +41,31 @@
 }
 
 
+/* .welcome msg  */
+.dashboard-welcome{
+    padding: 0 30px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.dashboard-welcome h2{
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.dashboard-welcome p{
+    font-size: 1rem;
+    color: #64748b;
+}
+
+.dashboard-welcome h2::after{
+    content: "";
+    display: block;
+    width: 70px;
+    height: 4px;
+    background: linear-gradient(90deg,#5B4BDB,#7C6CF5);
+    border-radius: 50px;
+    margin-top: 10px;
+}
