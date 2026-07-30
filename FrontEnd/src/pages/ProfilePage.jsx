@@ -8,6 +8,7 @@ import EditProfileModal from "../components/profilePage/EditProfilePageModal";
 
 import toast from "react-hot-toast";
 import Loader from "../components/common/Loader";
+import ChangePasswordCard from "../components/profilePage/ChangePasswordCard";
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -91,6 +92,8 @@ if(loading){
       </div>
 
       {profile && <ProfileCard profile={profile} onEdit={handleEditClick} />}
+
+      {<ChangePasswordCard />}
 
       <EditProfileModal
         isOpen={isEditOpen}

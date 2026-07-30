@@ -4,6 +4,7 @@ import "./SubjectManager.css";
 import AddSubjectModal from "./AddSubjectModal";
 import SubjectItem from "./SubjectItem";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import Loader from "../common/Loader";
 
 function SubjectManager() {
 
@@ -45,11 +46,14 @@ function SubjectManager() {
 
   async function fetchSubjects() {
       try{
+        setLoading(true);
       const subjectData = await getSubjects();
       setSubjects(subjectData.subjects);
-      setLoading(false);
+      
       } catch(error){
         console.error(error);
+        setLoading(false);
+      }finally{
         setLoading(false);
       }
     }
@@ -82,6 +86,7 @@ function SubjectManager() {
     fetchSubjects();
   } ,[]);
 
+ 
   return (
     <div className="subject-manager">
 
@@ -93,7 +98,7 @@ function SubjectManager() {
       <div className="subject-manager-body">
 
   {loading ? (
-    <p>Loading...</p>
+    <Loader/>
   ) : subjects.length === 0 ? (
     <p>No subjects added yet.</p>
   ) : (

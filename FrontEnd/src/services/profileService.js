@@ -25,3 +25,8 @@ export async function updateProfile(updatedData) {
         throw error;
     }
 }
+
+export async function changePassword(passwordData) {
+    const response = await api.put("/change-password" , passwordData);
+    return response.data;
+}
