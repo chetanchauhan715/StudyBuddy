@@ -1,7 +1,6 @@
 import { Link ,useNavigate } from "react-router-dom";
 import "./Signup.css";
 import { useState } from "react";
-import Logo from "../components/logo/Logo";
 
 
 function Signup() {
@@ -75,8 +74,8 @@ function Signup() {
 
         
         
-        <h2> Create Account </h2>
-        <p>Join StudyBuddy today</p>
+        <h2> Create Your Account 🚀 </h2>
+        <p>Start your learning journey with StudyBuddy</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -128,7 +127,7 @@ function Signup() {
             />
           </div>
 
-          <button type="submit">Create Account</button>
+          <button className="primary-btn" type="submit">Create Account</button>
 
           <div className="auth-footer">
           <p>

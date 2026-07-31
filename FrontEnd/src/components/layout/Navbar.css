@@ -1,49 +1,138 @@
 .navbar-container{
+
+    height:70px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
 
-    padding:1rem 2rem;
-    background:white;
-    border-bottom:1px solid #e5e7eb;
+    padding:0 2rem;
+
+    background:var(--surface);
+
+    border-bottom:1px solid var(--border);
+
+    position:sticky;
+    top:0;
+    z-index:500;
 }
 
-.navbar-center{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    
-}
+/* ---------- Left ---------- */
 
-.navbar-center input{
-    width:400px;
-    max-width: 100%;
-    padding:10px;
-    border-radius:25px;
-    outline: none;
-    border:1px solid #d1d5db;
-}
-
-.navbar-right{
+.navbar-left{
     display:flex;
     align-items:center;
-    gap:24px;
-    
 }
 
-.navbar-left svg,
-.navbar-right svg{
-    font-size:1.2rem;
+/* ---------- Right ---------- */
+
+.navbar-right{
+
+    display:flex;
+    align-items:center;
+    gap:1.5rem;
+}
+
+/* ---------- Icon Buttons ---------- */
+
+.icon-btn{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border:none;
+    border-radius:50%;
+
+    background:#F3F4F6;
+
     cursor:pointer;
+
+    transition:.25s;
 }
 
-.navbar-left svg:hover,
-.navbar-right svg:hover{
-    color:#4f46e5;
-    transition:.2s;
+.icon-btn svg{
+
+    font-size:18px;
+    color:var(--text-primary);
 }
 
-.navbar-left svg:hover,
-.navbar-right svg:hover{
-    transform:scale(1.1);
+.icon-btn:hover{
+
+    background:var(--primary);
+
+    transform:translateY(-2px);
+}
+
+.icon-btn:hover svg{
+
+    color:white;
+}
+
+/* ---------- Notification ---------- */
+
+.notification-btn{
+
+    position:relative;
+}
+
+.notification-dot{
+
+    position:absolute;
+
+    top:10px;
+    right:10px;
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#EF4444;
+}
+
+/* ---------- User ---------- */
+
+.navbar-user{
+
+    display:flex;
+    align-items:center;
+    gap:.8rem;
+}
+
+.navbar-user-info{
+
+    display:flex;
+    flex-direction:column;
+}
+
+.navbar-user-info span{
+
+    font-size:.8rem;
+    color:var(--text-secondary);
+}
+
+.navbar-user-info h4{
+
+    font-size:.95rem;
+    color:var(--text-primary);
+}
+
+/* ---------- Tablet ---------- */
+
+@media(max-width:768px){
+
+    .navbar-container{
+
+        padding:0 1rem;
+    }
+
+    .navbar-user-info{
+
+        display:none;
+    }
+
 }

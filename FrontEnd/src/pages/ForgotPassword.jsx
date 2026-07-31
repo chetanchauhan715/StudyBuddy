@@ -34,18 +34,22 @@ function ForgotPassword(){
         <section className="forgot-password-container">
 
             <div className="forgot-password-header">
-                <h1>Forgot Password</h1>
+                <h2>Forgot Password 🔑</h2>
+                <p>
+  Enter your email and we'll send you a password reset link.
+</p>
             </div>
 
             <form onSubmit={handleSubmit} className="forgot-password-form">
             <label htmlFor="email"> Enter your email</label>
             <input 
+            id="email"
             type="email"
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
             />
 
-            <button type="submit">
+            <button className="primary-btn" type="submit">
                 Reset Password
             </button>
             </form>

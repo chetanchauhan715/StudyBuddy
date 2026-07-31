@@ -12,7 +12,7 @@ function PublicLayout(){
         <Outlet />
         
 
-        {/* <footer>© StudyBuddy</footer> */}
+       
         </>
     );
 }

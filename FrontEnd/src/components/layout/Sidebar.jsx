@@ -29,7 +29,7 @@ function Sidebar(){
                 <Logo/>
             </div>
 
-            <nav>
+            <nav className="sidebar-nav">
 
             <NavLink to="/dashboard">
                 <FaHome />

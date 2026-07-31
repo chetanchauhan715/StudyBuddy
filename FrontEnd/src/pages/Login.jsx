@@ -1,7 +1,6 @@
 import { Link , useNavigate} from "react-router-dom";
 import "../pages/Login.css";
 import { useState } from "react";
-import Logo from "../components/logo/Logo";
 
 function Login() {
   
@@ -68,8 +67,8 @@ const handleSubmit = async (e) =>{
       <div className="login-container">
 
         
-        <h2> Welcome Back </h2>
-        <p>Login to Continue</p>
+        <h2> Welcome Back  👋 </h2>
+        <p>Sign in to continue your learning journey.</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -108,7 +107,7 @@ const handleSubmit = async (e) =>{
             </Link>
           </div>
 
-          <button type="submit">Login</button>
+          <button className="primary-btn" type="submit">Login</button>
         </form>
 
         <div className="login-footer">
