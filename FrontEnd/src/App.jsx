@@ -10,8 +10,11 @@ import StudySessions from "./pages/StudySessions"
 import Statistics from "./pages/Statistics";
 import ProfilePage from "./pages/ProfilePage";
 import Settings from "./pages/Settings";
+import ForgotPassword from "./pages/ForgotPassword";
+
 
 import  {Toaster} from "react-hot-toast";
+import ResetPassword from "./pages/ResetPassword";
 
 function App(){
   return (
@@ -39,6 +42,17 @@ function App(){
         path="login"
         element={<Login/>}
         />
+
+        <Route 
+        path="forgot-password"
+        element={<ForgotPassword />}
+        />
+
+        <Route
+        path="reset-password"
+        element={<ResetPassword/>}
+        />
+
 
     </Route>
 
