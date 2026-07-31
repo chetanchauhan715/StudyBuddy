@@ -1,16 +1,24 @@
 import SubjectManager from "../components/settings/SubjectManager";
+import "./Settings.css";
 
-function Settings(){
+function Settings() {
+  return (
+    <section className="settings-page page-container">
 
-       
+      <div className="settings-header">
 
-    return (
-        <div className="setting-page">
-            <h1>Settings</h1>
+        <h1>Settings</h1>
 
-            <SubjectManager />
-        </div>
-    )
+        <p>
+          Manage your StudyBuddy preferences and subjects.
+        </p>
+
+      </div>
+
+      <SubjectManager />
+
+    </section>
+  );
 }
 
 export default Settings;

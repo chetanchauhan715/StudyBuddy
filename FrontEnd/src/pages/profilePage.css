@@ -1,5 +1,5 @@
 .profile-page-container{
-    padding:32px;
+    /* padding:32px; */
     display:flex;
     flex-direction:column;
     gap:2rem;

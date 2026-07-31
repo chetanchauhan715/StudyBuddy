@@ -43,7 +43,7 @@ if(loading){
 
     return(
 
-        <div className="statistics-page">
+        <div className="statistics-page page-container">
  <section className="statistics-header">
     <h1>Statistics</h1>
     <p>Check Your Study Progress</p>

@@ -85,7 +85,7 @@ if(loading){
 }
 
   return (
-    <section className="profile-page-container">
+    <section className="profile-page-container page-container">
       <div className="profile-page-header">
         <h2>Profile</h2>
         <p>Manage Your Account Information</p>
