@@ -1,92 +1,187 @@
 .profile-page-container{
     padding:32px;
-
     display:flex;
     flex-direction:column;
-
-    gap:24px;
+    gap:2rem;
 }
+
+/* ---------- Header ---------- */
 
 .profile-page-header{
     display:flex;
     flex-direction:column;
-    gap:6px;
+    gap:8px;
 }
 
 .profile-page-header h2{
-    margin:0;
-
     font-size:2rem;
+    font-weight:700;
+    color:var(--text-primary);
+}
 
-    color:#1F2937;
+.profile-page-header h2::after{
+    content:"";
+    display:block;
+
+    width:70px;
+    height:4px;
+
+    margin-top:10px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        90deg,
+        #5B4BDB,
+        #7C6CF5
+    );
 }
 
 .profile-page-header p{
-    margin:0;
-
-    color:#6B7280;
+    color:var(--text-secondary);
+    font-size:1rem;
 }
 
-/* ---------- Future Card ---------- */
+/* ---------- Upcoming Card ---------- */
 
 .upcoming-features-card{
-    margin-top:40px;
-    background:#ffffff;
-    border-radius:18px;
-    padding:28px 32px;
-    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+    background:white;
+    border-radius:var(--radius-lg);
+    padding:2rem;
+
+    box-shadow:var(--shadow);
 }
 
 .upcoming-header{
-    margin-bottom:24px;
+    margin-bottom:2rem;
 }
 
 .upcoming-header h3{
     font-size:1.5rem;
-    color:#111827;
     margin-bottom:6px;
+    color:var(--text-primary);
 }
 
 .upcoming-header p{
-    color:#6b7280;
-    font-size:0.95rem;
+    color:var(--text-secondary);
 }
+
+/* ---------- Grid ---------- */
 
 .feature-list{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:18px;
+    grid-template-columns:repeat(2,minmax(250px,1fr));
+    gap:1.25rem;
 }
 
 .feature-item{
     display:flex;
-    gap:16px;
+    gap:1rem;
     align-items:flex-start;
-    padding:18px;
-    border:1px solid #e5e7eb;
-    border-radius:14px;
-    transition:all .25s ease;
+
+    padding:1.25rem;
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-md);
+
+    transition:.25s;
 }
 
 .feature-item:hover{
+
     transform:translateY(-3px);
-    border-color:#4f46e5;
-    box-shadow:0 6px 18px rgba(79,70,229,.12);
+
+    border-color:var(--primary);
+
+    box-shadow:0 10px 24px rgba(91,75,219,.12);
+
 }
 
 .feature-item span{
+
     font-size:1.8rem;
+
     flex-shrink:0;
+
 }
 
 .feature-item h4{
+
+    color:var(--text-primary);
+
     margin-bottom:6px;
-    color:#111827;
+
     font-size:1rem;
+
 }
 
 .feature-item p{
-    color:#6b7280;
-    font-size:.9rem;
-    line-height:1.5;
+
+    color:var(--text-secondary);
+
+    line-height:1.6;
+
+    font-size:.92rem;
+
+}
+
+/* ---------- Tablet ---------- */
+
+@media(max-width:992px){
+
+    .profile-page-container{
+        padding:24px;
+    }
+
+    .feature-list{
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:768px){
+
+    .profile-page-container{
+        padding:18px;
+        gap:1.5rem;
+    }
+
+    .profile-page-header h2{
+        font-size:1.7rem;
+    }
+
+    .upcoming-features-card{
+        padding:1.5rem;
+    }
+
+    .feature-item{
+        padding:1rem;
+    }
+
+}
+
+/* ---------- Small Phones ---------- */
+
+@media(max-width:480px){
+
+    .profile-page-container{
+        padding:14px;
+    }
+
+    .profile-page-header h2{
+        font-size:1.5rem;
+    }
+
+    .feature-item{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .feature-item span{
+        font-size:2rem;
+    }
+
 }
