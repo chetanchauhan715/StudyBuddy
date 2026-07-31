@@ -3,35 +3,43 @@ import "./TodayGoalCard.css";
 
 function TodayGoalCard({ goalHours, completedHours, currentStreak }) {
 
-    const progress = Math.min((completedHours / goalHours) * 100, 100);
+    const progress =
+        goalHours > 0
+            ? Math.min((completedHours / goalHours) * 100, 100)
+            : 0;
 
     const remainingHours = Math.max(goalHours - completedHours, 0);
 
     return (
-        <section className="today-goal">
+        <section className="today-goal app-card">
 
-            <h3>Today's Goal</h3>
+            <div className="card-header">
+                <h3>Today's Goal</h3>
+                <span>Daily</span>
+            </div>
 
             <div className="goal-content">
 
                 <p className="goal-text">
-                    Study {goalHours} Hours
+                    Study <strong>{goalHours}</strong> Hours
                 </p>
 
                 <div className="progress-bar">
                     <div
                         className="progress-fill"
                         style={{ width: `${progress}%` }}
-                    ></div>
+                    />
                 </div>
 
-                <p className="goal-progress">
-                    {Math.round(progress)}% Completed
-                </p>
+                <div className="goal-progress-row">
 
-                <p className="goal-hours">
-                    {completedHours} / {goalHours} Hours
-                </p>
+                    <span>{Math.round(progress)}% Completed</span>
+
+                    <span>
+                        {completedHours} / {goalHours} hrs
+                    </span>
+
+                </div>
 
             </div>
 

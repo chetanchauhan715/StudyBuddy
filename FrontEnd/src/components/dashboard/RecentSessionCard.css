@@ -1,73 +1,114 @@
 .session-card{
-    padding:16px;
-    border:1px solid #E5E7EB;
-    border-radius:12px;
-     background:white;
 
-    box-shadow:0 2px 8px rgba(0,0,0,.05);
+    padding:1.1rem;
 
-    transition:.2s;
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-lg);
+
+    background:var(--surface);
+
+    transition:.25s;
 }
 
 .session-card:hover{
+
     transform:translateY(-3px);
 
     box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
+/* ---------- Header ---------- */
+
 .session-header{
+
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    margin-bottom:8px;
+    align-items:flex-start;
+
+    gap:1rem;
+
+    margin-bottom:1rem;
 }
 
 .session-header h3{
-    font-size:17px;
-    font-weight:700;
+
+    color:var(--text-primary);
+
+    font-size:1.05rem;
+
+    margin-bottom:.3rem;
 }
+
+.session-header small{
+
+    color:var(--text-secondary);
+
+    font-size:.8rem;
+}
+
+/* ---------- Body ---------- */
 
 .session-card p{
-    color:#6B7280;
 
-    line-height:1.5;
+    color:var(--text-secondary);
 
-    margin-bottom:14px;
+    line-height:1.6;
+
+    margin-bottom:1rem;
 }
+
+/* ---------- Footer ---------- */
 
 .session-footer{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
 
-    font-size:14px;
-    color:#9CA3AF;
+    display:flex;
+    justify-content:flex-end;
+
+    color:var(--text-secondary);
+
+    font-size:.9rem;
 }
 
- 
+/* ---------- Status ---------- */
+
 .completed{
+
     background:#DCFCE7;
     color:#15803D;
 }
 
 .pending{
+
     background:#FEF3C7;
     color:#B45309;
 }
 
-
-
-.session-card{
-    transition:.2s;
-}
-
 .completed,
 .pending{
-    padding:4px 10px;
+
+    padding:.35rem .8rem;
 
     border-radius:999px;
 
-    font-size:12px;
+    font-size:.75rem;
 
     font-weight:600;
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:768px){
+
+    .session-header{
+
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .session-footer{
+
+        justify-content:flex-start;
+    }
+
 }

@@ -1,37 +1,53 @@
 import "./RecentSessionCard.css";
 
-function RecentSessionCard({session}){
-    console.log(session);
+function RecentSessionCard({ session }) {
 
-    const studyHours = session.duration / 60;
+    const studyHours = (session.duration / 60).toFixed(1);
 
     const formattedDate = new Date(session.studyDate).toLocaleDateString(
         "en-IN",
         {
-            day:"numeric",
-            month:"short"
+            day: "numeric",
+            month: "short"
         }
     );
-    return(
+
+    return (
+
         <article className="session-card">
 
             <div className="session-header">
-                <h3>{session.subject.name}</h3>
-                <span className={
-                    session.status === "Completed"?
-                    "completed":
-                    "pending"
-                }>{session.status}</span>
+
+                <div>
+                    <h3>{session.subject.name}</h3>
+                    <small>{formattedDate}</small>
+                </div>
+
+                <span
+                    className={
+                        session.status === "Completed"
+                            ? "completed"
+                            : "pending"
+                    }
+                >
+                    {session.status}
+                </span>
+
             </div>
 
-           <p>{session.topic || "No topic added"}</p>
+            <p>
+                {session.topic || "No topic added"}
+            </p>
 
             <div className="session-footer">
-                <span>{formattedDate}</span>
-                <span>{studyHours}Hours</span>
+
+                <span>⏱ {studyHours} hrs</span>
+
             </div>
+
         </article>
-    )
+
+    );
 }
 
 export default RecentSessionCard;

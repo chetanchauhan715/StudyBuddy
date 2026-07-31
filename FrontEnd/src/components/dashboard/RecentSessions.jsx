@@ -1,73 +1,50 @@
 import RecentSessionCard from "./RecentSessionCard";
 import "./RecentSessions.css";
 
-// const recentSessions = [
-//     {
-//         id: 1,
-//         subject: "React",
-//         topic: "React Hooks",
-//         duration: "2h",
-//         date: "Today",
-//         status: "Completed",
-//     },
-//     {
-//         id: 2,
-//         subject: "DSA",
-//         topic: "Sliding Window",
-//         duration: "1.5h",
-//         date: "Yesterday",
-//         status: "Pending",
-//     },
-//     {
-//         id: 3,
-//         subject: "Node.js",
-//         topic: "JWT Authentication",
-//         duration: "3h",
-//         date: "2 days ago",
-//         status: "Completed",
-//     },
-// ];
+function RecentSessions({ recentSessions }) {
 
-
-function RecentSessions({recentSessions}){
-
-    if (recentSessions.length === 0) {
+  if (recentSessions.length === 0) {
     return (
-        <section className="recent-sessions">
+      <section className="recent-sessions app-card">
 
-            <h2>Recent Study Sessions</h2>
+        <div className="card-header">
+          <h2>Recent Study Sessions</h2>
+          <span>Latest</span>
+        </div>
 
-            <div className="empty-state">
+        <div className="empty-state">
 
-                <h3>No Study Sessions Yet 📚</h3>
+          <h3>No Study Sessions Yet 📚</h3>
 
-                <p>
-                    Start your first study session to see it here.
-                </p>
+          <p>
+            Start your first study session to see it here.
+          </p>
 
-            </div>
+        </div>
 
-        </section>
+      </section>
     );
-}
+  }
 
-    return(
-        <section className="recent-sessions">
+  return (
+    <section className="recent-sessions app-card">
 
-            <h2>Recent Study Sessions</h2>
+      <div className="card-header">
+        <h2>Recent Study Sessions</h2>
+        <span>Latest</span>
+      </div>
 
-            <div className="recent-session-list">
-            {recentSessions.map( (session) => (
-                <RecentSessionCard 
-                key={session._id}
-                session={session} />
-            ))}
-            </div>
-            
+      <div className="recent-session-list">
+        {recentSessions.map((session) => (
+          <RecentSessionCard
+            key={session._id}
+            session={session}
+          />
+        ))}
+      </div>
 
-
-        </section>
-    );
+    </section>
+  );
 }
 
 export default RecentSessions;

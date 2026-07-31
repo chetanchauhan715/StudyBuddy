@@ -1,72 +1,93 @@
 import {
-    PieChart,
-    Pie,
-    Cell,
-    Tooltip,
-    ResponsiveContainer,
-    Legend
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
 } from "recharts";
 
 import "./SubjectPieChart.css";
 
+function SubjectPieChart({ subjectData }) {
+  const COLORS = [
+    "#5B4BDB",
+    "#3B82F6",
+    "#10B981",
+    "#F59E0B",
+    "#EF4444",
+  ];
 
-function SubjectPieChart({subjectData}){
+  const hasSubjectData = subjectData.some(
+    (item) => item.hours > 0
+  );
 
-    const COLORS = ["#5B4BDB", "#3B82F6", "#10B981", "#F59E0B"];
+  if (!hasSubjectData) {
+    return (
+      <section className="subject-piechart app-card">
 
+        <div className="card-header">
+          <h3>Subject Distribution</h3>
+        </div>
 
-    const hasSubjectData = subjectData.some(
-  (item) => item.hours > 0
-);
+        <div className="empty-state">
+          <h3>No Subject Data 📚</h3>
 
-if (!hasSubjectData) {
+          <p>
+            Your subject distribution will appear after you study.
+          </p>
+        </div>
+
+      </section>
+    );
+  }
+
   return (
-    <section className="subject-piechart">
+    <section className="subject-piechart app-card">
 
-      <h3>Subject Distribution</h3>
+      <div className="card-header">
+        <h3>Subject Distribution</h3>
 
-      <div className="empty-state">
-        <h3>No Subject Data 📚</h3>
-        <p>
-          Your subject distribution will appear after you study.
-        </p>
+        <span>Overview</span>
+      </div>
+
+      <div className="chart-container">
+
+        <ResponsiveContainer width="100%" height={320}>
+
+          <PieChart>
+
+            <Pie
+              data={subjectData}
+              dataKey="hours"
+              nameKey="subject"
+              outerRadius={105}
+              innerRadius={55}
+              paddingAngle={3}
+            >
+              {subjectData.map((entry, index) => (
+                <Cell
+                  key={entry.subject}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+
+            <Tooltip />
+
+            <Legend
+              verticalAlign="bottom"
+              iconType="circle"
+            />
+
+          </PieChart>
+
+        </ResponsiveContainer>
+
       </div>
 
     </section>
   );
-}
-
-    return(
-        
-        <section className="subject-piechart">
-            <h3>Subject Distribution</h3>
-
-            <div className="chart-container">
-                <ResponsiveContainer width="100%" height={300}>
-
-                    <PieChart>
-
-                        <Pie
-                        data={subjectData}
-                        dataKey="hours"
-                        nameKey="subject"
-                        outerRadius={120}
-                        >
-                            {subjectData.map( (entry , index) => (
-                                <Cell  key={entry.subject}
-                                fill={COLORS[index % COLORS.length]}
-                                />
-                            ))}
-
-                        </Pie>
-                        <Tooltip/>
-                        <Legend
-                        />
-                    </PieChart>
-                </ResponsiveContainer>
-            </div>
-        </section>
-    )
 }
 
 export default SubjectPieChart;
