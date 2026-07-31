@@ -1,101 +1,90 @@
-.session-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow:0 6px 20px rgba(15,23,42,.08);
+.session-table-wrapper{
+    width:100%;
+    overflow-x:auto;
+
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow);
+    margin-top:1.5rem;
+
+    scrollbar-width:thin;
+    scrollbar-color:#D1D5DB transparent;
 }
 
-.session-table thead {
-    background:#F9FAFB;
+.session-table-wrapper::-webkit-scrollbar{
+    height:8px;
 }
 
-.session-table th {
-    padding: 1rem 1.25rem;
-    text-align: left;
-    font-size: .95rem;
-    font-weight: 700;
-    color: #374151;
-    border-bottom: 1px solid #e5e7eb;
+.session-table-wrapper::-webkit-scrollbar-thumb{
+    background:#D1D5DB;
+    border-radius:999px;
 }
 
-.session-table td {
-    padding: 1.15rem 1.25rem;
-    font-size: .95rem;
-    color: #4b5563;
-    border-bottom: 1px solid #f3f4f6;
+.session-table{
+    width:100%;
+    min-width:850px;
+
+    border-collapse:collapse;
+    background:var(--surface);
 }
 
-.session-table tbody tr {
-    transition: background .2s ease;
-}
-
-.session-table tbody tr:hover {
+.session-table thead{
     background:#F8FAFC;
 }
 
-.session-table tbody tr:last-child td {
-    border-bottom: none;
+.session-table th{
+    padding:1rem 1.25rem;
+    text-align:left;
+
+    font-size:.9rem;
+    font-weight:700;
+
+    color:var(--text-primary);
+
+    border-bottom:1px solid var(--border);
+
+    white-space:nowrap;
 }
 
-/* ---------- Action Buttons ---------- */
+.session-table td{
+    padding:1rem 1.25rem;
 
-.action-cell{
-    display:flex;
-    align-items:center;
-    gap:.75rem;
+    color:var(--text-secondary);
+
+    border-bottom:1px solid #F3F4F6;
+
+    font-size:.95rem;
+    white-space:nowrap;
 }
 
-.edit-btn{
-    border:none;
-    background:#eef2ff;
-    color:#4f46e5;
-
-    padding:.5rem 1rem;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-size:.85rem;
-    font-weight:600;
-
-    transition:.2s;
+/* Topic column wraps nicely */
+.session-table td:nth-child(2){
+    white-space:normal;
+    min-width:220px;
 }
 
-.edit-btn:hover{
-    background:#4f46e5;
-    color:white;
+.session-table tbody tr{
+    transition:.2s ease;
 }
 
-.delete-btn{
-    border:none;
-    background:#fef2f2;
-    color:#dc2626;
-
-    padding:.45rem .9rem;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    font-size:.85rem;
-    font-weight:600;
-
-    transition:.2s;
+.session-table tbody tr:hover{
+    background:#F8FAFC;
 }
 
-.delete-btn:hover{
-    background:#dc2626;
-    color:white;
+.session-table tbody tr:last-child td{
+    border-bottom:none;
 }
 
-/* --- */
+/* ---------- Status ---------- */
+
 .status{
-    display:inline-block;
-    padding:4px 10px;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:5px 12px;
+
     border-radius:999px;
+
     font-size:.8rem;
     font-weight:600;
 }
@@ -108,4 +97,126 @@
 .status-pending{
     background:#FEF3C7;
     color:#B45309;
+}
+
+/* ---------- Action Buttons ---------- */
+
+.action-cell{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+}
+
+.edit-btn,
+.delete-btn{
+    flex-shrink:0;
+}
+
+.edit-btn{
+    border:none;
+
+    background:#EEF2FF;
+    color:var(--primary);
+
+    padding:.55rem 1rem;
+
+    border-radius:var(--radius-sm);
+
+    font-size:.85rem;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:.2s;
+}
+
+.edit-btn:hover{
+    background:var(--primary);
+    color:white;
+}
+
+.delete-btn{
+    border:none;
+
+    background:#FEF2F2;
+    color:var(--danger);
+
+    padding:.55rem 1rem;
+
+    border-radius:var(--radius-sm);
+
+    font-size:.85rem;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:.2s;
+}
+
+.delete-btn:hover{
+    background:var(--danger);
+    color:white;
+}
+
+/* ---------- Empty State ---------- */
+
+.empty-state{
+    background:white;
+
+    border:2px dashed var(--border);
+    border-radius:var(--radius-lg);
+
+    min-height:280px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+    padding:2rem;
+}
+
+.empty-state h3{
+    color:var(--text-primary);
+    margin-bottom:.5rem;
+}
+
+.empty-state p{
+    color:var(--text-secondary);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width:992px){
+
+    .session-table{
+        min-width:780px;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .session-table{
+        min-width:700px;
+    }
+
+    .session-table th,
+    .session-table td{
+        padding:.9rem 1rem;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .action-cell{
+        gap:.4rem;
+    }
+
+    .edit-btn,
+    .delete-btn{
+        padding:.45rem .7rem;
+        font-size:.8rem;
+    }
+
 }

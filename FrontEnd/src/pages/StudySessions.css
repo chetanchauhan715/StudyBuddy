@@ -1,0 +1,70 @@
+.study-session-page{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:1.8rem;
+}
+
+/* ---------- Header ---------- */
+
+.study-session-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* ---------- Filters ---------- */
+
+.study-session-filters{
+
+    width:100%;
+}
+
+/* ---------- Table ---------- */
+
+.study-session-table{
+
+    width:100%;
+}
+
+/* ---------- Pagination ---------- */
+
+.study-session-pagination{
+
+    display:flex;
+    justify-content:center;
+
+    margin-top:.5rem;
+}
+
+/* ---------- Tablet ---------- */
+
+@media(max-width:992px){
+
+    .study-session-page{
+
+        gap:1.5rem;
+    }
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:768px){
+
+    .study-session-page{
+
+        gap:1.2rem;
+    }
+
+    .study-session-header{
+
+        flex-direction:column;
+        align-items:flex-start;
+
+        gap:1rem;
+    }
+
+}

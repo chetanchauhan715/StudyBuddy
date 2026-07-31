@@ -18,6 +18,8 @@ function SessionTable({sessionData , onEdit , onDelete}){
 }
 
     return (
+
+        <div className="session-table-wrapper" >
         <table className="session-table">
             <thead >
                 <tr>
@@ -43,6 +45,8 @@ function SessionTable({sessionData , onEdit , onDelete}){
         }
             </tbody>
         </table>
+
+        </div>
     )
 }
 

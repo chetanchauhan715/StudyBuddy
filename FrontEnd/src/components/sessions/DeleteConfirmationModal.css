@@ -1,35 +1,129 @@
+/* ================================
+   Overlay
+================================ */
+
 .modal-overlay{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.4);
+    position:fixed;
+    inset:0;
+
+    background:rgba(17,24,39,.55);
 
     display:flex;
     justify-content:center;
     align-items:center;
+
+    padding:1rem;
+
+    z-index:2000;
 }
 
+/* ================================
+   Modal
+================================ */
+
 .delete-modal{
-    width:400px;
-    background:white;
-    border-radius:10px;
-    padding:25px;
+    width:min(420px,100%);
+
+    background:var(--surface);
+
+    border-radius:var(--radius-lg);
+
+    padding:2rem;
+
     text-align:center;
+
+    box-shadow:var(--shadow);
+}
+
+.delete-modal h2{
+    font-size:1.6rem;
+    color:var(--text-primary);
+    margin-bottom:1rem;
+}
+
+.delete-modal p{
+    color:var(--text-secondary);
+    line-height:1.7;
 }
 
 .warning-text{
-    color:red;
-    font-size:14px;
-    margin-top:10px;
+    margin-top:.8rem;
+
+    color:var(--danger);
+
+    font-weight:600;
 }
+
+/* ================================
+   Buttons
+================================ */
 
 .modal-buttons{
     display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top:25px;
+    justify-content:center;
+    gap:1rem;
+
+    margin-top:2rem;
 }
 
+.modal-buttons button{
+    min-width:120px;
+
+    padding:.8rem 1.4rem;
+
+    border:none;
+    border-radius:var(--radius-sm);
+
+    font-size:.95rem;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+/* Cancel */
+
+.modal-buttons button:first-child{
+    background:#E5E7EB;
+    color:var(--text-primary);
+}
+
+.modal-buttons button:first-child:hover{
+    background:#D1D5DB;
+}
+
+/* Delete */
+
 .delete-btn{
-    background:#dc2626;
+    background:var(--danger);
     color:white;
+}
+
+.delete-btn:hover{
+    background:#B91C1C;
+}
+
+/* ================================
+   Responsive
+================================ */
+
+@media (max-width:480px){
+
+    .delete-modal{
+        padding:1.5rem;
+    }
+
+    .delete-modal h2{
+        font-size:1.4rem;
+    }
+
+    .modal-buttons{
+        flex-direction:column;
+    }
+
+    .modal-buttons button{
+        width:100%;
+    }
+
 }

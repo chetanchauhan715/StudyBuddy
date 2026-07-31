@@ -9,15 +9,17 @@ function SessionRow({ session, onEdit, onDelete }) {
 
       <td>{Math.ceil(session.duration / 60)} hrs</td>
 
-      <span
-        className={
-          session.status === "Completed"
-            ? "status status-completed"
-            : "status status-pending"
-        }
-      >
-        {session.status}
-      </span>
+      <td>
+        <span
+          className={
+            session.status === "Completed"
+              ? "status status-completed"
+              : "status status-pending"
+          }
+        >
+          {session.status}
+        </span>
+      </td>
 
       <td>
         {new Date(session.studyDate).toLocaleDateString("en-GB", {

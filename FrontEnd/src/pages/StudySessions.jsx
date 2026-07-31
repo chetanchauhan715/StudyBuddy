@@ -3,7 +3,7 @@ import SessionHeader from "../components/sessions/SessionHeader";
 import SessionTable from "../components/sessions/SessionTable";
 import StudySessionFilters from "../components/sessions/StudySessionFilters";
 import AddSessionModal from "../components/sessions/AddSessionModal";
-
+import "./StudySessions.css";
 import { getSessions , createSession , updateSession , deleteSession} from "../services/studySessionService";
 import DeleteConfirmationModal from "../components/sessions/DeleteConfirmationModal";
 import Pagination from "../components/pagination/Pagination";
@@ -201,13 +201,13 @@ async function handleUpdate(updatedSession){
 
     return(
 
-        <div>
+        <div className="study-session-page page-container">
             <div className="session-header">
 <SessionHeader
 onAddSession={onAddSession}/>
         </div>
 
-        <div className="filters">
+        <div className="study-session-filters">
             <StudySessionFilters 
             subjectOptions={subjectOptions}
             statusOptions={statusOptions}
@@ -223,12 +223,15 @@ onAddSession={onAddSession}/>
             />
         </div>
 
+      <div className="study-session-table">
         <SessionTable 
         sessionData={sessions}
         onEdit={handleEdit}
         onDelete={handleDelete}
         />
  
+      </div>
+        
         {isModalOpen && (
         <AddSessionModal 
         onClose={onClose}
@@ -248,11 +251,14 @@ onAddSession={onAddSession}/>
           />
         )}
       
-      <Pagination 
+      <div className="study-session-pagination">
+        <Pagination 
       currentPage={currentPage}
       totalPages={totalPages}
       onPageChange={onPageChange}
       />
+      </div>
+      
 
       
         </div>
