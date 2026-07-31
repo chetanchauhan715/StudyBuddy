@@ -6,12 +6,10 @@
 
     gap:1.5rem;
 
-    gap:24px;
-    padding: 20px;
-
-    
-
+    padding:0 30px;
 }
+
+/* ---------- Card ---------- */
 
 .statistics-card{
 
@@ -25,8 +23,8 @@
 
     border-radius:16px;
 
-    
     box-shadow:0 6px 18px rgba(15,23,42,.06);
+
     transition:.25s ease;
 }
 
@@ -37,10 +35,14 @@
     box-shadow:0 12px 28px rgba(0,0,0,.12);
 }
 
+/* ---------- Icon ---------- */
+
 .statistics-icon{
 
     width:56px;
     height:56px;
+
+    flex-shrink:0;
 
     border-radius:50%;
 
@@ -48,22 +50,26 @@
     justify-content:center;
     align-items:center;
 
-    background:#f5f6ff;
+    background:#F5F6FF;
 
     font-size:1.6rem;
-
-    flex-shrink:0;
 }
+
+/* ---------- Text ---------- */
 
 .statistics-content{
 
     display:flex;
     flex-direction:column;
+
+    min-width:0;
 }
 
 .statistics-title{
+
     font-size:.85rem;
     font-weight:500;
+
     color:#6B7280;
 }
 
@@ -71,9 +77,88 @@
 
     margin-top:.35rem;
 
-    font-size:1.75rem;
-
+    font-size:1.6rem;
     font-weight:700;
 
-    color:#222;
+    color:#111827;
+
+    word-break:break-word;
+}
+
+/* ===========================
+   Laptop
+=========================== */
+
+@media(max-width:1200px){
+
+    .statistics-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+/* ===========================
+   Tablet
+=========================== */
+
+@media(max-width:992px){
+
+    .statistics-grid{
+
+        padding:0 24px;
+
+        gap:1.25rem;
+    }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media(max-width:768px){
+
+    .statistics-grid{
+
+        grid-template-columns:1fr;
+
+        padding:0;
+
+    }
+
+    .statistics-card{
+
+        padding:1.25rem;
+    }
+
+}
+
+/* ===========================
+   Small Phones
+=========================== */
+
+@media(max-width:480px){
+
+    .statistics-card{
+
+        gap:.8rem;
+
+        padding:1rem;
+    }
+
+    .statistics-icon{
+
+        width:48px;
+        height:48px;
+
+        font-size:1.3rem;
+    }
+
+    .statistics-value{
+
+        font-size:1.35rem;
+    }
+
 }

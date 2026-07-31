@@ -1,54 +1,123 @@
 .statistics-page{
-   
     display:flex;
     flex-direction:column;
-    gap:24px;
-} 
+    gap:2rem;
+}
 
-/* ---------- Header ---------- */
+/* ===========================
+   Header
+=========================== */
 
 .statistics-header{
-    padding:12px;
+    padding:0 30px;
+    margin-top:30px;
 }
 
 .statistics-header h1{
-    font-size:2.3rem;
+    font-size:2rem;
     font-weight:700;
-    color:#111827;
+    color:var(--text-primary);
     margin-bottom:6px;
 }
 
 .statistics-header p{
-    font-size:15px;
-    color:#6B7280;
+    color:var(--text-secondary);
+    font-size:1rem;
 }
 
-/* ---------- Charts Layout ---------- */
+.statistics-header h1::after{
+    content:"";
+    display:block;
+
+    width:70px;
+    height:4px;
+
+    margin-top:10px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        90deg,
+        var(--primary),
+        #7C6CF5
+    );
+}
+
+/* ===========================
+   Charts Layout
+=========================== */
 
 .statistics-charts{
     display:flex;
-    gap:24px;
+    gap:2rem;
+
     padding:0 30px 30px;
 }
 
 .left-chart{
     flex:2;
+    min-width:0;
 }
 
 .right-chart{
     flex:1;
+    min-width:0;
 }
 
-/* Responsive */
+/* ===========================
+   Tablet
+=========================== */
 
-@media (max-width: 1000px){
+@media (max-width:992px){
 
-    .statistics-charts{
-        flex-direction: column;
+    .statistics-header{
+        padding:0 24px;
     }
 
-    .statistics-charts > *{
-        flex: 1;
+    .statistics-charts{
+        padding:0 24px 24px;
+        gap:1.5rem;
+    }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width:768px){
+
+    .statistics-header{
+        padding:0;
+        margin-top:10px;
+    }
+
+    .statistics-header h1{
+        font-size:1.8rem;
+    }
+
+    .statistics-charts{
+        flex-direction:column;
+
+        padding:0;
+        gap:1.5rem;
+    }
+
+    .left-chart,
+    .right-chart{
+        width:100%;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .statistics-header h1{
+        font-size:1.6rem;
+    }
+
+    .statistics-header p{
+        font-size:.95rem;
     }
 
 }

@@ -48,8 +48,8 @@ function SubjectDisctributionChart({ data }) {
         <p>Your study hours across subject</p>
       </div>
 
-      <div>
-        <ResponsiveContainer width="100%" height={300}>
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={280}>
           <PieChart>
             <Pie
               data={data}
