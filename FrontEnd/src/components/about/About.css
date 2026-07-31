@@ -1,18 +1,49 @@
 .about-section{
-    padding:80px 10%;
     text-align:center;
-    background:#F9FAFB;
-}
-
-.about-section h2{
-    font-size:2rem;
-    margin-bottom:20px;
+    padding:4rem 0;
 }
 
 .about-section p{
-    max-width:700px;
+    max-width:720px;
     margin:auto;
-    color:#6B7280;
+
+    color:var(--text-secondary);
+
     line-height:1.8;
-    font-size:1rem;
+    font-size:1.05rem;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width:992px){
+
+    .about-section p{
+        max-width:90%;
+    }
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width:768px){
+
+    .about-section{
+        padding:3rem 0;
+    }
+
+    .about-section p{
+        font-size:1rem;
+        line-height:1.7;
+    }
+
+}
+
+/* ---------- Small Phones ---------- */
+
+@media (max-width:480px){
+
+    .about-section p{
+        font-size:.95rem;
+    }
+
 }

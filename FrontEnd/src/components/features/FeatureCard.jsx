@@ -1,11 +1,13 @@
-function FeatureCard( {icon , title, description }){
-    return (
-        <div className="feature-card">
-            <span>{icon}</span>
-            <h3>{title}</h3>
-            <p>{description}</p>
-        </div>
-    )
+function FeatureCard({ icon, title, description }) {
+  return (
+    <article className="feature-card app-card">
+      <div className="feature-icon">{icon}</div>
+
+      <h3>{title}</h3>
+
+      <p>{description}</p>
+    </article>
+  );
 }
 
 export default FeatureCard;

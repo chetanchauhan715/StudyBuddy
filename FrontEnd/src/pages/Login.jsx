@@ -23,10 +23,9 @@ const handleChange = (e) =>{
 };
 
 const handleSubmit = async (e) =>{
-  console.log("Handle Submit Called");
+ 
   e.preventDefault();
-  // console.log(formData);
-
+  
   try{
   const response = await fetch(`${import.meta.env.VITE_API_URL}/login`,{
     method:"POST",

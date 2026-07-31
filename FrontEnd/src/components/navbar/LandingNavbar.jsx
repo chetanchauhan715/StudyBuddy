@@ -5,31 +5,19 @@ import "./LandingNavbar.css";
 function LandingNavbar() {
   return (
     <nav className="navbar-container">
-      <div className="navbar-left">
-        <Logo />
-      </div>
 
-      <div className="navbar-center">
-        <ul>
+      <Logo />
 
-          <li>
-            <a href="#features">Features</a>
-          </li>
+      <ul className="navbar-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
 
-          <li>
-            <a href="#about">About</a>
-          </li>
-          
-          <li>
-            <a href="#contact">Contact</a>
-          </li>
+      <Link className="primary-btn" to="/login">
+        Login
+      </Link>
 
-        </ul>
-      </div>
-
-      <div className="navbar-right">
-        <Link to="/login">Login</Link>
-      </div>
     </nav>
   );
 }

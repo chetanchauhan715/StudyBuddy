@@ -2,14 +2,17 @@ import "./About.css";
 
 function About() {
   return (
-    <section className="about-section">
+    <section className="about-section page-container">
 
-      <h2>About StudyBuddy</h2>
+      <h2 className="section-title">
+        About StudyBuddy
+      </h2>
 
       <p>
-        StudyBuddy helps students plan, track and analyze their study sessions
-        with an easy-to-use dashboard. Our goal is to make consistent studying
-        simple and motivating.
+        StudyBuddy is a productivity-focused platform built to help students
+        plan, track, and analyze their study sessions. Our mission is to make
+        consistent learning simple, organized, and motivating through a clean
+        and intuitive experience.
       </p>
 
     </section>

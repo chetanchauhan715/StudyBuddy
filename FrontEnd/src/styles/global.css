@@ -1,4 +1,40 @@
-/* ---------- RESET ---------- */
+/* ===========================
+   DESIGN SYSTEM
+=========================== */
+
+:root{
+    /* Brand */
+    --primary:#5B4BDB;
+    --primary-hover:#4338CA;
+
+    /* Background */
+    --background:#ECEFF5;
+    --surface:#FFFFFF;
+
+    /* Text */
+    --text-primary:#111827;
+    --text-secondary:#6B7280;
+
+    /* Border */
+    --border:#E5E7EB;
+
+    /* Status */
+    --success:#16A34A;
+    --danger:#DC2626;
+
+    /* Radius */
+    --radius-sm:8px;
+    --radius-md:12px;
+    --radius-lg:16px;
+
+    /* Shadow */
+    --shadow:0 4px 12px rgba(15,23,42,.06);
+}
+
+
+/* ===========================
+   RESET
+=========================== */
 
 *{
     margin:0;
@@ -11,8 +47,9 @@ html{
 }
 
 body{
-    font-family: "Inter", sans-serif;
-    background:#ECEFF5;
+    font-family:"Inter",sans-serif;
+    background:var(--background);
+    color:var(--text-primary);
     line-height:1.5;
 }
 
@@ -28,73 +65,116 @@ button{
 
 input,
 textarea,
-select{
+select,
+button{
     font-family:inherit;
 }
 
 img{
-    max-width:100%;
     display:block;
+    max-width:100%;
 }
 
-/* ---------- REUSABLE CARDS ---------- */
 
-.app-card{
-    background:white;
-    border-radius:16px;
-    border:1px solid #E5E7EB;
+/* ===========================
+   LAYOUT
+=========================== */
 
-    box-shadow:0 4px 12px rgba(15,23,42,.06);
-    transition:.2s;
-}
-
-.app-card:hover{
-    transform:translateY(-2px);
-
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+.page-container{
+    width:min(1200px,90%);
+    margin:auto;
+    padding:30px 0;
 }
 
 .section-title{
     font-size:22px;
     font-weight:700;
-
-    color:#111827;
-
+    color:var(--text-primary);
     margin-bottom:20px;
 }
 
+
+/* ===========================
+   CARD
+=========================== */
+
+.app-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow);
+    transition:0.25s ease;
+}
+
+.app-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+
+/* ===========================
+   BUTTONS
+=========================== */
+
 .primary-btn{
-    background:#5B4BDB;
+    background:var(--primary);
     color:white;
-
     border:none;
-
-    border-radius:10px;
-
+    border-radius:var(--radius-md);
     padding:12px 20px;
-
-    transition:.2s;
+    font-weight:600;
+    transition:.25s;
 }
 
 .primary-btn:hover{
-    background:#4338CA;
+    background:var(--primary-hover);
 }
 
-.page-container{
-    padding:30px;
+.secondary-btn{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-primary);
+    border-radius:var(--radius-md);
+    padding:12px 20px;
+    font-weight:600;
+    transition:.25s;
 }
 
-/* ---------- */
+.secondary-btn:hover{
+    background:#F3F4F6;
+}
+
+
+/* ===========================
+   INPUTS
+=========================== */
+
+.app-input{
+    width:100%;
+    padding:12px 16px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    background:var(--surface);
+    outline:none;
+    transition:.2s;
+}
+
+.app-input:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(91,75,219,.15);
+}
+
+
+/* ===========================
+   LOADING
+=========================== */
 
 .loading-state{
     min-height:70vh;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     font-size:1.2rem;
     font-weight:600;
-
-    color:#6B7280;
+    color:var(--text-secondary);
 }

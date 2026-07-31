@@ -1,31 +1,31 @@
 import LandingNavbar from "../components/navbar/LandingNavbar";
 import Hero from "../components/hero/Hero";
 import Features from "../components/features/Features";
-import Footer from "../components/footer/Footer";
 import About from "../components/about/About";
-function Landing(){
-   
-   return (
-   <>
-  <LandingNavbar />
+import Footer from "../components/footer/Footer";
 
-  <section id="hero">
-    <Hero />
-  </section>
+function Landing() {
+  return (
+    <>
+      <LandingNavbar />
 
-  <section id="features">
-    <Features />
-  </section>
+      <main>
+        <section id="hero">
+          <Hero />
+        </section>
 
-  <section id="about">
-    <About/>
-  </section>
+        <section id="features" className="page-container">
+          <Features />
+        </section>
 
-  <section id="contact">
-    <Footer />
-  </section>
-</>
-   )
+        <section id="about" className="page-container">
+          <About />
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  );
 }
 
 export default Landing;
