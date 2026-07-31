@@ -1,6 +1,7 @@
+import "dotenv/config";
+
 import express from "express";
 import connectDB from "./config/db.js";
-import dotenv from "dotenv";
 import cors from "cors";
 
 import userRoutes from "./routes/userRoutes.js";
@@ -10,7 +11,7 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js"
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
-dotenv.config();
+
 
 const app = express();
 

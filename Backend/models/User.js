@@ -21,7 +21,16 @@ const UserSchema = new mongoose.Schema(
         dailyGoal:{
             type:Number,
             default:6
-        }
+        }, 
+
+        passwordResetToken:{
+            type:String,
+        },
+
+        passwordResetExpires:{
+            type:String,
+        },
+        
     }, 
 
     {
