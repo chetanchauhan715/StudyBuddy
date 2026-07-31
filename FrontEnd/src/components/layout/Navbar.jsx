@@ -2,7 +2,7 @@ import "./Navbar.css";
 import { FaBars, FaBell } from "react-icons/fa";
 import Avatar from "../common/Avatar";
 
-function Navbar() {
+function Navbar({sidebarOpen, setSidebarOpen}) {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
@@ -10,7 +10,10 @@ function Navbar() {
 
       <div className="navbar-left">
         <button className="icon-btn">
-          <FaBars />
+          <FaBars 
+          className="menu-btn"
+          onClick={ ()=> setSidebarOpen(!sidebarOpen)}
+          />
         </button>
       </div>
 

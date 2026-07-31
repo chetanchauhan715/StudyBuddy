@@ -1,68 +1,110 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../logo/Logo";
-import "./Sidebar.css"
+import "./Sidebar.css";
+
 import {
-    FaHome,
-    FaBook,
-    FaChartBar,
-    FaUser,
-    FaCog,
-    FaSignOutAlt,
+  FaHome,
+  FaBook,
+  FaChartBar,
+  FaUser,
+  FaCog,
+  FaSignOutAlt,
 } from "react-icons/fa";
 
+function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
+  const navigate = useNavigate();
 
-function Sidebar(){
+  function handleLogout() {
+    localStorage.removeItem("token");
 
-    const navigate = useNavigate();
+    setSidebarOpen(false);
 
-    function handleLogout(){
-        
-        localStorage.removeItem("token");
-        navigate("/login");
-    }
+    navigate("/login");
+  }
 
- 
-    return (
-        <aside className="sidebar">
-            <div className="logo">
-                <Logo/>
-            </div>
+  function closeSidebar() {
+    setSidebarOpen(false);
+  }
 
-            <nav className="sidebar-nav">
+  return (
+    <>
+      {/* Mobile Overlay */}
 
-            <NavLink to="/dashboard">
-                <FaHome />
-                Dashboard
-            </NavLink>
+      {sidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={closeSidebar}
+        ></div>
+      )}
 
-            <NavLink to="/study-sessions">
-                <FaBook/>
-                Sessions
-            </NavLink>
+      <aside
+        className={
+          sidebarOpen
+            ? "sidebar open"
+            : "sidebar"
+        }
+      >
 
-            <NavLink to="/statistics">
-                <FaChartBar/>
-                Statistics
-            </NavLink>
+        <div className="logo">
+          <Logo />
+        </div>
 
-            <NavLink to="/profile">
-                <FaUser/>
-                Profile
-            </NavLink>
+        <nav className="sidebar-nav">
 
-            <NavLink to="/settings">
-                <FaCog/>
-                Settings
-            </NavLink>
-            </nav>
+          <NavLink
+            to="/dashboard"
+            onClick={closeSidebar}
+          >
+            <FaHome />
+            Dashboard
+          </NavLink>
 
-            <button className="logout-btn" onClick={handleLogout}>
-                <FaSignOutAlt/>
-                LogOut
-            </button>
-        </aside>
-    )
+          <NavLink
+            to="/study-sessions"
+            onClick={closeSidebar}
+          >
+            <FaBook />
+            Sessions
+          </NavLink>
+
+          <NavLink
+            to="/statistics"
+            onClick={closeSidebar}
+          >
+            <FaChartBar />
+            Statistics
+          </NavLink>
+
+          <NavLink
+            to="/profile"
+            onClick={closeSidebar}
+          >
+            <FaUser />
+            Profile
+          </NavLink>
+
+          <NavLink
+            to="/settings"
+            onClick={closeSidebar}
+          >
+            <FaCog />
+            Settings
+          </NavLink>
+
+        </nav>
+
+        <button
+          className="logout-btn"
+          onClick={handleLogout}
+        >
+          <FaSignOutAlt />
+          Logout
+        </button>
+
+      </aside>
+    </>
+  );
 }
 
 export default Sidebar;

@@ -136,3 +136,18 @@
     }
 
 }
+
+/* ------- */
+.menu-btn{
+    cursor:pointer;
+}
+
+/* Desktop */
+
+@media (min-width:769px){
+
+    .menu-btn{
+        display:none;
+    }
+
+}
