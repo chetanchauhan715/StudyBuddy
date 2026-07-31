@@ -172,12 +172,11 @@ export async function forgotPassword(req, res, next) {
 
     const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "StudyBuddy password reset",
-
-      text: `
+   await transporter.emails.send({
+  from: "StudyBuddy <onboarding@resend.dev>",
+  to: user.email,
+  subject: "StudyBuddy Password Reset",
+  text: `
 Hi ${user.name},
 
 We received a request to reset your StudyBuddy password.
@@ -193,7 +192,7 @@ If you did not request this, simply ignore this email.
 Regards,
 StudyBuddy Team
 `,
-    });
+});
 
     return res.status(200).json({
         success:true,
