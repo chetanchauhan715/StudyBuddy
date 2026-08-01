@@ -18,7 +18,6 @@ export async function createStudySessions(req,res , next){
     try{
 
       const session =   await StudySession.create(newStudySession);
-        console.log("New Study session created Succesfully");
         return res.status(201).json({
             success:true,
             message:"Study sessin Created Succesfully",
@@ -141,8 +140,7 @@ export async function updateStudySession(req , res, next){
         session.status = status;
         session.studyDate = studyDate;
 
-        // session.duration = duration;
-        // console.log("Session before save:", session);
+        
 
         await session.save();
         return res.status(200).json({
@@ -189,7 +187,6 @@ export async function removeStudySession(req , res, next){
 
 //-------- get statistics data - 
 export async function getStatistics(req , res , next) {
-    // console.log("✅ getStatistics controller called");
     try{
         const baseQuery = {
             user:req.user.userId
@@ -208,7 +205,6 @@ export async function getStatistics(req , res , next) {
         });
 
         const sessions = await StudySession.find(baseQuery);
-        // console.log(sessions[0]);
         const totalHours = sessions.reduce( (total , session) => total + session.duration , 0);
 
 
@@ -246,7 +242,6 @@ export async function getStatistics(req , res , next) {
 
         ]);
 
-        // console.log(weeklyHours);
 
         const weekDays = [
     "Sun",

@@ -45,7 +45,6 @@ export async function login(req,res, next){
 
     try{
         const existingUser = await User.findOne( {email});
-        console.log(existingUser);
 
         if(!existingUser){
             return res.status(404).json({
