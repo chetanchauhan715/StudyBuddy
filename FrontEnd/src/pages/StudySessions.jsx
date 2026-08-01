@@ -10,6 +10,7 @@ import Pagination from "../components/pagination/Pagination";
 import { getSubjects } from "../services/subjectService";
 import Loader from "../components/common/Loader";
 
+import toast from "react-hot-toast";
   
   const statusOptions = [
     "All Status",
@@ -32,6 +33,8 @@ import Loader from "../components/common/Loader";
 
 
 function StudySessions(){
+
+  const [saving , setSaving]=useState(false);
 
   const[isModalOpen , setIsModalOpen] = useState(false);
 
@@ -75,13 +78,29 @@ function StudySessions(){
 
   
   async function handleSave(newSession){
-    const savedSession = await createSession(newSession);
+
+    try{
+      setSaving(true);
+
+      const savedSession = await createSession(newSession);
     const normalizedSession = {
       ...savedSession,
       id: savedSession._id,
     };
 
     setSessions( (prev)=> [  normalizedSession , ...prev ]);
+
+    toast.success("Study session created");
+    }catch(error){
+      console.error(error);
+
+      toast.error(
+        error.response?.data?.message || "Faied to create session"
+      );
+    } finally{
+      setSaving(false);
+    }
+    
   }
 
   function handleEdit(session){
@@ -94,13 +113,13 @@ function StudySessions(){
 
 async function handleUpdate(updatedSession){
 
+try{
+  setSaving(true);
 
   const savedSession = await updateSession(updatedSession);
 
-
   const updatedSessions = sessions.map( (session) => {
     if(session._id === savedSession._id){
-
 
       return savedSession;
     }
@@ -108,6 +127,15 @@ async function handleUpdate(updatedSession){
   });
 
   setSessions(updatedSessions);
+  toast.success("Session Updated")
+} catch(error){
+  console.error(error);
+
+  toast.error(error.response?.data?.message || "Failed to update session");
+} finally{
+  setSaving(false);
+}
+  
 }
 
   
@@ -120,16 +148,28 @@ async function handleUpdate(updatedSession){
   }
 
   async function confirmDelete() {
-    await deleteSession(selectedSessionId);
+    try{
+
+      setSaving(true);
+      await deleteSession(selectedSessionId);
 
     const filteredSessions = sessions.filter( (session) =>{
       return session._id !== selectedSessionId;
     });
 
     setSessions(filteredSessions);
-    setIsDeleteModalOpen(false);
-    setSelectedSessionId(null);
 
+    toast.success("Succesful Deleted!");
+
+    }catch(error){
+      console.error(error);
+      toast.error(error.response?.data?.message || "Failed to delete session");
+    }finally{
+      setSaving(false);
+      setIsDeleteModalOpen(false);
+      setSelectedSessionId(null);
+    }
+    
   }
 
   // subjects ----
@@ -239,6 +279,7 @@ onAddSession={onAddSession}/>
         editingSession={editingSession}
         onUpdate={handleUpdate}
         subjectOptions={subjectOptions}
+        saving={saving}
         />
       )}
 
@@ -248,6 +289,7 @@ onAddSession={onAddSession}/>
           onClose={closeDeleteModal}
           sessionId={selectedSessionId}
           onDelete={confirmDelete}
+          saving={saving}
           />
         )}
       

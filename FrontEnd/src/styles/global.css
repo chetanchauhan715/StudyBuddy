@@ -127,6 +127,11 @@ img{
     transition:.25s;
 }
 
+.primary-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
 .primary-btn:hover{
     background:var(--primary-hover);
 }

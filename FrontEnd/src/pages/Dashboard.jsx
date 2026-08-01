@@ -48,14 +48,14 @@ function Dashboard() {
         setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     }
     fetchDashboard();
   }, []);
 
   const firstName = dashboard.user?.name?.split(" ")[0] || "";
-  console.log(firstName);
-
+ 
   const totalStudyHours = Math.floor(dashboard.sessions.totalHours / 60);
 
   const completedTodayHours = Math.floor(

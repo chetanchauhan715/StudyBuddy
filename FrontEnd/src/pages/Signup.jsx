@@ -1,6 +1,7 @@
 import { Link ,useNavigate } from "react-router-dom";
 import "./Signup.css";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 
 function Signup() {
@@ -14,6 +15,8 @@ function Signup() {
     confirmPassword:""
     
   });
+
+  const [loading , setLoading]= useState(false);
 
   const handleChange = (e) =>{
     const {name , value} = e.target;
@@ -42,6 +45,7 @@ function Signup() {
 
     // API call 
     try{
+      setLoading(true);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/signup` , {
         method:"POST" ,
 
@@ -55,16 +59,17 @@ function Signup() {
       const data = await response.json()
 
       if(response.ok){
-        console.log(data.message);
-        alert("Account created successfully!");
+       toast.success("Account created succesfully");
         navigate("/login")
       } else {
-        console.log("Signup failed");
-        alert(data.message);
+       toast.error(data.message);
       }
     } catch (error){
       console.error(error);
-  } 
+      toast.error("Something went wrong");
+  } finally{
+    setLoading(false);
+  }
 
   }
 
@@ -127,7 +132,13 @@ function Signup() {
             />
           </div>
 
-          <button className="primary-btn" type="submit">Create Account</button>
+          <button
+           className="primary-btn"
+            type="submit"
+            disabled={loading}
+            >
+              {loading? "Creating Account..." : "Create Account"}
+          </button>
 
           <div className="auth-footer">
           <p>

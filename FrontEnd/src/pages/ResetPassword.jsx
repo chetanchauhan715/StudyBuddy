@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPasswrod] = useState("");
+  const [loading , setLoading]=useState(false);
 
   const [searchParams] = useSearchParams();
 
@@ -17,7 +18,15 @@ function ResetPassword() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (newPassword !== confirmPassword) {
+    toast.error("Passwords do not match");
+    return;
+  }
+
+
     try {
+      setLoading(true);
+
       await resetPassword({
         token,
         newPassword,
@@ -31,6 +40,8 @@ function ResetPassword() {
       console.error(error);
 
       toast.error(error.response?.data?.message || "Something went wrong");
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -47,6 +58,7 @@ function ResetPassword() {
         <input
           id="newPassword"
           type="password"
+          disabled={loading}
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
@@ -55,12 +67,17 @@ function ResetPassword() {
         <input
           id="confirmPassword"
           type="password"
+          disabled={loading}
           value={confirmPassword}
           onChange={(e) => setConfirmPasswrod(e.target.value)}
         />
 
-        <button className="primaty-btn" type="submit">
-          Reset Password
+        <button 
+        className="primary-btn" 
+        type="submit"
+        disabled={loading}
+        >
+          {loading?"Updating...": "Reset Password"}
         </button>
       </form>
     </section>

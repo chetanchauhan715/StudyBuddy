@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import "./AddSessionModal.css";
+import Loader from "../common/Loader";
 
-function AddSessionModal({ onClose, onSave, editingSession , onUpdate, subjectOptions}) {
+function AddSessionModal({ onClose, onSave, editingSession , onUpdate, subjectOptions, saving}) {
   const [subject, setSubject] = useState("");
   const [topic, setTopic] = useState("");
   const [duration, setDuration] = useState("");
@@ -26,48 +27,39 @@ function AddSessionModal({ onClose, onSave, editingSession , onUpdate, subjectOp
     }
   }, [editingSession]);
 
-async  function handleSubmit(e) {
+async function handleSubmit(e) {
     e.preventDefault();
 
     if (!subject || !duration || !studyDate) {
-      alert("Please fill all the required fields");
-      return;
+        setError("Please fill all required fields.");
+        return;
     }
 
-    try{
-      setError("");
-    if(editingSession){
-      const updatedSession = {
-        id:editingSession._id,
-        subject,
-        topic,
-        duration: Number(duration) * 60 ,
-        status,
-        studyDate,
-      };
+    setError("");
 
-    await onUpdate(updatedSession);
-      onClose();
-    }  
-      else {
-      const newSession = {
-        id: Date.now(),
-        subject,
-        topic,
-        duration: Number(duration) * 60,
-        status,
-        studyDate,
-      };
-  
-      await onSave(newSession);
-      onClose();
+    if (editingSession) {
+        await onUpdate({
+            id: editingSession._id,
+            subject,
+            topic,
+            duration: Number(duration) * 60,
+            status,
+            studyDate,
+        });
+    } else {
+        await onSave({
+            subject,
+            topic,
+            duration: Number(duration) * 60,
+            status,
+            studyDate,
+        });
     }
 
-  } catch (error){
-    setError(error.response.data.error[0].msg);
-  }
+    onClose();
+}
     
-  }  
+  
 
 
 
@@ -143,12 +135,25 @@ async  function handleSubmit(e) {
           </div>
 
           <div className="modal-buttons">
-            <button type="button" onClick={onClose}>
+            <button 
+            type="button"
+             onClick={onClose}
+             disabled={saving}
+             >
               Cancel
             </button>
 
-            <button type="submit">
-              {editingSession ? "Update Session" : "Add Session"}
+            <button
+             type="submit"
+             disabled={saving}
+             >
+             {saving
+        ? editingSession
+            ? "Updating..."
+            : "Saving..."
+        : editingSession
+            ? "Update Session"
+            : "Add Session"}
             </button>
           </div>
         </form>

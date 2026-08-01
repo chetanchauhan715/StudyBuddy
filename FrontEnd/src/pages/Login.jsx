@@ -1,6 +1,7 @@
 import { Link , useNavigate} from "react-router-dom";
 import "../pages/Login.css";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 function Login() {
   
@@ -10,6 +11,8 @@ function Login() {
     email:"",
     password:""
   });
+
+  const [loading , setLoading] = useState(false);
 
 const handleChange = (e) =>{
   const {name , value } = e.target;
@@ -26,6 +29,7 @@ const handleSubmit = async (e) =>{
   e.preventDefault();
   
   try{
+    setLoading(true);
   const response = await fetch(`${import.meta.env.VITE_API_URL}/login`,{
     method:"POST",
 
@@ -40,21 +44,24 @@ const handleSubmit = async (e) =>{
  
   if(response.ok){
 
-    console.log(data.message);
+    
     localStorage.setItem("token", data.data.token);
 
     localStorage.setItem("user" , JSON.stringify( data.data.user));
 
+    toast.success("Login succesfull !");
+
     navigate("/dashboard");
 }else{
 
-    console.log("Login Failed");
-    alert(data.message);
+    toast.error("Password do not match");
 }
 
 } catch (error){
   console.error(error);
-  alert("Something went wrong. Please try again.");
+  toast.error("Something went wrong. Please try again");
+} finally{
+  setLoading(false);
 }
 
 }
@@ -107,7 +114,13 @@ const handleSubmit = async (e) =>{
             </Link>
           </div>
 
-          <button className="primary-btn" type="submit">Login</button>
+          <button
+           className="primary-btn"
+            type="submit"
+            disabled={loading}
+            >
+              {loading ? "Logging in..." : "Login"}
+          </button>
         </form>
 
         <div className="login-footer">
