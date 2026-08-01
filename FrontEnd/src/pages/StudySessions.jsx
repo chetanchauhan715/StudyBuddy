@@ -175,7 +175,6 @@ try{
   // subjects ----
   async function fetchSubjects(params) {
     const subjectData = await getSubjects();
-    console.log(subjectData);
    setSubjectOptions(subjectData.subjects);
   };
 
@@ -225,7 +224,6 @@ try{
 
   useEffect( ()=>{
     const timer = setTimeout(() => {
-      console.log("Debounced:", search);
       setDebouncedSearch(search);
     }, 300);
 

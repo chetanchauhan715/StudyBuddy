@@ -25,7 +25,6 @@ function SubjectManager() {
 
 
   async function handleSave(subjectData) {
-            console.log("Finished onSave");
 
     try{
       if(editingSubject){

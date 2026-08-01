@@ -38,7 +38,7 @@ function Signup() {
 
     // FrontEnd validatin 
     if(formData.password !== formData.confirmPassword){
-      alert("Password  not match");
+      toast.error("Password do not match");
       return;
     }
 

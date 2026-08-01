@@ -1,20 +1,25 @@
+import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+
 import PublicLayout from "./layouts/PublicLayout";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Landing from "./pages/Landing"
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import Dashboard from "./pages/Dashboard";
 import AppLayout from "./layouts/AppLayout";
-import StudySessions from "./pages/StudySessions"
-import Statistics from "./pages/Statistics";
-import ProfilePage from "./pages/ProfilePage";
-import Settings from "./pages/Settings";
-import ForgotPassword from "./pages/ForgotPassword";
 
+import { Toaster } from "react-hot-toast";
 
-import  {Toaster} from "react-hot-toast";
-import ResetPassword from "./pages/ResetPassword";
+import Loader from "./components/common/Loader";
+
+// Lazy Loaded Pages
+const Landing = lazy(() => import("./pages/Landing"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const StudySessions = lazy(() => import("./pages/StudySessions"));
+const Statistics = lazy(() => import("./pages/Statistics"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const Settings = lazy(() => import("./pages/Settings"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 function App(){
   return (
@@ -26,6 +31,8 @@ function App(){
     duration: 3000,
   }}
     />
+
+     <Suspense fallback={<Loader/>}>
 
     <Routes>
 
@@ -62,7 +69,9 @@ function App(){
         element={<Landing />}
     />
 
+ 
 
+ 
     <Route element={<ProtectedRoute/>}>
 
       <Route element={<AppLayout/>}>  
@@ -96,8 +105,12 @@ function App(){
 
     </Route>
 
+     
+
 
 </Routes>
+
+</Suspense>
 
 </>
     

@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import Loader from "../components/common/Loader";
 import ChangePasswordCard from "../components/profilePage/ChangePasswordCard";
 
+
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
 
@@ -34,17 +35,17 @@ function ProfilePage() {
   async function handleSave() {
     try {
       if (!formData.name.trim()) {
-        alert("Name cannot be empty");
+        toast.error("Name cannot be empty")
         return;
       }
 
       if (formData.dailyGoal < 1) {
-        alert("Daily goal must be greater than 0");
+        toast.error("Daily goal must be greater than 0");
         return;
       }
 
       if (formData.dailyGoal > 24) {
-        alert("Daily goal should not exceed 24 hours");
+        toast.error("Daily goal should not exceeds 24 hours");
         return;
       }
 

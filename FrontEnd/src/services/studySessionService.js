@@ -11,14 +11,13 @@ export async function getSessions(filters){
 }
 
 export async function createSession(sessionData){
-    console.log(sessionData);
 
     try{
         const response = await api.post("/study-sessions" , sessionData);
 
     return response.data.data.session;
     } catch (error){
-        console.log(error.response.data);
+        console.error(error);
         throw error;
     }
     

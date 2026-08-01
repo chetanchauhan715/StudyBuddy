@@ -2,7 +2,6 @@ import "./StudySessionFilters.css";
 
 function StudySessionFilters( {subjectOptions , statusOptions, sortOptions , search , setSearch , status , setStatus, subject , setSubject, sort , setSort}){
 
-    console.log(subjectOptions);
     return (
         <section className="filters-container">
 

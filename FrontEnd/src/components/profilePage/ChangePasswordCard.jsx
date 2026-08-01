@@ -14,7 +14,6 @@ function ChangePasswordCard(){
     const[loading, setLoading]=useState(false);
 
     async function handleSubmit(e) {
-        console.log("Submit Clicked");
         e.preventDefault();
 
         try{
@@ -33,7 +32,7 @@ function ChangePasswordCard(){
             toast.success("Password updated succesfully");
             
         } catch(error){
-            console.log(error);
+            console.error(error);
             setError(error.response.data.message) || "Something went wrong";
         }finally{
             setLoading(false);
