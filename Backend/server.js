@@ -9,6 +9,7 @@ import studySessionRoutes from "./routes/studySessionRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js"
+import adminRoutes from "./routes/adminRoutes.js"
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
 
@@ -35,6 +36,8 @@ app.use(dashboardRoutes) // - dashboard routes
 
 app.use(subjectRoutes) // -- subject routes 
 
+app.use(adminRoutes) // -- admin routes 
+
 app.use(errorMiddleware);  // global error middleware 
 
 
@@ -46,5 +49,5 @@ app.get("/"  ,  (req, res) =>{
 
 const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => {
-    // console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });

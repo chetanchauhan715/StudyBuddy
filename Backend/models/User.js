@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema(
         email:{
             type:String,
             required:true,
-            uniue:true
+            unique:true
         } ,
 
         password:{
@@ -28,8 +28,14 @@ const UserSchema = new mongoose.Schema(
         },
 
         passwordResetExpires:{
-            type:String,
+            type:Date,
         },
+
+        role:{
+            type:String,
+            enum:["user" , "admin"],
+            default:"user",
+        }
         
     }, 
 
