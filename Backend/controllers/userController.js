@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 export async function signup(req,res , next){
+     console.log("🔥 SIGNUP CONTROLLER HIT");
 
     const {name , email , password} = req.body;
 
@@ -24,7 +25,8 @@ export async function signup(req,res , next){
         password:hashedPassword
     };
 
-        await User.create(newUser);
+       const createdUser = await User.create(newUser);
+       console.log(createdUser);
         return res.status(201).json({
             success:true,
             message:"Signup Succesfull"
@@ -58,7 +60,8 @@ export async function login(req,res, next){
             // jwt token -------------
             const token = jwt.sign(
                 {   
-                    userId:existingUser._id
+                    userId:existingUser._id,
+                    role:existingUser.role,
                 },
                 process.env.JWT_SECRET
             );
@@ -69,7 +72,8 @@ export async function login(req,res, next){
             data:{
                 token,
                 user:{
-                    name:existingUser.name
+                    name:existingUser.name,
+                    role:existingUser.role,
                 }
             }
 
