@@ -1,0 +1,20 @@
+.admin-layout{
+    display:flex;
+    min-height:100vh;
+    background:#f5f7fb;
+}
+
+/* Right side */
+.admin-content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+/* Outlet area */
+.admin-main{
+    flex:1;
+    padding:24px;
+    overflow-y:auto;
+}
+

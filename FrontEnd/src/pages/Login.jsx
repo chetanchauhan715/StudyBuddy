@@ -51,7 +51,11 @@ const handleSubmit = async (e) =>{
 
     toast.success("Login succesfull !");
 
+   if(data.data.user.role === "admin"){
+    navigate("/admin/dashboard");
+   } else {
     navigate("/dashboard");
+   }
 }else{
 
     toast.error("Password do not match");

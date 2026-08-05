@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { resetPassword } from "../services/authService";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
@@ -11,7 +12,7 @@ function ResetPassword() {
 
   const [searchParams] = useSearchParams();
 
-  const token = searchParams.get("token");
+  const { token } = useParams();
 
   const navigate = useNavigate();
 

@@ -4,10 +4,12 @@ import { Route, Routes } from "react-router-dom";
 import PublicLayout from "./layouts/PublicLayout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
+import AdminLayout from "./layouts/AdminLayout";
 
 import { Toaster } from "react-hot-toast";
 
 import Loader from "./components/common/Loader";
+
 
 // Lazy Loaded Pages
 const Landing = lazy(() => import("./pages/Landing"));
@@ -20,6 +22,8 @@ const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const Settings = lazy(() => import("./pages/Settings"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+
+const AdminDashboard = lazy( ()=> import("./pages/admin/AdminDashboard"));
 
 function App(){
   return (
@@ -34,7 +38,7 @@ function App(){
 
      <Suspense fallback={<Loader/>}>
 
-    <Routes>
+    <Routes > 
 
     <Route
         element={<PublicLayout />}
@@ -56,7 +60,7 @@ function App(){
         />
 
         <Route
-        path="reset-password"
+        path="reset-password/:token"
         element={<ResetPassword/>}
         />
 
@@ -71,7 +75,7 @@ function App(){
 
  
 
- 
+ {/* ---------------- */}
     <Route element={<ProtectedRoute/>}>
 
       <Route element={<AppLayout/>}>  
@@ -102,6 +106,15 @@ function App(){
       />
 
       </Route>
+
+      {/* ------- */}
+
+    <Route path="/admin" element={<AdminLayout/>}>
+
+    <Route path="dashboard" element={<AdminDashboard/>} />
+
+    </Route>
+
 
     </Route>
 

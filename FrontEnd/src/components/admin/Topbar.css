@@ -1,0 +1,58 @@
+.admin-topbar{
+    height:72px;
+
+    background:white;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 24px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    position:sticky;
+    top:0;
+
+    z-index:10;
+}
+.admin-topbar h1{
+    font-size:28px;
+    color:#111827;
+}
+
+.admin-topbar p{
+    margin-top:4px;
+    color:#6b7280;
+}
+
+.admin-profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile-avatar{
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    background:#4f46e5;
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-weight:600;
+}
+
+.admin-profile h4{
+    color:#111827;
+}
+
+.admin-profile span{
+    color:#6b7280;
+    font-size:14px;
+}

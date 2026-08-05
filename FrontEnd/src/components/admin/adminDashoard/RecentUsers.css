@@ -1,0 +1,45 @@
+.recent-users-section{
+    margin-top: 30px;
+
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.section-header h2{
+    font-size:22px;
+    color:#111827;
+}
+
+.view-all-btn{
+    background:none;
+    border:none;
+
+    color:#5b5ce2;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.view-all-btn:hover{
+    text-decoration:underline;
+}
+
+.recent-users-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
