@@ -1,4 +1,5 @@
 import Subject from "../models/Subject.js";
+import StudySession from "..//models/StudySession.js";
 
 export async function  createSubject(req , res , next) {
     const {name} = req.body;
@@ -120,6 +121,13 @@ export async function deleteSubject(req, res, next){
             });
         }
 
+        // DELETE ALL SUBJECT LINKED TO THIS SUBJECT
+
+        await StudySession.deleteMany({
+            subject: subject._id,
+        });
+
+        // DELETE SUBJECT
         await subject.deleteOne();
         
         return res.status(200).json({

@@ -169,11 +169,9 @@ export async function forgotPassword(req, res, next) {
     user.passwordResetExpires = new Date(Date.now() + 1000 * 60 * 15);
 
     await user.save();
-
-    const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
-
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
    await transporter.emails.send({
-  from: "StudyBuddy <onboarding@resend.dev>",
+  from: "StudyBuddy <noreply@studybuddypro.site>",
   to: user.email,
   subject: "StudyBuddy Password Reset",
   text: `
