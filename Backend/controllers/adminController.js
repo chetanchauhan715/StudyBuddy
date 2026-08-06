@@ -21,6 +21,64 @@ export async function getAdminDashboard (req , res, next) {
         );
         const recentUsers = await User.find().select("name email  createdAt").sort({createdAt: -1}).limit(5);
 
+
+        const sessions = await StudySession.find({
+            studyDate:{
+                $gte:lastWeekDate
+            }
+        });
+
+        const dailyStudyTrend = {};
+
+       const dayName = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+];
+
+        for(const session of sessions){
+            const dayNumber = session.studyDate.getDay();
+            const day = dayName[dayNumber];
+
+           if(!dailyStudyTrend[day]){
+            dailyStudyTrend[day] = session.duration;
+           } else {
+            dailyStudyTrend[day] += session.duration;
+           }
+
+        }
+
+        const chartData = [];
+        for( const day of dayName){
+            chartData.push({
+                day ,
+                totalTime:dailyStudyTrend[day] ?? 0
+            });
+        }
+
+
+        
+        const completedStudySessions = await StudySession.countDocuments({status:"Completed"});
+        const pendingStudySessinos = totalSessions - completedStudySessions;
+
+        const pieChartData = [
+            {
+                name:"Completed",
+                value:completedStudySessions
+            },
+
+            {
+                name:"Pending",
+                value:pendingStudySessinos
+            }
+        ];
+
+
+
         return res.status(200).json({
             success:true,
             message:"Dashboard data fetched succesfully",
@@ -31,6 +89,8 @@ export async function getAdminDashboard (req , res, next) {
                 totalSessions,
                 totalStudyMinutes,
                 recentUsers,
+                chartData,
+                pieChartData
             }
         })
 
