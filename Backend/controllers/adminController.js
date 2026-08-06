@@ -78,6 +78,59 @@ export async function getAdminDashboard (req , res, next) {
         ];
 
 
+        
+        const topUsersData = await StudySession.aggregate([
+            {
+                $group:{
+                    _id:"$user",
+
+                     studyTime:{
+                    $sum:"$duration"
+                },
+                    
+                },
+
+            },
+
+
+            {
+                $lookup:{
+
+                    from:"users",
+                    localField:"_id",
+                    foreignField:"_id",
+                    as:"userDetails",
+                },
+
+            },
+
+            {
+                $unwind:"$userDetails",
+            },
+
+            {
+                $project:{
+                    name:"$userDetails.name",
+                    email:"$userDetails.email",
+                    studyTime:1,
+                }
+            },
+
+            {
+                $sort:{
+                    studyTime:-1,
+                }
+
+            },
+
+            {
+                $limit:5,
+                
+            },
+
+            
+        ]);
+
 
         return res.status(200).json({
             success:true,
@@ -90,7 +143,8 @@ export async function getAdminDashboard (req , res, next) {
                 totalStudyMinutes,
                 recentUsers,
                 chartData,
-                pieChartData
+                pieChartData,
+                topUsersData
             }
         })
 
