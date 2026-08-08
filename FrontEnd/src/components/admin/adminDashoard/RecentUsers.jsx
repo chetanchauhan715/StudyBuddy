@@ -13,9 +13,9 @@ function RecentUsers({ recentUsers }) {
 
         <h2>Recent Users</h2>
 
-        <button className="view-all-btn">
+        {/* <button className="view-all-btn">
             View All →
-        </button>
+        </button> */}
 
     </div>
 

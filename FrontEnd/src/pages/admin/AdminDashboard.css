@@ -3,3 +3,20 @@
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
 }
+
+.users-section{
+
+    display:flex;
+    gap:20px;
+
+    align-items:flex-start;
+
+}
+
+.recent-users-section,
+.top-users-section{
+
+    flex:1;
+
+}
+

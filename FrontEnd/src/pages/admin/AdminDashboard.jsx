@@ -3,6 +3,9 @@ import { getAdminDashboard } from "../../services/adminService";
 import StatCard from "../../components/admin/adminDashoard/StatCard";
 import Loader from "../../components/common/Loader";
 import RecentUsers from "../../components/admin/adminDashoard/RecentUsers";
+import ChartsSection from "../../components/admin/adminDashoard/ChartsSection";
+import TopUsers from "../../components/admin/adminDashoard/TopUsers";
+
 import "./AdminDashboard.css";
 
 import {
@@ -74,8 +77,8 @@ function AdminDashboard(){
 
         
     {
-        title:"Total Study Minutes",
-        value:dashboardData.data.totalStudyMinutes,
+        title:"Total Study Hours",
+        value:dashboardData.data.totalStudyMinutes / 60,
         icon:Clock3
     },
     
@@ -98,9 +101,22 @@ function AdminDashboard(){
         
     </section>
 
-    <RecentUsers 
+    <ChartsSection 
+    chartData={dashboardData.data.chartData}
+    pieChartData={dashboardData.data.pieChartData}
+    />
+
+
+<div className="users-section">
+  <RecentUsers 
 recentUsers={dashboardData.data.recentUsers}
 />
+
+<TopUsers 
+topUsersData={dashboardData.data.topUsersData}
+/>
+</div>
+  
 
 </>
 );

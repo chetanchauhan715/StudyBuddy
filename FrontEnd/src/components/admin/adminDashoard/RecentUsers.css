@@ -5,9 +5,9 @@
 
     border-radius: 16px;
 
-    padding: 20px;
+    padding: 24px;
 
-    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+    box-shadow:0 6px 18px rgba(15,23,42,.06);
 }
 
 .section-header{
@@ -19,8 +19,9 @@
 }
 
 .section-header h2{
-    font-size:22px;
+    font-size:24px;
     color:#111827;
+    font-weight: 600;
 }
 
 .view-all-btn{
