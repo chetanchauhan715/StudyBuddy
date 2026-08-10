@@ -1,4 +1,4 @@
-import { LayoutDashboard, LogOut } from "lucide-react";
+import { LayoutDashboard, LogOut, User, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
@@ -23,6 +23,23 @@ function Sidebar() {
             <LayoutDashboard size={20} />
             <span>Dashboard</span>
           </NavLink>
+
+        
+        <NavLink 
+        to="/admin/users"
+        className={ ({isActive}) =>
+        isActive ? "nav-link active" : "nav-link"
+        }
+        >
+
+          <Users size={20}/>
+          <span>Users</span>
+
+        </NavLink>
+          
+            
+
+          
 
         </nav>
       </div>

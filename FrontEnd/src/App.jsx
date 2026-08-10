@@ -24,6 +24,7 @@ const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 const AdminDashboard = lazy( ()=> import("./pages/admin/AdminDashboard"));
+const AdminUsers = lazy( ()=> import("./pages/admin/AdminUsers"));
 
 function App(){
   return (
@@ -112,6 +113,8 @@ function App(){
     <Route path="/admin" element={<AdminLayout/>}>
 
     <Route path="dashboard" element={<AdminDashboard/>} />
+
+    <Route  path="users" element={<AdminUsers/>} />
 
     </Route>
 

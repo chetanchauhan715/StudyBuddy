@@ -1,0 +1,44 @@
+.user-row-name {
+    font-weight: 600;
+    color: #111827;
+}
+
+.user-row-email {
+    color: #64748b;
+}
+
+.user-study-time {
+    font-weight: 600;
+    color: #5b5ce2;
+}
+
+.user-session-count {
+    color: #334155;
+}
+
+.user-join-date {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.delete-user-btn {
+    border: none;
+
+    background: #fef2f2;
+    color: #ef4444;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.delete-user-btn:hover {
+    background: #fee2e2;
+}
