@@ -1,11 +1,17 @@
-import { Outlet , Navigate } from "react-router-dom";
-function ProtectedRoute(){
+import { Outlet, Navigate } from "react-router-dom";
+
+function ProtectedRoute() {
     const token = localStorage.getItem("token");
 
-    if(!token){
-       return  <Navigate to={"/login"}/>
+    console.log("🔥 ProtectedRoute token:", token);
+
+    if (!token) {
+        console.log("🚨 ProtectedRoute → LOGIN");
+        return <Navigate to="/login" />;
     }
 
-   return  <Outlet/>;
+    console.log("✅ ProtectedRoute → ALLOW");
+    return <Outlet />;
 }
+
 export default ProtectedRoute;

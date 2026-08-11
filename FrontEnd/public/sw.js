@@ -5,6 +5,11 @@ const API_ORIGINS = [
     "https://api.studybuddypro.site",
 ];
 
+
+// ==================================================
+// HELPERS
+// ==================================================
+
 function isViteDevRequest(url) {
     return (
         url.pathname.startsWith("/@vite/") ||
@@ -13,6 +18,7 @@ function isViteDevRequest(url) {
         url.pathname.startsWith("/src/")
     );
 }
+
 
 async function cacheResponse(request, response) {
     if (!response || !response.ok) {
@@ -28,6 +34,7 @@ async function cacheResponse(request, response) {
 
     return response;
 }
+
 
 async function fetchWithTimeout(request, timeout = 5000) {
     const controller = new AbortController();
@@ -46,9 +53,9 @@ async function fetchWithTimeout(request, timeout = 5000) {
 }
 
 
-// --------------------
+// ==================================================
 // INSTALL
-// --------------------
+// ==================================================
 
 self.addEventListener("install", (event) => {
     console.log("Service Worker: installing");
@@ -65,9 +72,9 @@ self.addEventListener("install", (event) => {
 });
 
 
-// --------------------
+// ==================================================
 // ACTIVATE
-// --------------------
+// ==================================================
 
 self.addEventListener("activate", (event) => {
     console.log("Service Worker: activated");
@@ -78,9 +85,9 @@ self.addEventListener("activate", (event) => {
 });
 
 
-// --------------------
+// ==================================================
 // FETCH
-// --------------------
+// ==================================================
 
 self.addEventListener("fetch", (event) => {
 
@@ -93,6 +100,7 @@ self.addEventListener("fetch", (event) => {
 
     const requestUrl = new URL(request.url);
 
+
     // Ignore Vite development internals
     if (isViteDevRequest(requestUrl)) {
         return;
@@ -103,83 +111,77 @@ self.addEventListener("fetch", (event) => {
     // API REQUEST
     // ==================================================
 
-    const isApiRequest = API_ORIGINS.includes(requestUrl.origin);
+    const isApiRequest =
+        API_ORIGINS.includes(requestUrl.origin);
 
     if (isApiRequest) {
 
         event.respondWith(
 
-            caches.match(request)
-                .then((cachedResponse) => {
+            // NETWORK FIRST
+            fetchWithTimeout(request, 5000)
 
-                    // ----------------------------------
-                    // CACHE HIT
-                    // ----------------------------------
+                .then(async (networkResponse) => {
+
+                    console.log(
+                        "SW: API network success:",
+                        requestUrl.pathname + requestUrl.search
+                    );
+
+                    // Save latest API response
+                    await cacheResponse(
+                        request,
+                        networkResponse
+                    );
+
+                    // Give fresh response to React
+                    return networkResponse;
+                })
+
+                .catch(async () => {
+
+                    console.log(
+                        "SW: API network failed, checking cache:",
+                        requestUrl.pathname + requestUrl.search
+                    );
+
+                    // Network failed → use cached response
+                    const cachedResponse =
+                        await caches.match(request);
 
                     if (cachedResponse) {
 
                         console.log(
-                            "SW: API cache hit:",
+                            "SW: API cache fallback:",
                             requestUrl.pathname + requestUrl.search
                         );
 
-                        // Update cache in background
-                        fetchWithTimeout(request, 5000)
-                            .then((networkResponse) => {
-
-                                return cacheResponse(
-                                    request,
-                                    networkResponse
-                                );
-
-                            })
-                            .catch(() => {
-
-                                console.log(
-                                    "SW: API network unavailable, using cache"
-                                );
-
-                            });
-
-                        // IMPORTANT:
-                        // return cache immediately
                         return cachedResponse;
                     }
 
 
-                    // ----------------------------------
-                    // CACHE MISS
-                    // ----------------------------------
-
+                    // Nothing in cache
                     console.log(
-                        "SW: API cache miss:",
+                        "SW: API no cached data:",
                         requestUrl.pathname + requestUrl.search
                     );
 
-                    return fetchWithTimeout(request, 5000)
-                        .then((networkResponse) => {
+                    return new Response(
 
-                            return cacheResponse(
-                                request,
-                                networkResponse
-                            );
+                        JSON.stringify({
+                            message:
+                                "Offline and no cached data available"
+                        }),
 
-                        })
-                        .catch(() => {
+                        {
+                            status: 503,
 
-                            return new Response(
-                                JSON.stringify({
-                                    message: "Offline and no cached data available"
-                                }),
-                                {
-                                    status: 503,
-                                    headers: {
-                                        "Content-Type": "application/json"
-                                    }
-                                }
-                            );
-
-                        });
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            }
+                        }
+                    );
 
                 })
 
@@ -198,6 +200,7 @@ self.addEventListener("fetch", (event) => {
         event.respondWith(
 
             caches.match(request)
+
                 .then((cachedResponse) => {
 
                     // ----------------------------------
@@ -224,12 +227,48 @@ self.addEventListener("fetch", (event) => {
                         requestUrl.pathname
                     );
 
-                    return fetchWithTimeout(request, 5000)
-                        .then((networkResponse) => {
 
-                            return cacheResponse(
+                    return fetchWithTimeout(
+                        request,
+                        5000
+                    )
+
+                        .then(async (networkResponse) => {
+
+                            await cacheResponse(
                                 request,
                                 networkResponse
+                            );
+
+                            return networkResponse;
+                        })
+
+                        .catch(async () => {
+
+                            // If this is a page navigation
+                            // and exact route isn't cached,
+                            // fallback to cached root HTML.
+
+                            if (
+                                request.mode === "navigate"
+                            ) {
+
+                                const rootPage =
+                                    await caches.match("/");
+
+                                if (rootPage) {
+
+                                    console.log(
+                                        "SW: navigation fallback to /"
+                                    );
+
+                                    return rootPage;
+                                }
+                            }
+
+
+                            throw new Error(
+                                "Network unavailable and no cached response"
                             );
 
                         });
