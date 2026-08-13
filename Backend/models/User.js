@@ -35,7 +35,23 @@ const UserSchema = new mongoose.Schema(
             type:String,
             enum:["user" , "admin"],
             default:"user",
-        }
+        },
+
+        subscription:{
+            plan:{
+                type:String,
+                enum:["free" , "premium"],
+                default:"free",
+            },
+
+            startDate:{
+                type:Date,
+            },
+
+            endDate:{
+                type:Date,
+            },
+        },
         
     }, 
 

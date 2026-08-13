@@ -6,18 +6,19 @@ import cors from "cors";
 
 import userRoutes from "./routes/userRoutes.js";
 import studySessionRoutes from "./routes/studySessionRoutes.js"; 
-import profileRoutes from "./routes/profileRoutes.js"
+import profileRoutes from "./routes/profileRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
-import subjectRoutes from "./routes/subjectRoutes.js"
-import adminRoutes from "./routes/adminRoutes.js"
+import subjectRoutes from "./routes/subjectRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
 
 
 const app = express();
 
-app.use(express.json());
-app.use(cors());
+app.use(express.json());   // reading - json data from the request 
+app.use(cors());    // allow multiple origins 
 
 
 
@@ -37,6 +38,8 @@ app.use(dashboardRoutes) // - dashboard routes
 app.use(subjectRoutes) // -- subject routes 
 
 app.use(adminRoutes) // -- admin routes 
+
+app.use(paymentRoutes) // -- payment routes 
 
 app.use(errorMiddleware);  // global error middleware 
 

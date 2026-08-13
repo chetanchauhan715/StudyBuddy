@@ -107,7 +107,7 @@ export async function getAllUser(req, res, next) {
 export async function deleteUser(req , res , next) {
    try{
 
-    const {id} = user.params;
+    const { id } = req.params;
 
     const user = await User.findById(id);
 
