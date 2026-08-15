@@ -2,6 +2,7 @@ import express from "express";
 import StudySession from "../models/StudySession.js";
 import mongoose from "mongoose";
 import Subject from "../models/Subject.js";
+import Notification from "../models/notification.js";
 
 export async function createStudySessions(req,res , next){
     const {subject , topic , duration , status, studyDate} = req.body;
@@ -18,6 +19,13 @@ export async function createStudySessions(req,res , next){
     try{
 
       const session =   await StudySession.create(newStudySession);
+
+      await Notification.create({
+        userId:req.user.userId,
+        content: `Study session "${topic}" created`
+      });
+
+      
         return res.status(201).json({
             success:true,
             message:"Study sessin Created Succesfully",

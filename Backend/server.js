@@ -11,14 +11,22 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import NotificationRoutes from "./routes/notificationRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
 
 
 const app = express();
 
-app.use(express.json());   // reading - json data from the request 
 app.use(cors());    // allow multiple origins 
+
+app.use(express.json({
+    verify:(req , res, buf) =>{
+        if(req.originalUrl=== "/payments/webhook"){
+            req.rawBody = buf;
+        }
+    }
+}));     // for normal user express.json for razor pay - req.rawBody = original body not in json
 
 
 
@@ -40,6 +48,8 @@ app.use(subjectRoutes) // -- subject routes
 app.use(adminRoutes) // -- admin routes 
 
 app.use(paymentRoutes) // -- payment routes 
+
+app.use(NotificationRoutes) // - notification routes
 
 app.use(errorMiddleware);  // global error middleware 
 
