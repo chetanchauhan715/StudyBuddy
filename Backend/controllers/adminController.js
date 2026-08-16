@@ -1,5 +1,6 @@
 import StudySession from "../models/StudySession.js";
 import User from "../models/User.js";
+import Notification from "../models/notification.js";
 
 export async function getAdminDashboard (req , res, next) {
     
@@ -151,4 +152,33 @@ export async function getAdminDashboard (req , res, next) {
     } catch(error){
         next(error);
     }
+}
+
+
+// --------------- announcement 
+export async function createAnnouncement(req , res , next) {
+    const {title , content } = req.body;
+
+   try{
+
+    const users = await User.find({role:"user"});
+
+    const notification_arr = users.map( (user)=>{
+        return {
+            userId:user._id,
+            title:title,
+            content:content
+        }
+    })
+
+    await Notification.insertMany(notification_arr);
+
+    return res.status(200).json({
+        success:true,
+        message:"Announcement send succesfull"
+    })
+} catch(error){
+    next(error);
+}
+
 }

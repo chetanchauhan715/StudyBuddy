@@ -22,7 +22,7 @@ export async function createStudySessions(req,res , next){
 
       await Notification.create({
         userId:req.user.userId,
-        content: `Study session "${topic}" created`
+        content: `Study session "${topic}"`
       });
 
       
