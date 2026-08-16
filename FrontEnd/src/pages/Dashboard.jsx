@@ -16,7 +16,7 @@ import Loader from "../components/common/Loader";
 import { getDashboard } from "../services/dashboardService";
 
 import { useState, useEffect } from "react";
-
+import UpgradeButton from "../components/payment/UpgradeButton";
 function Dashboard() {
   const [dashboard, setDashboard] = useState({
     sessions: {
@@ -115,6 +115,10 @@ function Dashboard() {
         </h2>
 
         <p>Here's a quick overview of your learning progress today.</p>
+
+        <UpgradeButton  
+        plan="monthly"
+        />
       </div>
 
       <div className="stats-container">

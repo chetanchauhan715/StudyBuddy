@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { getAdminDashboard } from "../../services/adminService";
+import { createAnnouncement, getAdminDashboard } from "../../services/adminService";
 import StatCard from "../../components/admin/adminDashoard/StatCard";
 import Loader from "../../components/common/Loader";
 import RecentUsers from "../../components/admin/adminDashoard/RecentUsers";
@@ -23,6 +23,31 @@ function AdminDashboard(){
     const[dashboardData , setDashboardData]=useState(null);
     const[loading , setLoading]=useState(true);
 
+    const [title, setTitle] = useState("");
+    const [content , setContent] = useState("");
+    const [message , setMessage] = useState("");
+
+
+    async function handleAnnouncementSubmit(e) {
+        e.preventDefault();
+
+        try{
+
+            setMessage("");
+
+            await createAnnouncement(title , content);
+
+            setTitle("");
+            setContent("");
+
+            setMessage("Annoucement send succesfully");
+
+        } catch(error){
+            console.error(error);
+            setMessage("Failed to send announcement");
+
+        }
+    }
     
     useEffect( ()=>{
         async function fetchDashboard() {
@@ -89,6 +114,39 @@ function AdminDashboard(){
    return (
 
     <>
+
+    <section className="announcement-section">
+        <h3>Announcement</h3>
+        <form onSubmit={handleAnnouncementSubmit}>
+            <label htmlFor="title">Title</label>
+            <input 
+            id="title"
+            type="text"
+            value={title}
+            onChange={ (e)=> setTitle(e.target.value)}
+            required
+            />
+
+            <label htmlFor="content">Content</label>
+            <input
+            id="content"
+             type="text"
+             value={content}
+             onChange={ (e)=> setContent(e.target.value)}
+             required
+             />
+
+            <button type="submit">Send Announcement</button>
+
+            {message && (
+                <p className="announcement-message">
+                    {message}
+                </p>
+            )}
+        </form>
+    </section>
+
+
     <section className="admin-dashboard">
         {statData.map( (stat)=> (
             <StatCard  

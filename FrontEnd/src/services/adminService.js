@@ -41,3 +41,18 @@ export async function deleteUser(id) {
         throw error;
     }
 }
+
+
+export async function createAnnouncement(title , content) {
+    try{
+        const response = await api.post("/admin/announcements", {
+            title,
+            content
+        });
+
+        return response.data;
+    } catch(error){
+        console.error(error);
+        throw error;
+    }
+}

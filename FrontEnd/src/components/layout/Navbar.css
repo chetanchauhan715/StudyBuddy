@@ -73,26 +73,136 @@
 }
 
 /* ---------- Notification ---------- */
+/* ---------- Notification ---------- */
 
-.notification-btn{
-
-    position:relative;
+.notification-wrapper {
+    position: relative;
 }
 
-.notification-dot{
-
-    position:absolute;
-
-    top:10px;
-    right:10px;
-
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-
-    background:#EF4444;
+.notification-btn {
+    position: relative;
 }
+
+/* Unread count badge */
+
+.notification-badge {
+    position: absolute;
+
+    top: -3px;
+    right: -3px;
+
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 999px;
+
+    background: var(--primary);
+    color: white;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+    border: 2px solid var(--surface);
+}
+
+/* ---------- Notification Panel ---------- */
+
+.notification-panel {
+    position: absolute;
+
+    top: calc(100% + 12px);
+    right: 0;
+
+    width: 340px;
+    max-height: 420px;
+
+    overflow-y: auto;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+    z-index: 1000;
+}
+
+/* Remove default ul styling */
+
+.notification-panel ul {
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+}
+
+/* Individual notification */
+
+.notification-item {
+    padding: 14px 16px;
+
+    border-bottom: 1px solid var(--border);
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item:hover {
+    background: var(--background);
+}
+
+/* Notification message */
+
+.notification-content {
+    font-size: 0.88rem;
+    line-height: 1.4;
+
+    color: var(--text-primary);
+}
+
+/* Notification time */
+
+.notification-time {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 0.72rem;
+
+    color: var(--text-secondary);
+}
+
+
+
+/* ---------- Notification Responsive ---------- */
+
+@media (max-width: 480px) {
+
+    .notification-panel {
+        position: fixed;
+
+        top: 78px;
+        left: 1rem;
+        right: 1rem;
+
+        width: auto;
+        max-height: 70vh;
+    }
+
+}
+
 
 /* ---------- User ---------- */
 
