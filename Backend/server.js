@@ -12,6 +12,7 @@ import subjectRoutes from "./routes/subjectRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import NotificationRoutes from "./routes/notificationRoutes.js";
+import ReminderRoutes from "./routes/reminderRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
 
@@ -50,6 +51,8 @@ app.use(adminRoutes) // -- admin routes
 app.use(paymentRoutes) // -- payment routes 
 
 app.use(NotificationRoutes) // - notification routes
+
+app.use(ReminderRoutes) // -- reminder routes 
 
 app.use(errorMiddleware);  // global error middleware 
 

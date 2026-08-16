@@ -42,7 +42,6 @@ export const studySessionCreateValidation = [
         }
         
         next();
-    }
-
+    },
 
 ];
