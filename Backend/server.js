@@ -13,7 +13,10 @@ import adminRoutes from "./routes/adminRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import NotificationRoutes from "./routes/notificationRoutes.js";
 import ReminderRoutes from "./routes/reminderRoutes.js";
+import pushRoutes from "./routes/pushRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
+
+import startReminderScheduler from "./schedulers/reminderScheduler.js";
 
 
 
@@ -54,6 +57,8 @@ app.use(NotificationRoutes) // - notification routes
 
 app.use(ReminderRoutes) // -- reminder routes 
 
+app.use(pushRoutes); //-- push routes - vapid key 
+
 app.use(errorMiddleware);  // global error middleware 
 
 
@@ -62,6 +67,9 @@ app.use(errorMiddleware);  // global error middleware
 app.get("/"  ,  (req, res) =>{
     res.send("StudyBuddy API Running ");
 });
+
+startReminderScheduler();
+
 
 const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => {
