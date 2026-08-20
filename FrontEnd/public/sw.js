@@ -77,10 +77,66 @@ self.addEventListener("install", (event) => {
 // ==================================================
 
 self.addEventListener("activate", (event) => {
-    console.log("Service Worker: activated");
 
     event.waitUntil(
-        self.clients.claim()
+
+        caches.keys()
+
+            .then((cacheNames) => {
+
+                return Promise.all(
+
+                    cacheNames
+
+                        .filter(
+                            (cacheName) =>
+                                cacheName !== CACHE_NAME
+                        )
+
+                        .map(
+                            (cacheName) =>
+                                caches.delete(cacheName)
+                        )
+
+                );
+
+            })
+
+            .then(() => self.clients.claim())
+
+    );
+});
+
+
+// ==================================================
+// PUSH NOTIFICATION
+// ==================================================
+
+self.addEventListener("push", (event) => {
+
+    console.log("SW: Push event received");
+
+    if (!event.data) {
+        return;
+    }
+
+    const data = event.data.json();
+
+    console.log("SW: Push data:", data);
+
+    event.waitUntil(
+
+        self.registration.showNotification(
+            data.title,
+            {
+                body: data.body,
+
+                icon: "/icons/icon-192.png",
+
+                badge: "/icons/icon-192.png"
+            }
+        )
+
     );
 });
 
@@ -125,7 +181,8 @@ self.addEventListener("fetch", (event) => {
 
                     console.log(
                         "SW: API network success:",
-                        requestUrl.pathname + requestUrl.search
+                        requestUrl.pathname +
+                        requestUrl.search
                     );
 
                     // Save latest API response
@@ -142,7 +199,8 @@ self.addEventListener("fetch", (event) => {
 
                     console.log(
                         "SW: API network failed, checking cache:",
-                        requestUrl.pathname + requestUrl.search
+                        requestUrl.pathname +
+                        requestUrl.search
                     );
 
                     // Network failed → use cached response
@@ -153,7 +211,8 @@ self.addEventListener("fetch", (event) => {
 
                         console.log(
                             "SW: API cache fallback:",
-                            requestUrl.pathname + requestUrl.search
+                            requestUrl.pathname +
+                            requestUrl.search
                         );
 
                         return cachedResponse;
@@ -163,7 +222,8 @@ self.addEventListener("fetch", (event) => {
                     // Nothing in cache
                     console.log(
                         "SW: API no cached data:",
-                        requestUrl.pathname + requestUrl.search
+                        requestUrl.pathname +
+                        requestUrl.search
                     );
 
                     return new Response(
@@ -279,5 +339,45 @@ self.addEventListener("fetch", (event) => {
 
         return;
     }
+
+});
+
+// ----
+
+self.addEventListener("push", (event) => {
+
+    console.log("SW: Push received");
+
+    const data = event.data
+        ? event.data.json()
+        : {};
+
+    const title =
+        data.title || "StudyBuddy";
+
+    const options = {
+
+        body:
+            data.body || "You have a new reminder.",
+
+        icon: "/icons/icon-192.png",
+
+        badge: "/icons/icon-192.png",
+
+        data: {
+            reminderId: data.reminderId
+        }
+
+    };
+
+
+    event.waitUntil(
+
+        self.registration.showNotification(
+            title,
+            options
+        )
+
+    );
 
 });
