@@ -4,7 +4,10 @@
     gap:2rem;
 }
 
-/* ---------- Header ---------- */
+
+/* ===========================
+   HEADER
+=========================== */
 
 .settings-header{
     display:flex;
@@ -43,4 +46,60 @@
 
 .settings-header p{
     color:var(--text-secondary);
+}
+
+
+/* ===========================
+   SETTINGS GRID
+=========================== */
+
+.settings-grid{
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(320px, .85fr);
+
+    gap:1.5rem;
+
+    align-items:start;
+}
+
+
+/* Allow manager cards to fill grid */
+
+.settings-grid .subject-manager{
+    max-width:none;
+}
+
+
+/* ===========================
+   TABLET
+=========================== */
+
+@media(max-width:1000px){
+
+    .settings-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+    .settings-page{
+        gap:1.5rem;
+    }
+
+    .settings-header h1{
+        font-size:1.8rem;
+    }
+
 }

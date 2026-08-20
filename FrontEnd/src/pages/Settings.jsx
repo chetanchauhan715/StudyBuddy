@@ -1,4 +1,5 @@
 import SubjectManager from "../components/settings/SubjectManager";
+import ReminderManager from "../components/settings/ReminderManager";
 import "./Settings.css";
 
 function Settings() {
@@ -15,7 +16,13 @@ function Settings() {
 
       </div>
 
+      <div className="settings-grid">
+    
       <SubjectManager />
+
+      <ReminderManager/>
+      </div>
+
 
     </section>
   );
