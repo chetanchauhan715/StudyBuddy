@@ -1,0 +1,401 @@
+.reminder-manager{
+
+    width:100%;
+
+    background:var(--surface);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+}
+
+
+/* ===========================
+   HEADER
+=========================== */
+
+.reminder-manager-header{
+
+    padding:1.5rem 2rem;
+
+    border-bottom:1px solid var(--border);
+}
+
+.reminder-manager-header h2{
+
+    font-size:1.45rem;
+
+    margin-bottom:.35rem;
+
+    color:var(--text-primary);
+}
+
+.reminder-manager-header p{
+
+    color:var(--text-secondary);
+}
+
+
+/* ===========================
+   BODY
+=========================== */
+
+.reminder-manager-body{
+
+    padding:2rem;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:1.5rem;
+}
+
+
+/* ===========================
+   PLAN INFO
+=========================== */
+
+.reminder-plan-info{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:.9rem;
+
+    padding:1rem;
+
+    border:1px solid rgba(91,75,219,.18);
+
+    border-radius:var(--radius-md);
+
+    background:rgba(91,75,219,.06);
+}
+
+.reminder-plan-icon{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:38px;
+    height:38px;
+
+    flex-shrink:0;
+
+    border-radius:10px;
+
+    background:rgba(91,75,219,.12);
+
+    font-size:1rem;
+}
+
+.reminder-plan-info strong{
+
+    display:block;
+
+    margin-bottom:.2rem;
+
+    color:var(--text-primary);
+}
+
+.reminder-plan-info p{
+
+    font-size:.86rem;
+
+    color:var(--text-secondary);
+}
+
+
+/* ===========================
+   FORM
+=========================== */
+
+.reminder-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:1.25rem;
+}
+
+.reminder-field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:.45rem;
+}
+
+.reminder-field label{
+
+    font-size:.9rem;
+
+    font-weight:600;
+
+    color:var(--text-primary);
+}
+
+
+/* ===========================
+   DATE + TIME
+=========================== */
+
+.reminder-date-time{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:1rem;
+}
+
+
+/* ===========================
+   BUTTON
+=========================== */
+
+.reminder-submit-btn{
+
+    width:100%;
+
+    margin-top:.25rem;
+}
+
+
+/* ===========================
+   FEEDBACK
+=========================== */
+
+.reminder-feedback{
+
+    padding:.8rem 1rem;
+
+    border-radius:var(--radius-md);
+
+    font-size:.9rem;
+
+    font-weight:500;
+}
+
+.reminder-feedback.success{
+
+    color:var(--success);
+
+    background:rgba(22,163,74,.08);
+
+    border:1px solid rgba(22,163,74,.18);
+}
+
+.reminder-feedback.error{
+
+    color:var(--danger);
+
+    background:rgba(220,38,38,.07);
+
+    border:1px solid rgba(220,38,38,.16);
+}
+
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+    .reminder-manager-header,
+    .reminder-manager-body{
+
+        padding:1.25rem;
+    }
+
+
+    .reminder-date-time{
+
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* ---------- */
+
+/* ===========================
+   TODAY'S REMINDERS
+=========================== */
+
+.today-reminders{
+    padding:1.5rem 2rem 2rem;
+
+    border-top:1px solid var(--border);
+}
+
+.today-reminders h3{
+    font-size:1.05rem;
+
+    color:var(--text-primary);
+
+    margin-bottom:1rem;
+}
+
+
+/* ---------- Empty State ---------- */
+
+.reminder-empty{
+    padding:1rem;
+
+    text-align:center;
+
+    color:var(--text-secondary);
+
+    background:#F9FAFB;
+
+    border:1px dashed var(--border);
+
+    border-radius:var(--radius-md);
+
+    font-size:.9rem;
+}
+
+
+/* ---------- Reminder List ---------- */
+
+.reminder-list{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:.75rem;
+}
+
+
+/* ---------- Reminder Item ---------- */
+
+.reminder-item{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    gap:1rem;
+
+    padding:1rem;
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-md);
+
+    background:var(--surface);
+}
+
+.reminder-item h4{
+    font-size:.95rem;
+
+    color:var(--text-primary);
+
+    margin-bottom:.2rem;
+}
+
+.reminder-item > div:first-child span{
+    font-size:.82rem;
+
+    color:var(--text-secondary);
+}
+
+
+/* ---------- Actions ---------- */
+
+.reminder-item-actions{
+    display:flex;
+
+    align-items:center;
+
+    gap:.65rem;
+}
+
+
+/* ---------- Status ---------- */
+
+.reminder-status{
+    padding:.3rem .65rem;
+
+    border-radius:999px;
+
+    font-size:.75rem;
+
+    font-weight:600;
+
+    text-transform:capitalize;
+}
+
+
+.reminder-status.pending{
+    color:#B45309;
+
+    background:#FEF3C7;
+}
+
+
+.reminder-status.sent{
+    color:var(--success);
+
+    background:rgba(22,163,74,.10);
+}
+
+
+/* ---------- Delete ---------- */
+
+.reminder-item-actions button{
+    border:none;
+
+    padding:.4rem .7rem;
+
+    border-radius:var(--radius-sm);
+
+    background:rgba(220,38,38,.08);
+
+    color:var(--danger);
+
+    font-size:.8rem;
+
+    font-weight:600;
+
+    transition:.2s;
+}
+
+.reminder-item-actions button:hover{
+    background:var(--danger);
+
+    color:white;
+}
+
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+    .today-reminders{
+        padding:1.25rem;
+    }
+
+    .reminder-item{
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .reminder-item-actions{
+        width:100%;
+
+        justify-content:space-between;
+    }
+
+}
