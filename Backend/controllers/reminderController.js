@@ -110,3 +110,150 @@ export async function createReminder(req, res, next) {
         next(error);
     }
 }
+
+
+// -----------
+
+export async function getReminders(req , res , next) {
+    const userId = req.user.userId;
+
+    const today = new Date();
+    
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999);
+    
+
+    try{
+
+        const todayReminders = await  Reminder.find({
+            userId,
+            scheduledAt:{
+                $gte:startOfDay,
+                $lte:endOfDay
+            }
+        }).sort({
+            scheduledAt:-1
+        });
+
+        return res.status(200).json({
+            success:true,
+            message:"Today's reminder fetched succesfully",
+            data:{
+                todayReminders
+            }
+        })
+
+    } catch(error){
+        next(error);
+    }
+}
+
+
+// TODO: make reminder day range timezone-aware for production
+
+
+// export async function getReminders(req, res, next) {
+
+//     const userId = req.user.userId;
+
+//     try {
+
+//         const now = new Date();
+
+//         const IST_OFFSET = 5.5 * 60 * 60 * 1000;
+
+//         // Convert current instant to IST representation
+//         const nowIST = new Date(
+//             now.getTime() + IST_OFFSET
+//         );
+
+//         // Start of today's IST calendar day, converted back to UTC
+//         const startOfDay = new Date(
+//             Date.UTC(
+//                 nowIST.getUTCFullYear(),
+//                 nowIST.getUTCMonth(),
+//                 nowIST.getUTCDate()
+//             ) - IST_OFFSET
+//         );
+
+//         // Start of tomorrow
+//         const endOfDay = new Date(
+//             startOfDay.getTime() +
+//             24 * 60 * 60 * 1000
+//         );
+
+
+//         console.log("USER:", userId);
+//         console.log("START:", startOfDay);
+//         console.log("END:", endOfDay);
+
+
+//         const todayReminders = await Reminder.find({
+
+//             userId,
+
+//             scheduledAt: {
+//                 $gte: startOfDay,
+//                 $lt: endOfDay
+//             }
+
+//         }).sort({
+//             scheduledAt: 1
+//         });
+
+
+//         console.log(
+//             "TODAY REMINDERS:",
+//             todayReminders
+//         );
+
+
+//         return res.status(200).json({
+
+//             success: true,
+
+//             message:
+//                 "Today's reminders fetched successfully",
+
+//             data: {
+//                 todayReminders
+//             }
+
+//         });
+
+
+//     } catch (error) {
+
+//         next(error);
+//     }
+// }
+
+
+export async function deleteReminder(req , res , next) {
+    const userId = req.user.userId;
+    const {reminderId} = req.params;
+
+    try{
+        const deletedReminder = await Reminder.findOneAndDelete({
+            userId,
+            _id:reminderId,
+            status:"pending"
+        });
+
+
+        if(!deletedReminder){
+            return res.status(404).json({
+                success:false,
+                message:"Pending reminder not found"
+            });
+        }
+
+        return res.status(200).json({
+            success:true,
+            message:"Reminder deleted succesfully",
+        });
+    } catch(error){
+        next(error);
+    }
+}
