@@ -10,3 +10,15 @@ export async function getDashboard() {
         throw error;
        }
 }
+
+export async function getPremiumDashboardInsights() {
+     try{
+        const response = await api.get("/dashboard/premium-insights");
+
+        return response.data.data.premiumInsights;
+        
+     } catch(error){
+        console.error(error);
+        throw error;
+     }
+}

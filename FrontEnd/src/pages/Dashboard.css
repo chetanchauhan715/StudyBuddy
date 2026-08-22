@@ -59,6 +59,122 @@
     gap:1.5rem;
 }
 
+
+/* ===========================
+   PREMIUM INSIGHTS
+=========================== */
+
+.premium-insights-section{
+    margin-top:2rem;
+    margin-bottom:2rem;
+}
+
+
+/* ---------- Header ---------- */
+
+.premium-insights-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:1rem;
+
+    margin-bottom:1rem;
+}
+
+.premium-insights-header h3{
+    font-size:1.25rem;
+    color:var(--text-primary);
+}
+
+.premium-insights-header span{
+    padding:.4rem .8rem;
+
+    border-radius:999px;
+
+    background:rgba(91,75,219,.08);
+    color:var(--primary);
+
+    font-size:.8rem;
+    font-weight:600;
+}
+
+
+/* ---------- Grid ---------- */
+
+.premium-insights-grid{
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:1.5rem;
+
+    align-items:stretch;
+}
+
+
+/* Each premium item */
+
+.premium-insight-grid{
+    min-width:0;
+    height:100%;
+}
+
+
+/* Make PremiumGate fill the grid cell */
+
+.premium-insight-grid .premium-gate{
+    width:100%;
+    height:100%;
+}
+
+
+/* Make card fill entire available height */
+
+.premium-insight-grid .premium-insight-card{
+    width:100%;
+    height:100%;
+}
+
+
+/* ===========================
+   TABLET
+=========================== */
+
+@media(max-width:900px){
+
+    .premium-insights-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+    .premium-insights-section{
+        margin-top:1.5rem;
+        margin-bottom:1.5rem;
+    }
+
+    .premium-insights-header{
+        align-items:flex-start;
+    }
+
+    .premium-insights-header h3{
+        font-size:1.1rem;
+    }
+
+    .premium-insights-grid{
+        gap:1rem;
+    }
+
+}
+
 /* ---------- Charts ---------- */
 
 .charts-container{

@@ -13,10 +13,17 @@ import TodayGoalCard from "../components/dashboard/TodayGoalCard";
 
 import Loader from "../components/common/Loader";
 
-import { getDashboard } from "../services/dashboardService";
+import { getDashboard , getPremiumDashboardInsights} from "../services/dashboardService";
 
 import { useState, useEffect } from "react";
 import UpgradeButton from "../components/payment/UpgradeButton";
+
+
+import { useUser } from "../context/UserContext";
+import PremiumGate from "../components/premium/PremiumGate";
+import PremiumPoster from "../components/premium/PremiumPoster";
+import PremiumInsightCard from "../components/dashboard/PremiunInsightCard";
+
 function Dashboard() {
   const [dashboard, setDashboard] = useState({
     sessions: {
@@ -40,6 +47,37 @@ function Dashboard() {
 
   const [loading, setLoading] = useState(true);
 
+  const [isPremiumPosterOpen , setIsPremiumPosterOpen] = useState(false);
+
+  const [premiumInsights , setPremiumInsights] = useState({
+    weeklyFocus:{
+      subject:null,
+      hours:0
+    },
+
+    weeklyPerformance:{
+      thisWeekHours:0,
+      lastWeekHours:0,
+      weeklyChange:0
+    }
+  });
+
+
+  
+// --------------------
+
+  const { user } = useUser();
+
+const now = new Date();
+
+const isPremium =
+    user?.subscription?.plan === "premium" &&
+    user?.subscription?.startDate &&
+    user?.subscription?.endDate &&
+    new Date(user.subscription.startDate) <= now &&
+    new Date(user.subscription.endDate) > now;
+
+
   useEffect(() => {
     async function fetchDashboard() {
       try {
@@ -53,6 +91,48 @@ function Dashboard() {
     }
     fetchDashboard();
   }, []);
+
+
+  // ----------------
+
+  useEffect( ()=>{
+    async function fetchPremiunInsights() {
+      
+      if(!isPremium){
+        return;
+      }
+
+    try{
+      const data= await getPremiumDashboardInsights();
+
+      setPremiumInsights(data);
+    } catch(error){
+      console.error(
+        "Failed to fetched premium dashboard insights",
+        error
+      );
+    }
+
+  }
+    fetchPremiunInsights();
+  }, [isPremium]);
+
+
+
+  const weeklyFocusHours =
+  premiumInsights.weeklyFocus.hours / 60;
+
+const thisWeekHours =
+  premiumInsights.weeklyPerformance.thisWeekHours / 60;
+
+const lastWeekHours =
+  premiumInsights.weeklyPerformance.lastWeekHours / 60;
+
+const weeklyChange =
+  premiumInsights.weeklyPerformance.weeklyChange;
+
+
+  // .---------
 
   const firstName = dashboard.user?.name?.split(" ")[0] || "";
  
@@ -122,11 +202,14 @@ function Dashboard() {
       </div>
 
       <div className="stats-container">
+
+
         <StatsCard
           title="Total Sessions"
           value={dashboard.sessions.totalSessions}
           icon={<FaBook />}
         />
+       
         <StatsCard
           title="Study Hours"
           value={`${totalStudyHours} Hours`}
@@ -145,6 +228,96 @@ function Dashboard() {
           icon={<FaClipboardList />}
         />
       </div>
+
+    <div className="premium-insights-section">
+
+  <div className="premium-insights-header">
+
+    <h3>Premium Insights</h3>
+
+    <span>
+      ✨ Premium
+    </span>
+
+  </div>
+
+
+  <div className="premium-insights-grid">
+    
+    <div className="premium-insight-grid">
+    <PremiumGate
+      isPremium={isPremium}
+      onUpgrade={() =>
+        setIsPremiumPosterOpen(true)
+      }
+    >
+
+      <PremiumInsightCard
+    title="This Week's Focus"
+    value={
+      premiumInsights.weeklyFocus.subject ||
+      "No data"
+    }
+    description={
+      `${weeklyFocusHours.toFixed(1)} hrs studied this week`
+    }
+    icon={<FaBook />}
+  />
+
+    </PremiumGate>
+     </div>
+
+      
+    <div className="premium-insight-grid">
+    <PremiumGate
+      isPremium={isPremium}
+      onUpgrade={() =>
+        setIsPremiumPosterOpen(true)
+      }
+    >
+
+      
+  <PremiumInsightCard
+    title="Weekly Performance"
+
+    value={
+      weeklyChange > 0
+        ? `+${weeklyChange}%`
+        : `${weeklyChange}%`
+    }
+
+    description={
+      `${thisWeekHours.toFixed(1)} hrs this week · ${lastWeekHours.toFixed(1)} hrs last week`
+    }
+
+    icon={<FaClock />}
+
+    trend={{
+      type:
+        weeklyChange > 0
+          ? "positive"
+          : weeklyChange < 0
+          ? "negative"
+          : "neutral",
+
+      text:
+        weeklyChange > 0
+          ? "Improved from last week"
+          : weeklyChange < 0
+          ? "Lower than last week"
+          : "Same as last week"
+    }}
+  />
+
+    </PremiumGate>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 
       <div className="charts-container">
         <div className="study-chart">
@@ -169,6 +342,15 @@ function Dashboard() {
           />
         </div>
       </div>
+
+      <PremiumPoster
+    isOpen={isPremiumPosterOpen}
+
+    onClose={() =>
+        setIsPremiumPosterOpen(false)
+    }
+/>
+
     </div>
   );
 }
