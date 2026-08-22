@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import "@fontsource/inter";
+import { UserProvider } from "./context/UserContext.jsx";
 
 import api from "./api/axios.js";
 
@@ -162,7 +163,11 @@ createRoot(
 
         <BrowserRouter>
 
-            <App />
+            <UserProvider>
+
+                <App />
+
+            </UserProvider>
 
         </BrowserRouter>
 
