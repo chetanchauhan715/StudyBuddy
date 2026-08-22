@@ -1,0 +1,19 @@
+.premium-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:.35rem;
+
+    padding:.3rem .65rem;
+
+    border-radius:999px;
+
+    background:#FFF7D6;
+    color:#9A6700;
+
+    border:1px solid #F4D76A;
+
+    font-size:.75rem;
+    font-weight:700;
+
+    white-space:nowrap;
+}

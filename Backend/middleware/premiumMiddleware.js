@@ -8,8 +8,10 @@ async function premiumMiddleware(req , res , next){
         const user = await User.findById(userId);
 
         if(!user||
-            user.subscription.plan !== "premium" ||
-            !user.subscription.endDate ||
+            user.subscription?.plan !== "premium" ||
+            !user.subscription?.startDate ||
+            !user.subscription?.endDate ||
+            user.subscription.startDate > today ||
              user.subscription.endDate <= today){
             return res.status(403).json({
                 success:false,
