@@ -2,7 +2,49 @@ import mongoose from "mongoose";
 import StudySession from "../models/StudySession.js";
 import User from "../models/User.js";
 
+
+function getWeekRanges() {
+
+    const now = new Date();
+
+    const startOfThisWeek = new Date(now);
+
+    const day = startOfThisWeek.getDay();
+
+    const diffToMonday =
+        day === 0
+            ? -6
+            : 1 - day;
+
+    startOfThisWeek.setDate(
+        startOfThisWeek.getDate() + diffToMonday
+    );
+
+    startOfThisWeek.setHours(
+        0, 0, 0, 0
+    );
+
+
+    const startOfLastWeek =
+        new Date(startOfThisWeek);
+
+    startOfLastWeek.setDate(
+        startOfLastWeek.getDate() - 7
+    );
+
+
+    return {
+        now,
+        startOfThisWeek,
+        startOfLastWeek
+    };
+}
+
 export async function getDashboard(req , res , next ) {
+
+    const {now , startOfThisWeek} = getWeekRanges();
+
+    
    
     try{
          const userId = req.user.userId;
@@ -61,7 +103,14 @@ export async function getDashboard(req , res , next ) {
     const weeklyStudy = await StudySession.aggregate([
         {
             $match:{
-                user:new mongoose.Types.ObjectId(userId)
+                user:new mongoose.Types.ObjectId(userId),
+
+                status:"Completed",
+
+                studyDate:{
+                    $gte:startOfThisWeek,
+                    $lte:now
+                }
             },
 
         },
@@ -187,7 +236,7 @@ export async function getDashboard(req , res , next ) {
     }
 
     const user = await User.findById(userId).select("name dailyGoal");
-    
+
     
     return res.status(200).json({
         success:true,
@@ -221,3 +270,164 @@ export async function getDashboard(req , res , next ) {
     
 }
 
+
+
+
+// -------------- premium insights 
+
+export async function getPremiumDashboardInsights(req , res , next){
+    const userId = req.user.userId;
+
+    const {now , startOfThisWeek, startOfLastWeek} = getWeekRanges();
+
+    try{
+
+
+        const weeklyFocus = await StudySession.aggregate([
+        {
+            $match:{
+                user:new mongoose.Types.ObjectId(userId),
+
+                status:"Completed",
+
+                studyDate:{
+                    $gte:startOfThisWeek,
+                    $lte:now
+                }
+            }
+        },
+
+        {
+            $group:{
+                _id:"$subject",
+
+                hours:{
+                    $sum:"$duration"
+                }
+            }
+        },
+
+        {
+            $sort:{
+                hours:-1
+            }
+        },
+
+        {
+            $limit:1
+        },
+
+        {
+            $lookup:{
+                from : "subjects",
+                localField:"_id",
+                foreignField:"_id",
+                as:"subjectInfo"
+            }
+        },
+
+        {
+            $unwind:"$subjectInfo"
+        },
+
+        {
+            $project:{
+                _id:0,
+                subject:"$subjectInfo.name",
+                hours:1
+            }
+        }
+    ]);
+
+
+    const thisWeekData = await StudySession.aggregate([
+        {
+            $match:{
+                user: new mongoose.Types.ObjectId(userId),
+
+                status:"Completed",
+
+                studyDate:{
+                    $gte:startOfThisWeek,
+                    $lte:now
+                }
+            }
+        },
+
+        {
+            $group:{
+                _id:null,
+
+                hours:{
+                    $sum:"$duration"
+                }
+            }
+        }
+    ]);
+
+
+    const lastWeekData = await StudySession.aggregate([
+        {
+            $match:{
+                user: new mongoose.Types.ObjectId(userId),
+
+                status:"Completed",
+
+                studyDate:{
+                    $gte:startOfLastWeek,
+                    $lt:startOfThisWeek
+                }
+            }
+        },
+
+        {
+            $group:{
+                _id:null,
+
+                hours:{
+                    $sum:"$duration"
+                }
+            }
+        }
+    ]);
+
+
+    const thisWeekHours = thisWeekData[0]?.hours || 0;
+
+    const lastWeekHours = lastWeekData[0]?.hours || 0;
+
+    let weeklyChange = 0;
+
+    if(lastWeekHours > 0){
+        weeklyChange = ( (thisWeekHours - lastWeekHours) / lastWeekHours) * 100;
+    } else if( thisWeekHours > 0){
+        weeklyChange = 100;
+    }
+
+
+    weeklyChange = Math.round(weeklyChange);
+
+    return res.status(200).json({
+        success:true,
+        message:"Dashboard premium insights fetched succesfully",
+        data:{
+             premiumInsights:{
+                weeklyFocus: weeklyFocus[0]|| {
+                subject:null,
+                hours:0
+                },
+
+                weeklyPerformance:{
+                    thisWeekHours,
+                    lastWeekHours,
+                    weeklyChange
+                }
+            }
+        }
+    })
+
+    } catch(error){
+        console.error(error);
+        next(error);
+    }
+}
