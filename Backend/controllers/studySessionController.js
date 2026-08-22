@@ -393,3 +393,268 @@ export async function getStatistics(req , res , next) {
         next(error)
     }
 }
+
+// ---------------- premium statistics insights 
+export async function getPremiumStatistics(req, res, next) {
+    const userId = req.user.userId;
+
+    try {
+
+        const now = new Date();
+
+        const startOfMonth = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            1
+        );
+
+        // =========================
+        // MOST PRODUCTIVE DAY
+        // =========================
+
+        const productiveDayData =
+            await StudySession.aggregate([
+
+                {
+                    $match: {
+                        user: new mongoose.Types.ObjectId(userId),
+                        status: "Completed",
+                        studyDate: {
+                            $gte: startOfMonth,
+                            $lte: now
+                        }
+                    }
+                },
+
+                {
+                    $group: {
+                        _id: {
+                            $dayOfWeek: "$studyDate"
+                        },
+
+                        totalMinutes: {
+                            $sum: "$duration"
+                        }
+                    }
+                },
+
+                {
+                    $sort: {
+                        totalMinutes: -1
+                    }
+                },
+
+                {
+                    $limit: 1
+                }
+
+            ]);
+
+
+        const weekDays = [
+            "Sun",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat"
+        ];
+
+
+        const mostProductiveDay =
+            productiveDayData.length > 0
+                ? {
+                    day:
+                        weekDays[
+                            productiveDayData[0]._id - 1
+                        ],
+
+                    totalMinutes:
+                        productiveDayData[0].totalMinutes
+                }
+                : {
+                    day: null,
+                    totalMinutes: 0
+                };
+
+
+                // ---------
+
+                const startOfCurrentMonth = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    1
+);
+
+const startOfNextMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    1
+);
+
+const startOfPreviousMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() - 1,
+    1
+);
+
+
+const currentMonthData = await StudySession.aggregate([
+
+    {
+        $match: {
+            user: new mongoose.Types.ObjectId(userId),
+            status: "Completed",
+
+            studyDate: {
+                $gte: startOfCurrentMonth,
+                $lt: startOfNextMonth
+            }
+        }
+    },
+
+    {
+        $group: {
+            _id: null,
+
+            totalMinutes: {
+                $sum: "$duration"
+            }
+        }
+    }
+
+]);
+
+
+const previousMonthData = await StudySession.aggregate([
+
+    {
+        $match: {
+            user: new mongoose.Types.ObjectId(userId),
+            status: "Completed",
+
+            studyDate: {
+                $gte: startOfPreviousMonth,
+                $lt: startOfCurrentMonth
+            }
+        }
+    },
+
+    {
+        $group: {
+            _id: null,
+
+            totalMinutes: {
+                $sum: "$duration"
+            }
+        }
+    }
+
+]);
+
+
+const currentMonthMinutes =
+    currentMonthData[0]?.totalMinutes || 0;
+
+const previousMonthMinutes =
+    previousMonthData[0]?.totalMinutes || 0;
+
+
+
+
+    let monthlyChange = 0;
+
+if (previousMonthMinutes > 0) {
+
+    monthlyChange =
+        (
+            (currentMonthMinutes - previousMonthMinutes)
+            /
+            previousMonthMinutes
+        ) * 100;
+
+} else if (currentMonthMinutes > 0) {
+
+    monthlyChange = 100;
+}
+
+monthlyChange = Math.round(monthlyChange);
+
+// ------------------------- consistenly rate 
+
+const activeStudyDaysData = await StudySession.aggregate([
+
+    {
+        $match: {
+            user: new mongoose.Types.ObjectId(userId),
+            status: "Completed",
+
+            studyDate: {
+                $gte: startOfCurrentMonth,
+                $lt: startOfNextMonth
+            }
+        }
+    },
+
+    {
+        $group: {
+            _id: {
+                $dateToString: {
+                    format: "%Y-%m-%d",
+                    date: "$studyDate"
+                }
+            }
+        }
+    },
+
+    {
+        $count: "activeDays"
+    }
+
+]);
+
+
+const activeDays =
+    activeStudyDaysData[0]?.activeDays || 0;
+
+const daysElapsed =
+    now.getDate();
+
+const consistencyRate =
+    daysElapsed === 0
+        ? 0
+        : Math.round(
+            (activeDays / daysElapsed) * 100
+        );
+
+        // =========================
+        // RESPONSE
+        // =========================
+
+        return res.status(200).json({
+            success: true,
+            message:
+                "Premium statistics fetched successfully",
+
+            data: {
+                mostProductiveDay,
+
+                monthlyTrend: {
+                    currentMonthMinutes,
+                    previousMonthMinutes,
+                    monthlyChange
+                },
+                consistencyRate: {
+                    activeDays,
+                    daysElapsed,
+                    percentage: consistencyRate
+                }
+            }
+        });
+
+
+    } catch (error) {
+        next(error);
+    }
+}

@@ -1,8 +1,10 @@
 import express from "express";
 
 import authMiddleware from "../middleware/authMiddleware.js";
-import { getStudySessions, createStudySessions, updateStudySession, removeStudySession , getStatistics} from "../controllers/studySessionController.js";
+import { getStudySessions, createStudySessions, updateStudySession, removeStudySession , getStatistics , getPremiumStatistics} from "../controllers/studySessionController.js";
 import { studySessionCreateValidation } from "../validators/studySessioValidator.js";
+
+import premiumMiddleware from "../middleware/premiumMiddleware.js";
 
 
 const router = express.Router();
@@ -44,6 +46,8 @@ router.delete("/study-sessions/:id" , authMiddleware,  removeStudySession);
 
 // ----------------// statistics //--------------//
 router.get("/study-sessions/statistics" , authMiddleware, getStatistics);
+
+router.get("/statistics/premium-insights", authMiddleware, premiumMiddleware, getPremiumStatistics);
 
 
 // ------- export 
