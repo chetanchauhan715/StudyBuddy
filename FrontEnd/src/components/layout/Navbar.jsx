@@ -3,6 +3,8 @@ import { FaBars, FaBell } from "react-icons/fa";
 import Avatar from "../common/Avatar";
 import { useState , useEffect } from "react";
 import { getNotifications, getUnreadNotificationCount, markNotificationAsRead } from "../../services/notificationService";
+import { useUser } from "../../context/UserContext";
+import PremiumBadge from "../premium/PremiumBadge";
 
 function Navbar({sidebarOpen, setSidebarOpen}) {
 
@@ -58,7 +60,17 @@ console.log("Unread before:", unreadCount);
   }, []);
 
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const {user} = useUser();
+
+  const now = new Date();
+
+  const isPremium = 
+      user?.subscription?.plan === "premium" && 
+      user?.subscription?.startDate &&
+      user?.subscription?.endDate &&
+      new Date(user.subscription.startDate) <= now && 
+      new Date(user.subscription.endDate) > now ;
+
 
   return (
     <header className="navbar-container">
@@ -110,16 +122,22 @@ console.log("Unread before:", unreadCount);
         </div>
 
         <div className="navbar-user">
-          <Avatar
-            name={user?.name}
-            size={42}
-          />
 
-          <div className="navbar-user-info">
-            <span>Hello,</span>
-            <h4>{user?.name}</h4>
-          </div>
-        </div>
+  <Avatar
+    name={user?.name}
+    size={42}
+  />
+
+  <div className="navbar-user-info">
+    <span>Hello,</span>
+    <h4>{user?.name}</h4>
+  </div>
+
+  {isPremium && (
+    <PremiumBadge />
+  )}
+
+</div>
 
       </div>
 
