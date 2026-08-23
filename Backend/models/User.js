@@ -1,5 +1,29 @@
 import mongoose from "mongoose";
 
+const SubscriptionSchema = new mongoose.Schema(
+    {
+        plan:{
+            type:String,
+            enum:["free", "premium"],
+            default:"free"
+        },
+
+        startDate:{
+            type:Date,
+            default:null
+        },
+
+        endDate:{
+            type:Date,
+            default:null
+        }
+    }, 
+
+    {
+        _id:false
+    }
+);
+
 const UserSchema = new mongoose.Schema(
     {
         name:{
@@ -23,6 +47,11 @@ const UserSchema = new mongoose.Schema(
             default:6
         }, 
 
+        weeklyGoal:{
+            type:Number,
+            default:0
+        },
+
         passwordResetToken:{
             type:String,
         },
@@ -38,20 +67,9 @@ const UserSchema = new mongoose.Schema(
         },
 
         subscription:{
-            plan:{
-                type:String,
-                enum:["free" , "premium"],
-                default:"free",
-            },
-
-            startDate:{
-                type:Date,
-            },
-
-            endDate:{
-                type:Date,
-            },
-        },
+            type:SubscriptionSchema, 
+            default: () => ({})
+        }
         
     }, 
 
