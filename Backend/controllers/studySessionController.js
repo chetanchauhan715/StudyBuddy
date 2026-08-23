@@ -2,7 +2,39 @@ import express from "express";
 import StudySession from "../models/StudySession.js";
 import mongoose from "mongoose";
 import Subject from "../models/Subject.js";
+import User from "../models/User.js";
 import Notification from "../models/notification.js";
+
+
+function getWeekRanges(){
+    const now = new Date();
+
+    // - ---- current week  js: sun = 0, mon=1, sun=6
+
+    const startOfThisWeek = new Date(now);
+
+    const currentDay = startOfThisWeek.getDay();
+
+    const diffToMonday = currentDay === 0 ? -6 : 1- currentDay;
+
+    startOfThisWeek.setDate(startOfThisWeek.getDate() + diffToMonday);
+
+    startOfThisWeek.setHours(0, 0, 0, 0);
+
+
+    // --- last week -------- 
+
+    const startOfLastWeek = new Date(startOfThisWeek);
+
+    startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
+
+    return {
+        now , startOfThisWeek, startOfLastWeek
+    };
+}
+
+
+
 
 export async function createStudySessions(req,res , next){
     const {subject , topic , duration , status, studyDate} = req.body;
@@ -398,6 +430,29 @@ export async function getStatistics(req , res , next) {
 export async function getPremiumStatistics(req, res, next) {
     const userId = req.user.userId;
 
+    const {
+         now , 
+         startOfThisWeek,
+          startOfLastWeek
+        } = getWeekRanges();
+
+
+        //   console.log("NOW:", now);
+        // console.log("START THIS WEEK:", startOfThisWeek);
+        // console.log("START LAST WEEK:", startOfLastWeek);
+
+        // const weeklyTest = await StudySession.find({
+        //     user: new mongoose.Types.ObjectId(userId),
+        //     status: "Completed",
+        //     studyDate: {
+        //         $gte: startOfThisWeek,
+        //         $lte: now
+        //     }
+        // }).select("studyDate duration status");
+
+        // console.log("WEEKLY TEST:", weeklyTest);
+
+
     try {
 
         const now = new Date();
@@ -628,9 +683,252 @@ const consistencyRate =
             (activeDays / daysElapsed) * 100
         );
 
-        // =========================
-        // RESPONSE
-        // =========================
+
+        // -------------- Weekly report 
+        
+        const weeklyReportBase = await StudySession.aggregate([
+            {
+                $match:{
+                    user:new mongoose.Types.ObjectId(userId),
+                    status:"Completed",
+                    studyDate:{
+                        $gte:startOfThisWeek,
+                        $lte:now
+                    }
+                }
+            },
+
+            {
+                $group:{
+                    _id:null, 
+
+                    totalMinutes:{
+                        $sum:"$duration"
+                    },
+
+                    completedSessions:{
+                        $sum:1
+                    },
+
+                    activeDays:{
+                        $addToSet:{
+                            $dateToString:{
+                                format:"%Y-%m-%d",
+                                date:"$studyDate"
+                            }
+                        }
+                    }
+                }
+            },
+
+            {
+                $project:{
+                    _id:0,
+                    totalMinutes:1,
+                    completedSessions:1,
+
+                    activeDays:{
+                        $size:"$activeDays"
+                    }
+                }
+            }
+        ]);
+
+        const weeklyBase = weeklyReportBase[0] || {
+            totalMinutes:0,
+            completedSessions:0,
+            activeDays:0
+        };
+
+
+
+        // ----- top focus subject this week 
+
+        const weeklyFocusData = await StudySession.aggregate([
+    {
+        $match: {
+            user: new mongoose.Types.ObjectId(userId),
+            status: "Completed",
+            studyDate: {
+                $gte: startOfThisWeek,
+                $lte: now
+            }
+        }
+    },
+
+    {
+        $group: {
+            _id: "$subject",
+
+            totalMinutes: {
+                $sum: "$duration"
+            }
+        }
+    },
+
+    {
+        $sort: {
+            totalMinutes: -1
+        }
+    },
+
+    {
+        $limit: 1
+    },
+
+    {
+        $lookup: {
+            from: "subjects",
+            localField: "_id",
+            foreignField: "_id",
+            as: "subjectInfo"
+        }
+    },
+
+    {
+        $unwind: "$subjectInfo"
+    },
+
+    {
+        $project: {
+            _id: 0,
+            subject: "$subjectInfo.name",
+            totalMinutes: 1
+        }
+    }
+]);
+
+const weeklyFocus =
+    weeklyFocusData[0] || {
+        subject: null,
+        totalMinutes: 0
+    };
+
+
+
+    // ----------- best day this week 
+
+    const bestDayData = await StudySession.aggregate([
+    {
+        $match: {
+            user: new mongoose.Types.ObjectId(userId),
+            status: "Completed",
+            studyDate: {
+                $gte: startOfThisWeek,
+                $lte: now
+            }
+        }
+    },
+
+    {
+        $group: {
+            _id: {
+                $dateToString: {
+                    format: "%Y-%m-%d",
+                    date: "$studyDate"
+                }
+            },
+
+            totalMinutes: {
+                $sum: "$duration"
+            }
+        }
+    },
+
+    {
+        $sort: {
+            totalMinutes: -1
+        }
+    },
+
+    {
+        $limit: 1
+    }
+]);
+
+const bestDay =
+    bestDayData[0]
+        ? {
+            date: bestDayData[0]._id,
+            totalMinutes: bestDayData[0].totalMinutes
+        }
+        : {
+            date: null,
+            totalMinutes: 0
+        };
+
+
+
+        // ----- last weeks total ---
+
+        const lastWeekReportData = await StudySession.aggregate([
+    {
+        $match: {
+            user: new mongoose.Types.ObjectId(userId),
+            status: "Completed",
+            studyDate: {
+                $gte: startOfLastWeek,
+                $lt: startOfThisWeek
+            }
+        }
+    },
+
+    {
+        $group: {
+            _id: null,
+
+            totalMinutes: {
+                $sum: "$duration"
+            }
+        }
+    }
+]);
+
+
+const lastWeekMinutes =
+    lastWeekReportData[0]?.totalMinutes || 0;
+
+let weeklyChange = 0;
+
+if (lastWeekMinutes > 0) {
+
+    weeklyChange = Math.round(
+        (
+            (weeklyBase.totalMinutes - lastWeekMinutes)
+            / lastWeekMinutes
+        ) * 100
+    );
+
+} else if (weeklyBase.totalMinutes > 0) {
+
+    weeklyChange = 100;
+}
+
+// --------- weekly goal and progress 
+
+const user = await User.findById(userId).select("weeklyGoal");
+
+
+const weeklyGoal =
+    user?.weeklyGoal || 0;
+
+const studiedHours =
+    weeklyBase.totalMinutes / 60;
+
+const goalProgress =
+    weeklyGoal > 0
+        ? Math.min(
+            Math.round(
+                (studiedHours / weeklyGoal) * 100
+            ),
+            100
+        )
+        : 0;
+
+
+
+        // RESPONSE ----------- 
+
 
         return res.status(200).json({
             success: true,
@@ -649,6 +947,21 @@ const consistencyRate =
                     activeDays,
                     daysElapsed,
                     percentage: consistencyRate
+                }, 
+
+                weeklyReport: {
+                    totalMinutes: weeklyBase.totalMinutes,
+                    completedSessions: weeklyBase.completedSessions,
+                    activeDays: weeklyBase.activeDays, 
+
+                    weeklyFocus, 
+                    bestDay, 
+
+                    lastWeekMinutes, 
+                    weeklyChange, 
+
+                    weeklyGoal, 
+                    goalProgress
                 }
             }
         });
