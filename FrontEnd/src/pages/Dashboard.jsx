@@ -24,6 +24,8 @@ import PremiumGate from "../components/premium/PremiumGate";
 import PremiumPoster from "../components/premium/PremiumPoster";
 import PremiumInsightCard from "../components/dashboard/PremiunInsightCard";
 
+import WeeklyGoalProgress from "../components/dashboard/WeeklyGoalProgress";
+
 function Dashboard() {
   const [dashboard, setDashboard] = useState({
     sessions: {
@@ -317,7 +319,26 @@ const weeklyChange =
 
 </div>
 
+{/* ---- */}
+<PremiumGate
+    isPremium={isPremium}
+    onUpgrade={() =>
+        setIsPremiumPosterOpen(true)
+    }
+>
 
+    <WeeklyGoalProgress
+        weeklyGoal={user?.weeklyGoal || 0}
+        completedMinutes={
+            premiumInsights
+                .weeklyPerformance
+                .thisWeekHours
+        }
+    />
+
+</PremiumGate>
+
+{/* ---- */}
 
       <div className="charts-container">
         <div className="study-chart">
