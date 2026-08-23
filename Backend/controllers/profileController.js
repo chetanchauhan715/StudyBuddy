@@ -43,7 +43,7 @@ export async function getProfile(req, res, next) {
 
   try {
     const user = await User.findById(userid).select(
-      "name email dailyGoal createdAt",
+      "name email dailyGoal createdAt subscription weeklyGoal",
     );
 
     if (!user) {
@@ -96,6 +96,56 @@ export async function updateProfile(req, res, next) {
     console.error(error);
     next(error);
   }
+}
+
+// ----- update weekly goal 
+
+export async function updateWeeklyGoal(req , res, next) {
+  
+  const userId = req.user.userId;
+  const {weeklyGoal} = req.body;
+
+  // console.log("JWT USER ID:", userId);
+
+  try{
+
+    if(
+      typeof weeklyGoal !== "number"||
+      weeklyGoal < 1 ||
+      weeklyGoal > 100
+    ) {
+      return res.status(400).json({
+        success:false,
+        message:"weekly goal must be between 1 and 100 hours"
+      });
+    }
+
+    const user = await User.findById(userId);
+    
+    if(!user){
+      return res.status(404).json({
+        success:false,
+        message:"User not found"
+      });
+    }
+
+    user.weeklyGoal = weeklyGoal;
+
+    await user.save();
+
+    return res.status(200).json({
+      success:true,
+      message:"weekly goal fetched succesfully",
+      data:{
+        weeklyGoal:user.weeklyGoal
+      }
+    });
+
+  } catch(error){
+    console.error(error);
+    next(error);
+  }
+
 }
 
 // ------ change pas
