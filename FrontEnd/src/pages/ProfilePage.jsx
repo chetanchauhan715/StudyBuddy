@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import Loader from "../components/common/Loader";
 import ChangePasswordCard from "../components/profilePage/ChangePasswordCard";
 
+import WeeklyGoalCard from "../components/profilePage/WeeklyGoalCard";
+
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -92,7 +94,25 @@ if(loading){
         <p>Manage Your Account Information</p>
       </div>
 
+{/* profile card  */}
       {profile && <ProfileCard profile={profile} onEdit={handleEditClick} />}
+
+
+{/* weekly goal card ---------- */}
+      <WeeklyGoalCard
+  weeklyGoal={profile?.weeklyGoal}
+
+  onGoalUpdated={(newGoal) => {
+
+    setProfile((prev) => ({
+      ...prev,
+      weeklyGoal: newGoal
+    }));
+
+  }}
+/>
+
+      {/* change pass ----------- */}
 
       {<ChangePasswordCard />}
 
