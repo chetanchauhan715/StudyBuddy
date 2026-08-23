@@ -23,7 +23,7 @@ function authMiddleware (req , res , next){
     }
 
     const decoded = jwt.verify(actualToken , process.env.JWT_SECRET);
-
+// console.log("DECODED JWT:", decoded);
     req.user = decoded;
 
     next();
