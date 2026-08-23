@@ -60,4 +60,18 @@ export async function  getStatistics() {
     }
 }
 
+export async function getPremiumStatistics() {
+    try {
+        const response = await api.get(
+            "/statistics/premium-insights"
+        );
+
+        return response.data.data;
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 export default api;
