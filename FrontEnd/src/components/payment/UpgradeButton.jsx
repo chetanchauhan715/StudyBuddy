@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 
 function UpgradeButton({
     plan,
-    label,
+    label = "Upgrade to premium",
     className = "",
     onSuccess
 }) {

@@ -1,10 +1,12 @@
 import StatsCard from "../components/dashboard/StatsCard";
 import {
-  FaBook,
-  FaClock,
-  FaCheckCircle,
-  FaClipboardList,
-} from "react-icons/fa";
+  BookOpen,
+  Clock,
+  CircleCheck,
+  ClipboardList,
+  Target,
+  TrendingUp
+} from "lucide-react";
 import "./Dashboard.css";
 import WeeklyStudyChart from "../components/dashboard/WeeklyStudyChart";
 import SubjectPieChart from "../components/dashboard/SubjectPieChart";
@@ -16,8 +18,6 @@ import Loader from "../components/common/Loader";
 import { getDashboard , getPremiumDashboardInsights} from "../services/dashboardService";
 
 import { useState, useEffect } from "react";
-import UpgradeButton from "../components/payment/UpgradeButton";
-
 
 import { useUser } from "../context/UserContext";
 import PremiumGate from "../components/premium/PremiumGate";
@@ -209,10 +209,6 @@ const weeklyChange =
 
         <p>Here's a quick overview of your learning progress today.</p>
 
-        <UpgradeButton  
-        plan="monthly"
-        />
-
         </div>
 
 
@@ -235,25 +231,25 @@ const weeklyChange =
         <StatsCard
           title="Total Sessions"
           value={dashboard.sessions.totalSessions}
-          icon={<FaBook />}
+          icon={<BookOpen />}
         />
        
         <StatsCard
           title="Study Hours"
           value={`${totalStudyHours} Hours`}
-          icon={<FaClock />}
+          icon={<Clock />}
         />
 
         <StatsCard
           title="Completed"
           value={dashboard.sessions.completedSessions}
-          icon={<FaCheckCircle />}
+          icon={<CircleCheck />}
         />
 
         <StatsCard
           title="Pending"
           value={dashboard.sessions.pendingSessions}
-          icon={<FaClipboardList />}
+          icon={<ClipboardList />}
         />
       </div>
 
@@ -289,7 +285,7 @@ const weeklyChange =
     description={
       `${weeklyFocusHours.toFixed(1)} hrs studied this week`
     }
-    icon={<FaBook />}
+    icon={<Target />}
   />
 
     </PremiumGate>
@@ -318,7 +314,7 @@ const weeklyChange =
       `${thisWeekHours.toFixed(1)} hrs this week · ${lastWeekHours.toFixed(1)} hrs last week`
     }
 
-    icon={<FaClock />}
+    icon={<TrendingUp />}
 
     trend={{
       type:
