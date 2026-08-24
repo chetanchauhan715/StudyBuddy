@@ -1,41 +1,31 @@
-.logo-container{
-    display:flex;
-    align-items:center;
-    gap:12px;
+.logo-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
-.logo-icon{
-    width:42px;
-    height:42px;
+.studybuddy-logo {
+    display: block;
 
-    border-radius:12px;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
 
-    background:#4F46E5;
-    color:white;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-weight:700;
-    font-size:1rem;
-
-    box-shadow:0 8px 20px rgba(79,70,229,.25);
+    object-fit: contain;
 }
 
-.logo-text{
-    display:flex;
-    flex-direction:column;
-    line-height:1;
+.logo-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
-.logo-text span:first-child{
-    font-size:1rem;
-    font-weight:700;
-    color:#9fbcfc;
-}
+.studybuddy-logo {
+    display: block;
 
-.logo-text span:last-child{
-    font-size:.85rem;
-    color:#6B7280;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+
+    object-fit: contain;
 }

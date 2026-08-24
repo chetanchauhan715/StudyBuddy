@@ -2,6 +2,7 @@ import "./Navbar.css";
 import { FaBars, FaBell } from "react-icons/fa";
 import Avatar from "../common/Avatar";
 import { useState , useEffect } from "react";
+import { useNavigate } from "react-router-dom"
 import { getNotifications, getUnreadNotificationCount, markNotificationAsRead } from "../../services/notificationService";
 import { useUser } from "../../context/UserContext";
 import PremiumBadge from "../premium/PremiumBadge";
@@ -12,6 +13,8 @@ function Navbar({sidebarOpen, setSidebarOpen}) {
   const [notifications , setNotifications] = useState([]);
   const [unreadCount , setUnreadCount] = useState(0);
   const [isNotificationOpen , setIsNotificationOpen]= useState(false); 
+
+  const navigate = useNavigate();
 
   function handleClick(){
     setIsNotificationOpen(!isNotificationOpen);
@@ -31,8 +34,6 @@ function Navbar({sidebarOpen, setSidebarOpen}) {
             )
         );
 
-        console.log("Clicked notification:", notification);
-console.log("Unread before:", unreadCount);
 
         setUnreadCount(prev => Math.max(prev - 1, 0));
 
@@ -50,8 +51,6 @@ console.log("Unread before:", unreadCount);
       setNotifications(notification_result);
       setUnreadCount(notification_count)
 
-      console.log(notification_result);
-    console.log(notification_count);
     }
 
     fetchNotifications();
@@ -121,7 +120,17 @@ console.log("Unread before:", unreadCount);
 
         </div>
 
-        <div className="navbar-user">
+        <div 
+        className="navbar-user"
+        onClick={ ()=> navigate("/profile")}
+        onKeyDown={ (e) =>{
+          if(e.key === "Enter"){
+            navigate("/profile")
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        >
 
   <Avatar
     name={user?.name}

@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink , useNavigate } from "react-router-dom";
 import Logo from "../logo/Logo";
 import "./Sidebar.css";
 
@@ -11,12 +11,19 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 
+import { useState } from "react";
+
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
+
+  const[showLogoutConfirm , setShowLogoutConfirm] = useState(false);
 
   const navigate = useNavigate();
 
   function handleLogout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    setShowLogoutConfirm(false);
 
     setSidebarOpen(false);
 
@@ -96,13 +103,51 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
         <button
           className="logout-btn"
-          onClick={handleLogout}
+          onClick={ ()=> setShowLogoutConfirm(true)}
         >
           <FaSignOutAlt />
           Logout
         </button>
 
       </aside>
+
+      {showLogoutConfirm && (
+  <div className="logout-confirm-overlay">
+
+    <div className="logout-confirm-modal">
+
+      <h3>Logout from StudyBuddy?</h3>
+
+      <p>
+        Are you sure you want to log out of your account?
+      </p>
+
+      <div className="logout-confirm-actions">
+
+        <button
+          type="button"
+          className="secondary-btn"
+          onClick={() =>
+            setShowLogoutConfirm(false)
+          }
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          className="logout-confirm-btn"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
     </>
   );
 }

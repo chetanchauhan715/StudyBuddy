@@ -211,6 +211,11 @@
     display:flex;
     align-items:center;
     gap:.8rem;
+    cursor: pointer;
+}
+
+.navbar-user:hover{
+    opacity:.85;
 }
 
 .navbar-user-info{
