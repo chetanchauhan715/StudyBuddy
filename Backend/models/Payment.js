@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import User from "./User.js";
 
 const PaymentSchema = new mongoose.Schema({
     userId:{
@@ -43,6 +42,16 @@ const PaymentSchema = new mongoose.Schema({
         enum:["pending", "success", "failed"],
         required:true
     },
+
+    subscriptionApplied:{
+    type:Boolean,
+    default:false
+    },
+
+    fulfilledAt:{
+    type:Date,
+    default:null
+    }
 },
 
 {
@@ -51,5 +60,5 @@ const PaymentSchema = new mongoose.Schema({
 
 );
 
-const Paymet = mongoose.model("Payment" , PaymentSchema)
-export default Paymet;
+const Payment = mongoose.model("Payment" , PaymentSchema)
+export default Payment;
