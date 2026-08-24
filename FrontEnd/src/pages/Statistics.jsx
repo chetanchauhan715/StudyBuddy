@@ -13,6 +13,8 @@ import PremiumGate from "../components/premium/PremiumGate"
 import PremiumPoster from "../components/premium/PremiumPoster";
 import PremiumInsightCard from "../components/dashboard/PremiunInsightCard";
 
+import WeeklyReportCard from "../components/statistics/WeeklyReportCard";
+
 import {
     FaCalendarDay,
     FaChartLine,
@@ -148,9 +150,9 @@ statistics={statistics}
 
         <h3>Premium Analytics</h3>
 
-        <span>
+        {/* <span>
             ✨ Premium
-        </span>
+        </span> */}
 
     </div>
 
@@ -253,6 +255,25 @@ statistics={statistics}
     </div>
 
 </section>
+
+
+
+<PremiumGate
+    isPremium={isPremium}
+    onUpgrade={() =>
+        setIsPremiumPosterOpen(true)
+    }
+>
+
+    <WeeklyReportCard
+        report={
+            premiumStatistics.weeklyReport
+        }
+    />
+
+</PremiumGate>
+
+
 
 <div className="statistics-charts">
 

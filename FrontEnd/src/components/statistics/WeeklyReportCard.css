@@ -1,0 +1,275 @@
+.weekly-report-card{
+    width:100%;
+
+    margin-top:2rem;
+    margin-bottom:2rem;
+
+    padding:1.75rem;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow);
+}
+
+
+/* ===========================
+   HEADER
+=========================== */
+
+.weekly-report-header{
+    margin-bottom:1.5rem;
+}
+
+.weekly-report-badge{
+    display:inline-block;
+
+    margin-bottom:.7rem;
+
+    padding:.35rem .7rem;
+
+    border-radius:999px;
+
+    background:rgba(91,75,219,.08);
+
+    color:var(--primary);
+
+    font-size:.75rem;
+    font-weight:700;
+}
+
+.weekly-report-header h3{
+    margin-bottom:.35rem;
+
+    font-size:1.35rem;
+
+    color:var(--text-primary);
+}
+
+.weekly-report-header p{
+    color:var(--text-secondary);
+
+    font-size:.9rem;
+}
+
+
+/* ===========================
+   SUMMARY
+=========================== */
+
+.weekly-report-summary-grid{
+    display:grid;
+
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+
+    gap:1rem;
+
+    margin-bottom:1.5rem;
+}
+
+.weekly-report-stat{
+    padding:1rem;
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-md);
+
+    background:#FAFAFC;
+}
+
+.weekly-report-stat span{
+    display:block;
+
+    margin-bottom:.35rem;
+
+    color:var(--text-secondary);
+
+    font-size:.78rem;
+}
+
+.weekly-report-stat strong{
+    font-size:1.15rem;
+
+    color:var(--text-primary);
+}
+
+.weekly-report-stat strong.positive{
+    color:var(--success);
+}
+
+.weekly-report-stat strong.negative{
+    color:var(--danger);
+}
+
+
+/* ===========================
+   GOAL
+=========================== */
+
+.weekly-report-goal{
+    margin-bottom:1.5rem;
+}
+
+.weekly-report-goal-top{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:flex-end;
+
+    gap:1rem;
+
+    margin-bottom:.7rem;
+}
+
+.weekly-report-goal-top span{
+    display:block;
+
+    margin-bottom:.2rem;
+
+    color:var(--text-secondary);
+
+    font-size:.8rem;
+}
+
+.weekly-report-goal-top strong{
+    color:var(--text-primary);
+}
+
+.weekly-report-progress-bar{
+    width:100%;
+    height:10px;
+
+    overflow:hidden;
+
+    border-radius:999px;
+
+    background:#E5E7EB;
+}
+
+.weekly-report-progress-fill{
+    height:100%;
+
+    border-radius:999px;
+
+    background:var(--primary);
+
+    transition:width .3s ease;
+}
+
+
+/* ===========================
+   DETAILS
+=========================== */
+
+.weekly-report-details{
+    display:grid;
+
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+
+    gap:1rem;
+
+    margin-bottom:1.5rem;
+}
+
+.weekly-report-detail{
+    padding:1rem;
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-md);
+}
+
+.weekly-report-detail span{
+    display:block;
+
+    margin-bottom:.35rem;
+
+    color:var(--text-secondary);
+
+    font-size:.78rem;
+}
+
+.weekly-report-detail strong{
+    display:block;
+
+    margin-bottom:.25rem;
+
+    color:var(--text-primary);
+
+    font-size:1rem;
+}
+
+.weekly-report-detail p{
+    color:var(--text-secondary);
+
+    font-size:.82rem;
+}
+
+
+/* ===========================
+   INSIGHT
+=========================== */
+
+.weekly-report-insight{
+    padding:1rem 1.1rem;
+
+    border-radius:var(--radius-md);
+
+    background:rgba(91,75,219,.06);
+}
+
+.weekly-report-insight span{
+    display:block;
+
+    margin-bottom:.35rem;
+
+    color:var(--primary);
+
+    font-size:.8rem;
+
+    font-weight:700;
+}
+
+.weekly-report-insight p{
+    color:var(--text-secondary);
+
+    font-size:.9rem;
+}
+
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:900px){
+
+    .weekly-report-summary-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+
+    .weekly-report-details{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .weekly-report-card{
+        padding:1.25rem;
+    }
+
+    .weekly-report-summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .weekly-report-goal-top{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+}
