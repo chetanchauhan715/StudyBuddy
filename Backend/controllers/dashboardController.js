@@ -3,6 +3,7 @@ import StudySession from "../models/StudySession.js";
 import User from "../models/User.js";
 
 
+// -- weekly range - helper function 
 function getWeekRanges() {
 
     const now = new Date();
@@ -39,6 +40,26 @@ function getWeekRanges() {
         startOfLastWeek
     };
 }
+
+
+// -- Local date convert - helper 
+function getLocalDateString(date){
+
+    const year = date.getFullYear();
+
+    const month = String(
+        date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        date.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+
 
 export async function getDashboard(req , res , next ) {
 
@@ -207,33 +228,62 @@ export async function getDashboard(req , res , next ) {
     ]);
 
 
-    const completedSessions = await StudySession.find({
-        user:userId,
-        status:"Completed"
-    }).sort({
-        studyDate:-1,
-    });
+//  -------- streak logic 
 
-    const uniqueDays = new Set();
-    for(const session of completedSessions){
-        const day = session.studyDate.toISOString().split("T")[0];
-        uniqueDays.add(day);
-    }
+const studyDates = await StudySession.aggregate([
+    {
+        $match:{
+            user:new mongoose.Types.ObjectId(userId),
+            status:"Completed"
+        }
+    },
 
-    const uniqueDaysArray = [...uniqueDays];
-    let streak = uniqueDaysArray.length > 0 ? 1 : 0;
-    for(let i=0; i<uniqueDaysArray.length-1; i++){
-        const currentDay = new Date(uniqueDaysArray[i]);
-        const previousDay = new Date(uniqueDaysArray[i+1]);
+    {
+        $group:{
+            _id:{
+                $dateToString:{
+                    format:"%Y-%m-%d",
+                    date:"$studyDate"
+                }
+            }
+        }
+    },
 
-        const difference = (currentDay - previousDay) / (1000*60*60*24);
-
-        if(difference === 1){
-            streak++;
-        } else {
-           break;
+    {
+        $sort:{
+            _id:-1
         }
     }
+]);
+
+
+let streak = 0;
+
+let expectedDate = new Date();
+
+expectedDate.setHours(
+    0,0,0,0
+);
+
+
+for(const session of studyDates){
+
+    const expectedDateString =
+        getLocalDateString(expectedDate);
+
+    if(session._id === expectedDateString){
+
+        streak++;
+
+        expectedDate.setDate(
+            expectedDate.getDate() - 1
+        );
+
+    } else {
+
+        break;
+    }
+}
 
     const user = await User.findById(userId).select("name dailyGoal");
 

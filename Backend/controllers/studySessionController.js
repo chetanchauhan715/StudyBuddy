@@ -6,6 +6,8 @@ import User from "../models/User.js";
 import Notification from "../models/notification.js";
 
 
+// -------- week range - helper 
+
 function getWeekRanges(){
     const now = new Date();
 
@@ -34,6 +36,22 @@ function getWeekRanges(){
 }
 
 
+// ----------- Date convert helper - local date 
+
+function getLocalDateString(date){
+
+    const year = date.getFullYear();
+
+    const month = String(
+        date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        date.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
 
 
 export async function createStudySessions(req,res , next){
@@ -227,6 +245,13 @@ export async function removeStudySession(req , res, next){
 
 //-------- get statistics data - 
 export async function getStatistics(req , res , next) {
+
+    const {
+        now,
+        startOfThisWeek
+    } = getWeekRanges();
+
+
     try{
         const baseQuery = {
             user:req.user.userId
@@ -251,7 +276,14 @@ export async function getStatistics(req , res , next) {
         const weeklyHours = await StudySession.aggregate([
             {
               $match: {
-                user: new mongoose.Types.ObjectId(req.user.userId)
+                user: new mongoose.Types.ObjectId(req.user.userId),
+                status:"Completed",
+
+                studyDate:{
+                    $gte:startOfThisWeek,
+                    $lte:now
+                }
+                
             }
             },
 
@@ -390,7 +422,8 @@ export async function getStatistics(req , res , next) {
     expectedDate.setHours(0,0,0,0);
 
     for(const session of studyDates){
-        const expectedDateString = expectedDate.toISOString().split("T")[0];
+        const expectedDateString =
+    getLocalDateString(expectedDate);
 
         if(session._id === expectedDateString){
             currentStreak++;
@@ -454,8 +487,6 @@ export async function getPremiumStatistics(req, res, next) {
 
 
     try {
-
-        const now = new Date();
 
         const startOfMonth = new Date(
             now.getFullYear(),
