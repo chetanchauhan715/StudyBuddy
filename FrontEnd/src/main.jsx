@@ -44,10 +44,7 @@ if ("serviceWorker" in navigator) {
             const registration =
                 await navigator.serviceWorker.register("/sw.js");
 
-            console.log(
-                "Service Worker registered:",
-                registration
-            );
+           
 
 
             // 2. ASK NOTIFICATION PERMISSION
@@ -55,17 +52,7 @@ if ("serviceWorker" in navigator) {
             const permission =
                 await Notification.requestPermission();
 
-            console.log(
-                "Notification permission:",
-                permission
-            );
-
-
             if (permission !== "granted") {
-
-                console.log(
-                    "Notification permission not granted."
-                );
 
                 return;
             }
@@ -79,23 +66,10 @@ if ("serviceWorker" in navigator) {
             const publicKey =
                 response.data.publicKey;
 
-            console.log(
-                "VAPID public key received:",
-                publicKey
-            );
-
-
             // 4. CONVERT PUBLIC KEY
 
             const convertedPublicKey =
                 urlBase64ToUint8Array(publicKey);
-
-            console.log(
-                "Converted public key:",
-                convertedPublicKey,
-                "Length:",
-                convertedPublicKey.length
-            );
 
 
             // 5. CREATE PUSH SUBSCRIPTION
@@ -111,21 +85,14 @@ if ("serviceWorker" in navigator) {
                 });
 
 
-            console.log(
-                "Push subscription created:",
-                subscription
-            );
-
+            
 
             // 6. SEND SUBSCRIPTION TO BACKEND
 
             const subscriptionData =
                 subscription.toJSON();
 
-            console.log(
-                "Sending subscription to backend:",
-                subscriptionData
-            );
+            
 
 
             await api.post(
@@ -133,10 +100,6 @@ if ("serviceWorker" in navigator) {
                 subscriptionData
             );
 
-
-            console.log(
-                "Push subscription saved to backend"
-            );
 
 
         } catch (error) {

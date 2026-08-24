@@ -18,7 +18,6 @@ export function UserProvider({ children }) {
             const userData = await getProfile();
 
             setUser(userData);
-            // console.log("CONTEXT USER:", userData);
 
         } catch (error) {
 

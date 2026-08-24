@@ -19,7 +19,6 @@ export async function sendPushNotification(
             JSON.stringify(payload)
         );
 
-        console.log("Push notification sent successfully");
 
     } catch (error) {
 

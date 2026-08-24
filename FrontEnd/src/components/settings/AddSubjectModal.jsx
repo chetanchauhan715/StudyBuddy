@@ -10,7 +10,6 @@ function AddSubjectModal({ onClose, onSave, editingSubject }) {
     try {
       setSaving(true);
       await onSave({ name });
-      console.log("Finished onSave");
     } catch (error) {
       console.error(error);
     } finally {

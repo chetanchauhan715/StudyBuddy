@@ -58,7 +58,6 @@ async function fetchWithTimeout(request, timeout = 5000) {
 // ==================================================
 
 self.addEventListener("install", (event) => {
-    console.log("Service Worker: installing");
 
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -114,7 +113,6 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("push", (event) => {
 
-    console.log("SW: Push event received");
 
     if (!event.data) {
         return;
@@ -122,7 +120,6 @@ self.addEventListener("push", (event) => {
 
     const data = event.data.json();
 
-    console.log("SW: Push data:", data);
 
     event.waitUntil(
 
@@ -179,12 +176,7 @@ self.addEventListener("fetch", (event) => {
 
                 .then(async (networkResponse) => {
 
-                    console.log(
-                        "SW: API network success:",
-                        requestUrl.pathname +
-                        requestUrl.search
-                    );
-
+                    
                     // Save latest API response
                     await cacheResponse(
                         request,
@@ -197,11 +189,7 @@ self.addEventListener("fetch", (event) => {
 
                 .catch(async () => {
 
-                    console.log(
-                        "SW: API network failed, checking cache:",
-                        requestUrl.pathname +
-                        requestUrl.search
-                    );
+                    
 
                     // Network failed → use cached response
                     const cachedResponse =
@@ -209,22 +197,14 @@ self.addEventListener("fetch", (event) => {
 
                     if (cachedResponse) {
 
-                        console.log(
-                            "SW: API cache fallback:",
-                            requestUrl.pathname +
-                            requestUrl.search
-                        );
+                        
 
                         return cachedResponse;
                     }
 
 
                     // Nothing in cache
-                    console.log(
-                        "SW: API no cached data:",
-                        requestUrl.pathname +
-                        requestUrl.search
-                    );
+                   
 
                     return new Response(
 
@@ -269,11 +249,6 @@ self.addEventListener("fetch", (event) => {
 
                     if (cachedResponse) {
 
-                        console.log(
-                            "SW: same-origin cache hit:",
-                            requestUrl.pathname
-                        );
-
                         return cachedResponse;
                     }
 
@@ -282,10 +257,7 @@ self.addEventListener("fetch", (event) => {
                     // CACHE MISS
                     // ----------------------------------
 
-                    console.log(
-                        "SW: same-origin cache miss:",
-                        requestUrl.pathname
-                    );
+                   
 
 
                     return fetchWithTimeout(
@@ -318,10 +290,6 @@ self.addEventListener("fetch", (event) => {
 
                                 if (rootPage) {
 
-                                    console.log(
-                                        "SW: navigation fallback to /"
-                                    );
-
                                     return rootPage;
                                 }
                             }
@@ -346,7 +314,6 @@ self.addEventListener("fetch", (event) => {
 
 self.addEventListener("push", (event) => {
 
-    console.log("SW: Push received");
 
     const data = event.data
         ? event.data.json()
