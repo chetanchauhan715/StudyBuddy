@@ -31,6 +31,8 @@
     display:flex;
     align-items:center;
     gap:1.5rem;
+
+    margin-left:auto;
 }
 
 /* ---------- Icon Buttons ---------- */
@@ -185,6 +187,42 @@
 }
 
 
+/* ------------ all notificatin read  */
+
+
+.notification-panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:1rem;
+
+    padding:.8rem 1rem;
+
+    border-bottom:1px solid var(--border);
+}
+
+.notification-panel-header span{
+    font-weight:600;
+    color:var(--text-primary);
+}
+
+.mark-all-read-btn{
+    border:none;
+    background:none;
+
+    color:var(--primary);
+
+    font-size:.8rem;
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.mark-all-read-btn:hover{
+    text-decoration:underline;
+}
+
 
 /* ---------- Notification Responsive ---------- */
 
@@ -310,7 +348,7 @@
 
 @media (min-width:769px){
 
-    .menu-btn{
+    .navbar-left{
         display:none;
     }
 

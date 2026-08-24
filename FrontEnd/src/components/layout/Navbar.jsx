@@ -1,9 +1,12 @@
 import "./Navbar.css";
-import { FaBars, FaBell } from "react-icons/fa";
+import {
+  Menu,
+  Bell
+} from "lucide-react";
 import Avatar from "../common/Avatar";
 import { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom"
-import { getNotifications, getUnreadNotificationCount, markNotificationAsRead } from "../../services/notificationService";
+import { getNotifications, getUnreadNotificationCount, markNotificationAsRead, markAllNotificationsAsRead } from "../../services/notificationService";
 import { useUser } from "../../context/UserContext";
 import PremiumBadge from "../premium/PremiumBadge";
 
@@ -42,6 +45,29 @@ function Navbar({sidebarOpen, setSidebarOpen}) {
     }
 }
 
+// ----
+
+async function handleMarkAllAsRead() {
+
+    try {
+
+        await markAllNotificationsAsRead();
+
+        setNotifications(prev =>
+            prev.map(notification => ({
+                ...notification,
+                read: true
+            }))
+        );
+
+        setUnreadCount(0);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// --------
 
   useEffect( ()=>{
     async function fetchNotifications() {
@@ -76,7 +102,8 @@ function Navbar({sidebarOpen, setSidebarOpen}) {
 
       <div className="navbar-left">
         <button className="icon-btn">
-          <FaBars 
+          <Menu 
+          size={20}
           className="menu-btn"
           onClick={ ()=> setSidebarOpen(!sidebarOpen)}
           />
@@ -88,7 +115,7 @@ function Navbar({sidebarOpen, setSidebarOpen}) {
         <div className="notification-wrapper">
 
         <button className="icon-btn notification-btn" onClick={handleClick}>
-          <FaBell/>
+          <Bell size={20}/>
           {unreadCount > 0 && (
     <span className="notification-badge">
       {unreadCount}
@@ -98,6 +125,25 @@ function Navbar({sidebarOpen, setSidebarOpen}) {
 
         {isNotificationOpen && (
     <div className="notification-panel">
+
+      <div className="notification-panel-header">
+
+    <span>
+        Notifications
+    </span>
+
+    {unreadCount > 0 && (
+        <button
+            type="button"
+            className="mark-all-read-btn"
+            onClick={handleMarkAllAsRead}
+        >
+            Mark all as read
+        </button>
+    )}
+
+</div>
+
           <ul>
             {notifications.map((notification) => (
   <li 

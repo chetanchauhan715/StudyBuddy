@@ -3,13 +3,14 @@ import Logo from "../logo/Logo";
 import "./Sidebar.css";
 
 import {
-  FaHome,
-  FaBook,
-  FaChartBar,
-  FaUser,
-  FaCog,
-  FaSignOutAlt,
-} from "react-icons/fa";
+  House,
+  BookOpen,
+  ChartNoAxesColumnIncreasing,
+  User,
+  Settings,
+  LogOut,
+  Book,
+} from "lucide-react";
 
 import { useState } from "react";
 
@@ -63,7 +64,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             to="/dashboard"
             onClick={closeSidebar}
           >
-            <FaHome />
+            <House size={20} />
             Dashboard
           </NavLink>
 
@@ -71,7 +72,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             to="/study-sessions"
             onClick={closeSidebar}
           >
-            <FaBook />
+            <BookOpen size={20} />
             Sessions
           </NavLink>
 
@@ -79,7 +80,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             to="/statistics"
             onClick={closeSidebar}
           >
-            <FaChartBar />
+            <ChartNoAxesColumnIncreasing size={20} />
             Statistics
           </NavLink>
 
@@ -87,7 +88,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             to="/profile"
             onClick={closeSidebar}
           >
-            <FaUser />
+            <User size={20} />
             Profile
           </NavLink>
 
@@ -95,7 +96,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             to="/settings"
             onClick={closeSidebar}
           >
-            <FaCog />
+            <Settings size={20} />
             Settings
           </NavLink>
 
@@ -105,7 +106,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           className="logout-btn"
           onClick={ ()=> setShowLogoutConfirm(true)}
         >
-          <FaSignOutAlt />
+          <LogOut size={20} />
           Logout
         </button>
 
