@@ -36,3 +36,21 @@ export async function markNotificationAsRead(notification_id) {
         throw error;
     }
 }
+
+
+export async function markAllNotificationsAsRead() {
+
+    try {
+
+        const response =
+            await api.patch(
+                "/notifications/read-all"
+            );
+
+        return response.data;
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

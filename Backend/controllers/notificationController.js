@@ -25,6 +25,8 @@ export async function getNotifications(req, res, next) {
     
 }
 
+// -------- no of unread notifications
+
 export async function getUnreadNotificationCount(req , res , next) {
     const userId = req.user.userId;
 
@@ -44,6 +46,7 @@ export async function getUnreadNotificationCount(req , res , next) {
     }
 }
 
+// --------- read notification 
 
 export async function markNotificationAsRead(req , res, next) {
     
@@ -78,4 +81,37 @@ export async function markNotificationAsRead(req , res, next) {
     next(error);
 }
 
+}
+
+// ----------- all notificaion read 
+
+export async function markAllNotificationsAsRead(req, res, next) {
+
+    const userId = req.user.userId;
+
+    try {
+
+        const result = await Notification.updateMany(
+            {
+                userId,
+                read: false
+            },
+            {
+                $set: {
+                    read: true
+                }
+            }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "All notifications marked as read",
+            data: {
+                modifiedCount: result.modifiedCount
+            }
+        });
+
+    } catch (error) {
+        next(error);
+    }
 }
