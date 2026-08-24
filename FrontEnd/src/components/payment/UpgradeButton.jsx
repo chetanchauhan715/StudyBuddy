@@ -97,10 +97,7 @@ function UpgradeButton({
 
                     ondismiss: function () {
 
-                        console.log(
-                            "Payment cancelled by user"
-                        );
-
+                        
                         setLoading(false);
 
                     }

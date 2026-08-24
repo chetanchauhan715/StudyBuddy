@@ -33,7 +33,7 @@ function ChangePasswordCard(){
             
         } catch(error){
             console.error(error);
-            setError(error.response.data.message) || "Something went wrong";
+            setError(error.response?.data?.message) || "Something went wrong";
         }finally{
             setLoading(false);
         }
