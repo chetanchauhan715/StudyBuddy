@@ -26,6 +26,8 @@ import PremiumInsightCard from "../components/dashboard/PremiunInsightCard";
 
 import WeeklyGoalProgress from "../components/dashboard/WeeklyGoalProgress";
 
+import useInstallPWA from "../hooks/userInstallPWA";
+
 function Dashboard() {
   const [dashboard, setDashboard] = useState({
     sessions: {
@@ -64,7 +66,12 @@ function Dashboard() {
     }
   });
 
+// ----------
 
+const {
+  install ,
+  canInstall
+} = useInstallPWA();
   
 // --------------------
 
@@ -192,6 +199,10 @@ const weeklyChange =
   return (
     <div className="dashboard-container page-container">
       <div className="dashboard-welcome">
+
+        <div className="dashboard-welcome-content">
+
+        
         <h2>
           {greeting}, {firstName} 👋
         </h2>
@@ -201,7 +212,22 @@ const weeklyChange =
         <UpgradeButton  
         plan="monthly"
         />
+
+        </div>
+
+
+      {canInstall && (
+        <button
+        className="install-app-btn"
+        onClick={install}
+        >
+          Install StudyBuddy
+        </button>
+      )}
+      
       </div>
+
+
 
       <div className="stats-container">
 

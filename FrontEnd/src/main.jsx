@@ -153,6 +153,41 @@ if ("serviceWorker" in navigator) {
 }
 
 
+// --------------- global handeling - CTA button - download 
+
+// PWA INSTALL PROMPT SETUP
+
+window.deferredPWAInstallPrompt = null;
+
+window.addEventListener(
+    "beforeinstallprompt",
+    (event) => {
+
+        event.preventDefault();
+
+        window.deferredPWAInstallPrompt =
+            event;
+
+        window.dispatchEvent(
+            new Event("pwa-install-ready")
+        );
+    }
+);
+
+
+window.addEventListener(
+    "appinstalled",
+    () => {
+
+        window.deferredPWAInstallPrompt =
+            null;
+
+        window.dispatchEvent(
+            new Event("pwa-install-complete")
+        );
+    }
+);
+
 // REACT app 
 
 createRoot(

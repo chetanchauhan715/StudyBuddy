@@ -1,66 +1,121 @@
 import { useEffect, useState } from "react";
 
-function useInstallPWA(){
-    const [deferredPrompt  , setDefferedPrompt] = useState(null);
+function useInstallPWA() {
 
-    useEffect( ()=>{
-        function handleBeforeInstalllPrompt(event){
-            event.preventDefault();
-
-            setDefferedPrompt(event);
-        }
-
-        window.addEventListener(
-            "beforeinstallprompt",
-            handleBeforeInstalllPrompt
+    const [canInstall, setCanInstall] =
+        useState(
+            !!window.deferredPWAInstallPrompt
         );
 
-        return () =>{
+
+    useEffect(() => {
+
+        function handleInstallReady() {
+            setCanInstall(true);
+        }
+
+
+        function handleInstallComplete() {
+            setCanInstall(false);
+        }
+
+
+        window.addEventListener(
+            "pwa-install-ready",
+            handleInstallReady
+        );
+
+        window.addEventListener(
+            "pwa-install-complete",
+            handleInstallComplete
+        );
+
+
+        // If Dashboard mounts after the browser
+        // already fired beforeinstallprompt
+        setCanInstall(
+            !!window.deferredPWAInstallPrompt
+        );
+
+
+        return () => {
+
             window.removeEventListener(
-                "beforeinstallprompt",
-                handleBeforeInstalllPrompt
+                "pwa-install-ready",
+                handleInstallReady
+            );
+
+            window.removeEventListener(
+                "pwa-install-complete",
+                handleInstallComplete
             );
         };
+
     }, []);
 
+
     async function install() {
-        if(!deferredPrompt){
+
+        const deferredPrompt =
+            window.deferredPWAInstallPrompt;
+
+
+        if (!deferredPrompt) {
             return;
         }
-    
 
-    deferredPrompt.prompt();
 
-    const {outcocme} = await deferredPrompt.userChoice;
+        deferredPrompt.prompt();
 
-    console.log("Install result:" , outcocme);
 
-    setDefferedPrompt(null);
+        await deferredPrompt.userChoice;
 
+
+        // The install prompt can only be used once
+        window.deferredPWAInstallPrompt = null;
+
+        setCanInstall(false);
     }
 
-    return{
+
+    return {
         install,
-        canInstall: !deferredPrompt,
+        canInstall
     };
 }
 
+
 export default useInstallPWA;
 
-/* useState
-   ↓
-holds the install event
 
-useEffect
-   ↓
-listen for browser event
 
-beforeinstallprompt fires
-   ↓
-prevent browser's automatic behavior
-   ↓
-save event in React state
+/*         
 
-component unmounts
-   ↓
-remove listener  */
+OLD
+
+useInstallPWA
+├── catches browser event
+├── stores browser event
+├── controls button
+└── performs installation
+
+
+NEW
+
+main.jsx
+├── catches browser event
+└── stores browser event globally
+
+useInstallPWA
+├── watches whether installation is available
+├── tells Dashboard canInstall true/false
+└── performs installation
+
+Dashboard
+└── only renders the button
+
+
+
+
+
+*/
