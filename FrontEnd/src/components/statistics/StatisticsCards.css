@@ -82,7 +82,8 @@
 
     color:#111827;
 
-    word-break:break-word;
+    word-break:normal;
+    overflow-wrap:normal;
 }
 
 /* ===========================

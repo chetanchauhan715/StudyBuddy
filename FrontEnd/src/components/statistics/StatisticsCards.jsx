@@ -1,16 +1,15 @@
 import StatisticsCard from "./StatisticsCard";
 import "./StatisticsCards.css";
 import {
-  FaBook,
-  FaCheckCircle,
-  FaClock,
-  FaHourglassHalf,
-  FaChartLine,
-  FaFire,
-  FaStopwatch,
-  FaStar,
-} from "react-icons/fa";
-
+  BookOpen,
+  CircleCheck,
+  Clock,
+  Hourglass,
+  TrendingUp,
+  Flame,
+  Timer,
+  Star,
+} from "lucide-react";
 
 function StatisticsCards({statistics}){
 
@@ -18,49 +17,49 @@ function StatisticsCards({statistics}){
   {
     title: "Total Sessions",
     value: statistics.totalSessions,
-    icon: <FaBook />,
+    icon: <BookOpen strokeWidth={2.5} />,
     color: "#3B82F6",
   },
   {
     title: "Completed",
     value: statistics.completedSessions,
-    icon: <FaCheckCircle />,
+    icon: <CircleCheck strokeWidth={2.5} />,
     color: "#22C55E",
   },
   {
     title: "Pending",
     value: statistics.pendingSessions,
-    icon: <FaHourglassHalf />,
+    icon: <Clock strokeWidth={2.5} />,
     color: "#F59E0B",
   },
   {
     title: "Total Hours",
     value: `${(statistics.totalHours / 60).toFixed(1)} hrs`,
-    icon: <FaClock />,
+    icon: <Hourglass strokeWidth={2.5}/>,
     color: "#7C3AED",
   },
   {
     title: "Completion Rate",
     value: `${statistics.completionRate}%`,
-    icon: <FaChartLine />,
+    icon: <TrendingUp strokeWidth={2.5} />,
     color: "#06B6D4",
   },
   {
     title: "Current Streak",
     value: `${statistics.currentStreak} Days`,
-    icon: <FaFire />,
+    icon: <Flame strokeWidth={2.5}/>,
     color: "#EF4444",
   },
   {
     title: "Avg Session",
     value: `${(statistics.averageSessionDuration/ 60).toFixed(1)} hrs`,
-    icon: <FaStopwatch />,
+    icon: <Timer strokeWidth={2.5} />,
     color: "#0EA5E9",
   },
   {
     title: "Favorite Subject",
     value: statistics.favoriteSubject || "N/A",
-    icon: <FaStar />,
+    icon: <Star strokeWidth={2.5} />,
     color: "#FACC15",
   },
 ];

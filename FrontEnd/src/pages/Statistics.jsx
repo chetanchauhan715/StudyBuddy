@@ -16,11 +16,10 @@ import PremiumInsightCard from "../components/dashboard/PremiunInsightCard";
 import WeeklyReportCard from "../components/statistics/WeeklyReportCard";
 
 import {
-    FaCalendarDay,
-    FaChartLine,
-    FaFire
-} from "react-icons/fa";
-
+    CalendarDays,
+    ChartNoAxesColumnIncreasing,
+    Flame
+} from "lucide-react";
 
 function Statistics(){
 
@@ -45,15 +44,37 @@ function Statistics(){
 
         monthlyTrend:{
             currentMonthMinutes:0,
-            previousMonthMinute:0,
+            previousMonthMinutes:0,
             monthlyChange:0
         },
 
         consistencyRate:{
             activeDays:0,
-            daysElapse:0,
-            precentage:0
-        }
+            daysElapsed:0,
+            percentage:0
+        }, 
+
+        weeklyReport: {
+        totalMinutes: 0,
+        completedSessions: 0,
+        activeDays: 0,
+
+        weeklyFocus: {
+            subject: "Top Subject",
+            totalMinutes: 0
+        },
+
+        bestDay: {
+            date: null,
+            totalMinutes: 0
+        },
+
+        lastWeekMinutes: 0,
+        weeklyChange: 0,
+
+        weeklyGoal: 0,
+        goalProgress: 0
+    }
     });
 
     const [isPremiumPosterOpen , setIsPremiumPosterOpen] = useState(false);
@@ -179,7 +200,7 @@ statistics={statistics}
                     `${productiveDayHours.toFixed(1)} hrs studied on this weekday this month`
                 }
 
-                icon={<FaCalendarDay />}
+                icon={<CalendarDays />}
             />
 
         </PremiumGate>
@@ -205,7 +226,7 @@ statistics={statistics}
                     `${currentMonthHours.toFixed(1)} hrs this month · ${previousMonthHours.toFixed(1)} hrs last month`
                 }
 
-                icon={<FaChartLine />}
+                icon={<ChartNoAxesColumnIncreasing />}
 
                 trend={{
                     type:
@@ -247,7 +268,7 @@ statistics={statistics}
                     `Studied on ${premiumStatistics.consistencyRate.activeDays} of ${premiumStatistics.consistencyRate.daysElapsed} days this month`
                 }
 
-                icon={<FaFire />}
+                icon={<Flame />}
             />
 
         </PremiumGate>
