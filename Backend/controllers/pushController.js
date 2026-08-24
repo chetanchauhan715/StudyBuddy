@@ -91,21 +91,6 @@ export async function testPushNotification(req, res, next) {
         }
 
 
-        console.log("TEST SUBSCRIPTION:");
-        console.log(
-            "Endpoint:",
-            subscription.endpoint
-        );
-
-        console.log(
-            "Has p256dh:",
-            !!subscription.keys?.p256dh
-        );
-
-        console.log(
-            "Has auth:",
-            !!subscription.keys?.auth
-        );
 
 
         const payload = {
@@ -163,11 +148,6 @@ export async function sendPushNotification(
                 JSON.stringify(payload)
 
             );
-
-
-        console.log(
-            "Push notification sent successfully"
-        );
 
 
         return result;

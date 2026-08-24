@@ -3,7 +3,6 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 export async function signup(req,res , next){
-     console.log("🔥 SIGNUP CONTROLLER HIT");
 
     const {name , email , password} = req.body;
 
@@ -26,7 +25,6 @@ export async function signup(req,res , next){
     };
 
        const createdUser = await User.create(newUser);
-       console.log(createdUser);
         return res.status(201).json({
             success:true,
             message:"Signup Succesfull"

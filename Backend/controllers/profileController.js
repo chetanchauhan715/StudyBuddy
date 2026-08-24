@@ -105,7 +105,6 @@ export async function updateWeeklyGoal(req , res, next) {
   const userId = req.user.userId;
   const {weeklyGoal} = req.body;
 
-  // console.log("JWT USER ID:", userId);
 
   try{
 

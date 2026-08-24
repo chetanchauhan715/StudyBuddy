@@ -470,22 +470,7 @@ export async function getPremiumStatistics(req, res, next) {
         } = getWeekRanges();
 
 
-        //   console.log("NOW:", now);
-        // console.log("START THIS WEEK:", startOfThisWeek);
-        // console.log("START LAST WEEK:", startOfLastWeek);
-
-        // const weeklyTest = await StudySession.find({
-        //     user: new mongoose.Types.ObjectId(userId),
-        //     status: "Completed",
-        //     studyDate: {
-        //         $gte: startOfThisWeek,
-        //         $lte: now
-        //     }
-        // }).select("studyDate duration status");
-
-        // console.log("WEEKLY TEST:", weeklyTest);
-
-
+        
     try {
 
         const startOfMonth = new Date(

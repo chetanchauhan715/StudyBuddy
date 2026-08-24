@@ -23,10 +23,6 @@ export const reminderCreateValidator = [
     const scheduledDate = new Date(value);
     const currentDate = new Date();
 
-    console.log("Scheduled:", scheduledDate);
-    console.log("Current:", currentDate);
-    console.log("Is past:", scheduledDate <= currentDate);
-
     if (scheduledDate <= currentDate) {
         throw new Error("Reminder time must be in the future");
     }

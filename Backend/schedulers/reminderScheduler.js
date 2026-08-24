@@ -27,20 +27,11 @@ function startReminderScheduler() {
             });
 
 
-            console.log(
-                "Due reminders:",
-                dueReminders.length
-            );
-
+            
 
             // PROCESS EACH REMINDER
 
             for (const reminder of dueReminders) {
-
-                console.log(
-                    "Processing reminder:",
-                    reminder._id
-                );
 
 
                 // GET ALL DEVICES FOR THIS USER
@@ -55,11 +46,7 @@ function startReminderScheduler() {
 
                 if (subscriptions.length === 0) {
 
-                    console.log(
-                        "No push subscriptions found for user:",
-                        reminder.userId
-                    );
-
+                    
                     continue;
                 }
 
@@ -127,10 +114,6 @@ function startReminderScheduler() {
                                     subscription._id
                                 );
 
-
-                            console.log(
-                                "Removed expired push subscription"
-                            );
                         }
 
 
@@ -153,18 +136,11 @@ function startReminderScheduler() {
                     await reminder.save();
 
 
-                    console.log(
-                        "Reminder marked as sent:",
-                        reminder._id
-                    );
+                   
 
                 } else {
 
-                    console.log(
-                        "Reminder was not delivered:",
-                        reminder._id
-                    );
-
+                    
                 }
 
             }
