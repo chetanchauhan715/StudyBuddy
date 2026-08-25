@@ -52,20 +52,21 @@
 @media (max-width:768px){
 
     .navbar-container{
-        flex-wrap:wrap;
-        gap:1rem;
+        flex-wrap:nowrap;
+
+        padding:.8rem 1rem;
+
+        gap:.75rem;
     }
 
     .navbar-links{
-        width:100%;
-        justify-content:center;
-        order:3;
-
-        gap:1.5rem;
+        display:none;
     }
 
     .primary-btn{
         padding:10px 18px;
+
+        flex-shrink:0;
     }
 
 }
