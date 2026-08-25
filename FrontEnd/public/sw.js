@@ -1,4 +1,4 @@
-const CACHE_NAME = "studybuddy-v3";
+const CACHE_NAME = "studybuddy-v3.1";
 
 const API_ORIGINS = [
     "http://localhost:3000",
@@ -236,6 +236,66 @@ self.addEventListener("fetch", (event) => {
     // ==================================================
 
     if (requestUrl.origin === self.location.origin) {
+
+
+        // ==================================================
+// PAGE NAVIGATION
+// ==================================================
+
+if (request.mode === "navigate") {
+
+    event.respondWith(
+
+        fetchWithTimeout(request, 5000)
+
+            .then(async (networkResponse) => {
+
+                // Save latest page HTML
+                await cacheResponse(
+                    request,
+                    networkResponse
+                );
+
+                return networkResponse;
+            })
+
+            .catch(async () => {
+
+                // Network unavailable → exact cached page
+                const cachedResponse =
+                    await caches.match(request);
+
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+
+
+                // Fallback to cached root page
+                const rootPage =
+                    await caches.match("/");
+
+                if (rootPage) {
+                    return rootPage;
+                }
+
+
+                return new Response(
+                    "StudyBuddy is offline",
+                    {
+                        status: 503,
+                        headers: {
+                            "Content-Type":
+                                "text/plain"
+                        }
+                    }
+                );
+
+            })
+
+    );
+
+    return;
+}
 
         event.respondWith(
 
