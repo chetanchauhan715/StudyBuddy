@@ -68,7 +68,18 @@ app.get("/"  ,  (req, res) =>{
     res.send("StudyBuddy API Running ");
 });
 
-startReminderScheduler();
+//--------- health check
+
+app.get("/health", (req, res) => {
+    return res.status(200).json({
+        success: true,
+        message: "StudyBuddy API healthy"
+    });
+});
+
+
+// ---------- 
+startReminderScheduler();   
 
 
 const PORT = process.env.PORT || 3000; 
